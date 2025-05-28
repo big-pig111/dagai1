@@ -271,6 +271,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyA5Z5ieEbAcfQX0kxGSn9ldGXhzvAwx_8M",
       authDomain: "chat-294cc.firebaseapp.com",
+      databaseURL: "https://chat-294cc-default-rtdb.firebaseio.com/",
       projectId: "chat-294cc",
       storageBucket: "chat-294cc.firebasestorage.app",
       messagingSenderId: "913615304269",
@@ -319,6 +320,7 @@
     let currentUserId = null;
     let typingTimeout = null;
     let usersTyping = new Set();
+    let activityChartInstance = null; // Chart.js 实例
     
     // 检查是否记住用户名
     const savedName = localStorage.getItem('chatDisplayName');
@@ -702,12 +704,14 @@
     // 初始化活动图表
     function initActivityChart() {
       const ctx = document.getElementById('activityChart').getContext('2d');
-      
+      // 销毁旧实例
+      if (activityChartInstance) {
+        activityChartInstance.destroy();
+      }
       // 模拟数据
       const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
       const data = [12, 19, 15, 25, 18, 30, 22];
-      
-      new Chart(ctx, {
+      activityChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
           labels: labels,
