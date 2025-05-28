@@ -299,6 +299,36 @@
       document.body.style.userSelect = '';
     });
   })(chatWindow);
+     // Recycle bin modal logic
+  const recycleBinIcon = document.querySelectorAll('.desktop-icon')[3];
+  const recycleBinModal = document.getElementById('recyclebin-modal');
+  const closeRecycleBinModal = document.getElementById('close-recyclebin-modal');
+  recycleBinIcon.addEventListener('click', () => {
+    recycleBinModal.style.display = 'block';
+  });
+  closeRecycleBinModal.addEventListener('click', () => {
+    recycleBinModal.style.display = 'none';
+  });
+  // Optional: Make recycle bin modal draggable
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(recycleBinModal);
       document.getElementById('letsBONK.fun').addEventListener('click', function() {
     window.open('https://letsbonk.fun/');
   });
