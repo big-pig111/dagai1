@@ -3,32 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BonkHouse聊天室</title>
+  <title>Bonk聊天室</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --BonkHouse-orange: #ff9800;
-      --BonkHouse-red: #ff3d00;
-      --BonkHouse-yellow: #ffe082;
-      --BonkHouse-bg: linear-gradient(135deg, #fffbe6 0%, #ffe082 40%, #ff9800 100%);
-      --BonkHouse-border: #ffb300;
-      --BonkHouse-chat: #fff3e0;
-      --BonkHouse-chat-me: #ffe0b2;
-      --BonkHouse-shadow: 0 4px 32px rgba(255, 152, 0, 0.18);
-      --BonkHouse-font: 'Luckiest Guy', 'Roboto', 'Microsoft YaHei', Arial, sans-serif;
+      --bonk-orange: #ff9800;
+      --bonk-red: #ff3d00;
+      --bonk-yellow: #ffe082;
+      --bonk-bg: linear-gradient(135deg, #fffbe6 0%, #ffe082 40%, #ff9800 100%);
+      --bonk-border: #ffb300;
+      --bonk-chat: #fff3e0;
+      --bonk-chat-me: #ffe0b2;
+      --bonk-shadow: 0 4px 32px rgba(255, 152, 0, 0.18);
+      --bonk-font: 'Luckiest Guy', 'Roboto', 'Microsoft YaHei', Arial, sans-serif;
     }
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      font-family: var(--BonkHouse-font);
+      font-family: var(--bonk-font);
       min-height: 100vh;
       width: 100vw;
       overflow: hidden;
       /* 多层渐变+光斑 */
-      background: var(--BonkHouse-bg),
+      background: var(--bonk-bg),
         radial-gradient(circle at 80% 10%, #fffde7cc 0, #fffde700 60%),
         radial-gradient(circle at 20% 80%, #ffe08299 0, #ffe08200 70%),
         radial-gradient(circle at 60% 60%, #ff980044 0, #ff980000 80%);
@@ -76,8 +76,8 @@
       0% { transform: translateY(0) scale(1); }
       100% { transform: translateY(-30px) scale(1.08); }
     }
-    /* BonkHouse狗狗插画角标 */
-    .bg-BonkHouse {
+    /* Bonk狗狗插画角标 */
+    .bg-bonk {
       position: fixed;
       z-index: 1;
       pointer-events: none;
@@ -85,12 +85,12 @@
       filter: drop-shadow(0 4px 16px #ff980088);
       user-select: none;
     }
-    .bg-BonkHouse-right {
+    .bg-bonk-right {
       top: 12px;
       right: 12px;
       width: 90px;
     }
-    .bg-BonkHouse-left {
+    .bg-bonk-left {
       left: 8px;
       bottom: 8px;
       width: 80px;
@@ -108,7 +108,7 @@
     .sidebar {
       width: 220px;
       min-width: 180px;
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
       display: flex;
       flex-direction: column;
       align-items: stretch;
@@ -134,7 +134,7 @@
       background: transparent;
       min-height: 90px;
     }
-    .sidebar-BonkHouse-img {
+    .sidebar-bonk-img {
       width: 48px;
       height: 48px;
       border-radius: 16px;
@@ -146,11 +146,11 @@
       border: 2px solid #fffbe6;
       transition: transform 0.2s;
     }
-    .sidebar-BonkHouse-img:nth-child(2) {
+    .sidebar-bonk-img:nth-child(2) {
       transform: rotate(10deg) scale(1.08);
       z-index: 2;
     }
-    .sidebar-BonkHouse-img:nth-child(3) {
+    .sidebar-bonk-img:nth-child(3) {
       transform: rotate(-14deg) scale(0.95);
       z-index: 1;
     }
@@ -227,9 +227,9 @@
       box-shadow: 0 2px 8px #ffe08244;
     }
     .channel.active, .channel:hover {
-      background: var(--BonkHouse-yellow);
+      background: var(--bonk-yellow);
       color: #fff;
-      border: 2px solid var(--BonkHouse-red);
+      border: 2px solid var(--bonk-red);
       box-shadow: 0 4px 16px #ff980044;
     }
     .main-content {
@@ -238,16 +238,16 @@
       flex-direction: column;
       align-items: stretch;
       justify-content: center;
-      background: var(--BonkHouse-bg);
+      background: var(--bonk-bg);
       min-width: 0;
       min-height: 0;
       padding: 0;
       margin: 0;
     }
     .chat-container {
-      background: var(--BonkHouse-chat);
+      background: var(--bonk-chat);
       border-radius: 18px;
-      box-shadow: var(--BonkHouse-shadow);
+      box-shadow: var(--bonk-shadow);
       width: 100%;
       max-width: 100vw;
       height: 96vh;
@@ -255,12 +255,12 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      border: 3px solid var(--BonkHouse-border);
+      border: 3px solid var(--bonk-border);
       margin: 0;
       position: relative;
     }
     .chat-header {
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
       color: #fff;
       padding: 18px 32px;
       font-size: 2.1rem;
@@ -268,7 +268,7 @@
       font-weight: 700;
       text-align: left;
       letter-spacing: 2px;
-      border-bottom: 3px solid var(--BonkHouse-border);
+      border-bottom: 3px solid var(--bonk-border);
       display: flex;
       align-items: center;
       gap: 18px;
@@ -280,7 +280,7 @@
       font-family: 'Luckiest Guy', cursive;
       font-weight: 500;
       color: #fffde7;
-      background: var(--BonkHouse-red);
+      background: var(--bonk-red);
       border-radius: 10px;
       padding: 6px 18px;
       margin-left: 16px;
@@ -291,7 +291,7 @@
       flex: 1;
       padding: 24px 32px 12px 32px;
       overflow-y: auto;
-      background: var(--BonkHouse-chat);
+      background: var(--bonk-chat);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -302,7 +302,7 @@
       background: #fffbe6;
     }
     .chat-messages::-webkit-scrollbar-thumb {
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
       border-radius: 8px;
     }
     .message {
@@ -317,7 +317,7 @@
       height: 38px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid var(--BonkHouse-orange);
+      border: 2px solid var(--bonk-orange);
       object-fit: cover;
       box-shadow: 0 2px 8px #ff9800;
     }
@@ -340,13 +340,13 @@
       flex-direction: row-reverse;
     }
     .message.me .message-content {
-      background: var(--BonkHouse-chat-me);
+      background: var(--bonk-chat-me);
       border-radius: 16px 16px 4px 16px;
       color: #ff3d00;
       box-shadow: 0 2px 8px #ff980044;
     }
     .message.me .avatar {
-      border: 2px solid var(--BonkHouse-red);
+      border: 2px solid var(--bonk-red);
     }
     .message .meta {
       font-size: 0.9rem;
@@ -357,15 +357,15 @@
     }
     .chat-input {
       display: flex;
-      border-top: 3px solid var(--BonkHouse-border);
-      background: var(--BonkHouse-chat);
+      border-top: 3px solid var(--bonk-border);
+      background: var(--bonk-chat);
       padding: 14px 32px;
       gap: 10px;
     }
     .chat-input input {
       flex: 1;
       padding: 16px 18px;
-      border: 2px solid var(--BonkHouse-border);
+      border: 2px solid var(--bonk-border);
       border-radius: 12px;
       font-size: 1.15rem;
       outline: none;
@@ -374,10 +374,10 @@
       font-family: 'Roboto', Arial, sans-serif;
     }
     .chat-input input:focus {
-      border: 2.5px solid var(--BonkHouse-orange);
+      border: 2.5px solid var(--bonk-orange);
     }
     .chat-input button {
-      background: var(--BonkHouse-red);
+      background: var(--bonk-red);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -390,7 +390,7 @@
       box-shadow: 0 2px 8px #ff980044;
     }
     .chat-input button:hover {
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
     }
     .username-modal {
       position: fixed;
@@ -410,11 +410,11 @@
       flex-direction: column;
       align-items: center;
       gap: 22px;
-      border: 3px solid var(--BonkHouse-border);
+      border: 3px solid var(--bonk-border);
     }
     .username-box input {
       padding: 12px 16px;
-      border: 2px solid var(--BonkHouse-border);
+      border: 2px solid var(--bonk-border);
       border-radius: 10px;
       font-size: 1.2rem;
       outline: none;
@@ -422,7 +422,7 @@
       font-family: 'Roboto', Arial, sans-serif;
     }
     .username-box button {
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -434,19 +434,19 @@
       transition: background 0.2s;
     }
     .username-box button:hover {
-      background: var(--BonkHouse-red);
+      background: var(--bonk-red);
     }
     /* 行情区发射台样式 */
     .market-header {
       display: flex;
       align-items: center;
       gap: 18px;
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
       color: #fff;
       font-size: 2rem;
       font-family: 'Luckiest Guy', cursive;
       padding: 24px 36px;
-      border-bottom: 3px solid var(--BonkHouse-border);
+      border-bottom: 3px solid var(--bonk-border);
       border-radius: 32px 32px 0 0;
       box-shadow: 0 2px 8px #ff980044;
     }
@@ -460,7 +460,7 @@
       box-shadow: 0 2px 8px #ff9800;
     }
     .launch-btn {
-      background: var(--BonkHouse-red);
+      background: var(--bonk-red);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -474,7 +474,7 @@
       transition: background 0.2s;
     }
     .launch-btn:hover {
-      background: var(--BonkHouse-orange);
+      background: var(--bonk-orange);
     }
     .market-iframe-box {
       flex: 1;
@@ -593,8 +593,8 @@
     .user-logout-btn {
       margin-top: 6px;
       background: #fff;
-      color: var(--BonkHouse-red);
-      border: 2px solid var(--BonkHouse-red);
+      color: var(--bonk-red);
+      border: 2px solid var(--bonk-red);
       border-radius: 8px;
       padding: 6px 18px;
       font-size: 1rem;
@@ -605,7 +605,7 @@
       transition: background 0.2s, color 0.2s;
     }
     .user-logout-btn:hover {
-      background: var(--BonkHouse-red);
+      background: var(--bonk-red);
       color: #fff;
     }
   </style>
@@ -619,14 +619,14 @@
   <div class="bg-bubble bg-bubble1"></div>
   <div class="bg-bubble bg-bubble2"></div>
   <div class="bg-bubble bg-bubble3"></div>
-  <img class="bg-BonkHouse bg-BonkHouse-right" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="BonkHouse右上狗狗">
-  <img class="bg-BonkHouse bg-BonkHouse-left" src="https://assets.coingecko.com/coins/images/28793/large/BonkHouse.png" alt="BonkHouse左下狗狗">
+  <img class="bg-bonk bg-bonk-right" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk右上狗狗">
+  <img class="bg-bonk bg-bonk-left" src="https://assets.coingecko.com/coins/images/28793/large/bonk.png" alt="Bonk左下狗狗">
   <div class="app-container">
     <aside class="sidebar">
       <div class="sidebar-content">
         <div class="logo">
-          <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="BonkHouse Logo">
-          <span>House</span>
+          <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk Logo">
+          <span>BONK</span>
         </div>
         <div class="user-avatar-box" id="user-avatar-box" style="display:none">
           <img class="user-avatar-img" id="user-avatar-img" src="" alt="用户头像">
@@ -640,15 +640,15 @@
         </div>
       </div>
       <div class="sidebar-bottom">
-        <img class="sidebar-BonkHouse-img" src="https://assets.coingecko.com/coins/images/28793/large/BonkHouse.png" alt="BonkHouse1">
-        <img class="sidebar-BonkHouse-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="BonkHouse2">
-        <img class="sidebar-BonkHouse-img" src="https://cryptologos.cc/logos/BonkHouse-BonkHouse-logo.png" alt="BonkHouse3">
+        <img class="sidebar-bonk-img" src="https://assets.coingecko.com/coins/images/28793/large/bonk.png" alt="Bonk1">
+        <img class="sidebar-bonk-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk2">
+        <img class="sidebar-bonk-img" src="https://cryptologos.cc/logos/bonk-bonk-logo.png" alt="Bonk3">
       </div>
     </aside>
     <main class="main-content">
       <div class="chat-container" id="main-content-box">
         <div class="chat-header">
-          BonkHouse聊天室
+          Bonk聊天室
           <span class="channel-title" id="current-channel-title">🐶 大厅</span>
         </div>
         <div class="chat-messages" id="chat-messages"></div>
@@ -690,8 +690,8 @@
     const auth = getAuth(app);
     const provider = new TwitterAuthProvider();
 
-    // BonkHouse狗狗头像
-    const BonkHouseAvatar = "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png";
+    // Bonk狗狗头像
+    const bonkAvatar = "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png";
 
     // 频道定义
     const channels = [
@@ -717,10 +717,10 @@
 
     // 头像生成相关
     function getOrCreateAvatarSeed() {
-      let seed = localStorage.getItem('BonkHouse-avatar-seed');
+      let seed = localStorage.getItem('bonk-avatar-seed');
       if (!seed) {
         seed = Math.random().toString(36).substring(2, 12) + Date.now();
-        localStorage.setItem('BonkHouse-avatar-seed', seed);
+        localStorage.setItem('bonk-avatar-seed', seed);
       }
       return seed;
     }
@@ -740,6 +740,11 @@
       box.style.display = 'flex';
     }
 
+    // 获取当前用户推特用户名
+    function getCurrentTwitterUsername() {
+      return localStorage.getItem('chat-twitter-username') || '';
+    }
+
     // 绑定聊天表单发送事件
     function bindChatFormEvents(chatFormEl, messageInputEl) {
       if (!chatFormEl || !messageInputEl) return;
@@ -751,7 +756,8 @@
           username,
           text,
           timestamp: Date.now(),
-          avatar: getCurrentAvatarUrl()
+          avatar: getCurrentAvatarUrl(),
+          twitterUsername: getCurrentTwitterUsername()
         });
         messageInputEl.value = '';
       };
@@ -798,9 +804,9 @@
           // 行情频道：显示行情 iframe，隐藏聊天相关
           mainContentBox.innerHTML = `
             <div class="market-header">
-              <img src="${BonkHouseAvatar}" alt="BonkHouse Logo">
-              letsBonkHouse发射台
-              <button class="launch-btn" onclick="window.open('https://letsBonkHouse.io','_blank')">发射🚀</button>
+              <img src="${bonkAvatar}" alt="Bonk Logo">
+              letsbonk发射台
+              <button class="launch-btn" onclick="window.open('https://letsbonk.io','_blank')">发射🚀</button>
             </div>
             <div class="market-iframe-box">
               <iframe src="https://dexscreener.com/solana/5TWsGamTnmuSo68R5AkGsyP7wArq1WL4uVdNBw3B85Kd?embed=1&theme=light" allowfullscreen></iframe>
@@ -810,7 +816,7 @@
           // 聊天频道：恢复聊天界面
           mainContentBox.innerHTML = `
             <div class="chat-header">
-              BonkHouse聊天室
+              Bonk聊天室
               <span class="channel-title" id="current-channel-title">${btn.textContent}</span>
             </div>
             <div class="chat-messages" id="chat-messages"></div>
@@ -842,7 +848,7 @@
       chatMessagesBox.innerHTML = '';
       onChildAdded(messagesRef, (snapshot) => {
         const msg = snapshot.val();
-        addMessage(msg.username, msg.text, msg.timestamp, chatMessagesBox, snapshot.key, msg.avatar);
+        addMessage(msg.username, msg.text, msg.timestamp, chatMessagesBox, snapshot.key, msg.avatar, msg.twitterUsername);
       });
       // 撤回监听
       onChildRemoved(messagesRef, (snapshot) => {
@@ -856,7 +862,7 @@
     }
 
     // 添加消息到页面
-    function addMessage(user, text, timestamp, chatMessagesBox = chatMessages, msgId = '', avatarUrl = '') {
+    function addMessage(user, text, timestamp, chatMessagesBox = chatMessages, msgId = '', avatarUrl = '', twitterUsername = '') {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'message' + (user === username ? ' me' : '');
       if (msgId) msgDiv.setAttribute('data-id', msgId);
@@ -869,10 +875,24 @@
           avatarSrc = getAvatarUrl(user);
         }
       }
+      // 判断是否为推特头像
+      let isTwitterAvatar = avatarSrc && avatarSrc.startsWith('https://pbs.twimg.com/');
+      let twitterProfileUrl = '';
+      if (isTwitterAvatar && twitterUsername) {
+        twitterProfileUrl = `https://twitter.com/${twitterUsername}`;
+      }
       const avatar = document.createElement('img');
       avatar.className = 'avatar';
       avatar.src = avatarSrc;
       avatar.alt = 'avatar';
+      if (isTwitterAvatar && twitterProfileUrl) {
+        avatar.style.cursor = 'pointer';
+        avatar.title = '点击访问推特主页';
+        avatar.onclick = (e) => {
+          e.stopPropagation();
+          window.open(twitterProfileUrl, '_blank');
+        };
+      }
       // 内容
       const contentDiv = document.createElement('div');
       contentDiv.className = 'message-content';
@@ -912,7 +932,23 @@
         // user.displayName, user.photoURL, user.uid
         localStorage.setItem('chat-username', user.displayName);
         localStorage.setItem('chat-avatar', user.photoURL);
-        // 你可以在 showUserAvatarBox 里用 user.photoURL
+        // 保存推特主页链接和用户名
+        let twitterProfile = '';
+        let twitterUsername = '';
+        if (user.reloadUserInfo && user.reloadUserInfo.screenName) {
+          twitterUsername = user.reloadUserInfo.screenName;
+          twitterProfile = `https://twitter.com/${twitterUsername}`;
+        } else if (user.providerData && user.providerData[0] && user.providerData[0].screenName) {
+          twitterUsername = user.providerData[0].screenName;
+          twitterProfile = `https://twitter.com/${twitterUsername}`;
+        }
+        if (twitterProfile && twitterUsername) {
+          localStorage.setItem('chat-twitter-profile', twitterProfile);
+          localStorage.setItem('chat-twitter-username', twitterUsername);
+        } else {
+          localStorage.removeItem('chat-twitter-profile');
+          localStorage.removeItem('chat-twitter-username');
+        }
         showUserAvatarBox(user.displayName, user.photoURL);
         username = user.displayName;
         usernameModal.style.display = 'none';
@@ -928,7 +964,7 @@
       // 清除本地存储
       localStorage.removeItem('chat-username');
       localStorage.removeItem('chat-avatar');
-      localStorage.removeItem('BonkHouse-avatar-seed');
+      localStorage.removeItem('bonk-avatar-seed');
       // Firebase signOut（如果是推特登录）
       try {
         await signOut(auth);
