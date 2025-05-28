@@ -590,6 +590,24 @@
         height: 28px;
       }
     }
+    .user-logout-btn {
+      margin-top: 6px;
+      background: #fff;
+      color: var(--bonk-red);
+      border: 2px solid var(--bonk-red);
+      border-radius: 8px;
+      padding: 6px 18px;
+      font-size: 1rem;
+      font-family: 'Luckiest Guy', cursive;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #ff980044;
+      transition: background 0.2s, color 0.2s;
+    }
+    .user-logout-btn:hover {
+      background: var(--bonk-red);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -613,6 +631,7 @@
         <div class="user-avatar-box" id="user-avatar-box" style="display:none">
           <img class="user-avatar-img" id="user-avatar-img" src="" alt="用户头像">
           <div class="user-avatar-name" id="user-avatar-name"></div>
+          <button class="user-logout-btn" id="user-logout-btn">退出登录</button>
         </div>
         <div class="channels">
           <button class="channel active" data-channel="lobby">🐶 大厅</button>
@@ -645,11 +664,15 @@
       <h2>请输入昵称</h2>
       <input type="text" id="username-input" maxlength="16" placeholder="昵称" required />
       <button id="username-btn">进入聊天室</button>
+      <button id="twitter-login-btn" style="background:#1da1f2;color:#fff;margin-top:8px;">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">用推特登录
+      </button>
     </div>
   </div>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, off } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, onChildRemoved, off, remove } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+    import { getAuth, signInWithPopup, TwitterAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
     // Firebase 配置
     const firebaseConfig = {
       apiKey: "AIzaSyA5Z5ieEbAcfQX0kxGSn9ldGXhzvAwx_8M",
@@ -664,6 +687,8 @@
     // 初始化 Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const auth = getAuth(app);
+    const provider = new TwitterAuthProvider();
 
     // Bonk狗狗头像
     const bonkAvatar = "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png";
@@ -702,12 +727,12 @@
     function getAvatarUrl(seed) {
       return `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(seed)}`;
     }
-    function showUserAvatarBox(name) {
+    function showUserAvatarBox(name, avatarUrl) {
       const box = document.getElementById('user-avatar-box');
       const img = document.getElementById('user-avatar-img');
       const n = document.getElementById('user-avatar-name');
       const seed = getOrCreateAvatarSeed();
-      img.src = getAvatarUrl(seed);
+      img.src = avatarUrl || getAvatarUrl(seed);
       n.textContent = name || '';
       box.style.display = 'flex';
     }
@@ -813,7 +838,13 @@
       chatMessagesBox.innerHTML = '';
       onChildAdded(messagesRef, (snapshot) => {
         const msg = snapshot.val();
-        addMessage(msg.username, msg.text, msg.timestamp, chatMessagesBox);
+        addMessage(msg.username, msg.text, msg.timestamp, chatMessagesBox, snapshot.key);
+      });
+      // 撤回监听
+      onChildRemoved(messagesRef, (snapshot) => {
+        const msgId = snapshot.key;
+        const msgDiv = chatMessagesBox.querySelector(`.message[data-id='${msgId}']`);
+        if (msgDiv) msgDiv.remove();
       });
       setTimeout(() => {
         chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
@@ -821,15 +852,15 @@
     }
 
     // 添加消息到页面
-    function addMessage(user, text, timestamp, chatMessagesBox = chatMessages) {
+    function addMessage(user, text, timestamp, chatMessagesBox = chatMessages, msgId = '') {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'message' + (user === username ? ' me' : '');
+      if (msgId) msgDiv.setAttribute('data-id', msgId);
       // 用户头像
       let avatarUrl = '';
       if (user === username) {
         avatarUrl = getAvatarUrl(getOrCreateAvatarSeed());
       } else {
-        // 其他用户用名字做seed，保证同名同头像
         avatarUrl = getAvatarUrl(user);
       }
       const avatar = document.createElement('img');
@@ -844,6 +875,18 @@
       meta.textContent = `${user} · ${formatTime(timestamp)}`;
       contentDiv.appendChild(meta);
       contentDiv.appendChild(document.createTextNode(text));
+      // 撤回按钮（仅自己消息）
+      if (user === username && msgId) {
+        const revokeBtn = document.createElement('button');
+        revokeBtn.textContent = '撤回';
+        revokeBtn.title = '撤回此消息';
+        revokeBtn.style.cssText = 'position:absolute;top:8px;right:10px;background:#fff3e0;color:#ff3d00;border:1px solid #ff9800;border-radius:6px;padding:2px 10px;font-size:0.9rem;cursor:pointer;z-index:2;';
+        revokeBtn.onclick = () => {
+          remove(ref(db, `channels/${currentChannel}/messages/${msgId}`));
+        };
+        contentDiv.style.position = 'relative';
+        contentDiv.appendChild(revokeBtn);
+      }
       msgDiv.appendChild(avatar);
       msgDiv.appendChild(contentDiv);
       chatMessagesBox.appendChild(msgDiv);
@@ -854,6 +897,41 @@
       const date = new Date(ts);
       return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
+
+    // 登录按钮事件
+    document.getElementById('twitter-login-btn').onclick = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        // user.displayName, user.photoURL, user.uid
+        localStorage.setItem('chat-username', user.displayName);
+        localStorage.setItem('chat-avatar', user.photoURL);
+        // 你可以在 showUserAvatarBox 里用 user.photoURL
+        showUserAvatarBox(user.displayName, user.photoURL);
+        username = user.displayName;
+        usernameModal.style.display = 'none';
+        loadChannel(currentChannel);
+        bindChatFormEvents(chatForm, messageInput);
+      } catch (error) {
+        alert('推特登录失败: ' + error.message);
+      }
+    };
+
+    // 退出登录逻辑
+    document.getElementById('user-logout-btn').onclick = async () => {
+      // 清除本地存储
+      localStorage.removeItem('chat-username');
+      localStorage.removeItem('chat-avatar');
+      localStorage.removeItem('bonk-avatar-seed');
+      // Firebase signOut（如果是推特登录）
+      try {
+        await signOut(auth);
+      } catch (e) {}
+      // 隐藏头像区，弹出登录弹窗
+      document.getElementById('user-avatar-box').style.display = 'none';
+      username = '';
+      usernameModal.style.display = 'flex';
+    };
   </script>
 </body>
 </html>
