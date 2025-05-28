@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bonk聊天室</title>
+  <title>Bonk chat room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -631,12 +631,12 @@
         <div class="user-avatar-box" id="user-avatar-box" style="display:none">
           <img class="user-avatar-img" id="user-avatar-img" src="" alt="用户头像">
           <div class="user-avatar-name" id="user-avatar-name"></div>
-          <button class="user-logout-btn" id="user-logout-btn">退出登录</button>
+          <button class="user-logout-btn" id="user-logout-btn">Sign out</button>
         </div>
         <div class="channels">
-          <button class="channel active" data-channel="lobby">🐶 大厅</button>
-          <button class="channel" data-channel="tech">💬 技术</button>
-          <button class="channel" data-channel="market">🚀 行情</button>
+          <button class="channel active" data-channel="lobby">🐶 hall</button>
+          <button class="channel" data-channel="tech">💬 technology</button>
+          <button class="channel" data-channel="market">🚀 market</button>
         </div>
       </div>
       <div class="sidebar-bottom">
@@ -648,24 +648,24 @@
     <main class="main-content">
       <div class="chat-container" id="main-content-box">
         <div class="chat-header">
-          Bonk聊天室
-          <span class="channel-title" id="current-channel-title">🐶 大厅</span>
+         Bonk chat room
+          <span class="channel-title" id="current-channel-title">🐶 hall</span>
         </div>
         <div class="chat-messages" id="chat-messages"></div>
         <form class="chat-input" id="chat-form">
           <input type="text" id="message-input" placeholder="输入消息..." autocomplete="off" required />
-          <button type="submit">发送</button>
+          <button type="submit">Send</button>
         </form>
       </div>
     </main>
   </div>
   <div class="username-modal" id="username-modal">
     <div class="username-box">
-      <h2>请输入昵称</h2>
+      <h2>Please enter a nickname</h2>
       <input type="text" id="username-input" maxlength="16" placeholder="昵称" required />
-      <button id="username-btn">进入聊天室</button>
+      <button id="username-btn">Enter the chat room</button>
       <button id="twitter-login-btn" style="background:#1da1f2;color:#fff;margin-top:8px;">
-        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">用推特登录
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">Log in with Twitter
       </button>
     </div>
   </div>
