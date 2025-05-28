@@ -6,12 +6,13 @@
   <title>像素风格 Windows 模拟器</title>
   <style>
     body {
-      background: url('1.jpg') no-repeat center center fixed;
+      background: url('chat_logo.png') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
       font-family: 'Press Start 2P', 'Consolas', monospace;
       color: #fff;
       image-rendering: pixelated;
+      overflow: hidden; /* 禁止滚动条 */
     }
     .taskbar {
       position: fixed;
@@ -72,25 +73,35 @@
       position: relative;
     }
     .icon-label {
-      font-size: 10px;
+      font-size: 13px;
       color: #fff;
       text-align: center;
-      margin-top: 2px;
+      margin-top: 6px;
       text-shadow: 1px 1px 0 #000;
+      word-break: break-all;
     }
     .desktop {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      padding: 32px;
-      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: repeat(4, 96px);
+      grid-auto-rows: 110px;
+      gap: 24px 32px;
+      padding: 48px 0 0 48px;
+      width: max-content;
+      max-width: 100vw;
+      max-height: calc(100vh - 60px);
+      /* 居中显示整个桌面图标区 */
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      margin: auto;
     }
     .desktop-icon {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 64px;
+      width: 96px;
+      height: 110px;
       cursor: pointer;
+      user-select: none;
     }
     /* 像素风格图标 */
     .pixel-folder {
@@ -191,7 +202,7 @@
   </div>
   <div class="desktop">
     <div class="desktop-icon">
-     <img src="my_computer.png" alt="我的电脑" style="width:64px;height:64px;display:block;" />
+      <img src="my_computer.png" alt="我的电脑" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">我的电脑</div>
     </div>
     <div class="desktop-icon">
@@ -201,9 +212,13 @@
     <div class="desktop-icon">
       <img src="control_panel.png" alt="控制面板" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">控制面板</div>
+    </div>
+    <div class="desktop-icon">
+      <div class="pixel-notepad"></div>
+      <div class="icon-label">记事本</div>
+    </div>
     <div class="desktop-icon" id="chat-desktop-icon">
-  <img src="2.jpg" alt="chat" style="width:64px;height:64px;display:block;" />
-
+      <img src="chat_logo.png" alt="chat" style="width:64px;height:64px;display:block;" />
     </div>
   </div>
   <!-- Bonk聊天室弹窗，iframe方式，初始隐藏 -->
