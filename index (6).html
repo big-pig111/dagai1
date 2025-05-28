@@ -885,17 +885,16 @@
           avatarSrc = getAvatarUrl(user);
         }
       }
-      // 判断是否为推特头像
-      let isTwitterAvatar = avatarSrc && avatarSrc.startsWith('https://pbs.twimg.com/');
+      // 只要有twitterUsername就可点击
       let twitterProfileUrl = '';
-      if (isTwitterAvatar && twitterUsername) {
+      if (twitterUsername) {
         twitterProfileUrl = `https://twitter.com/${twitterUsername}`;
       }
       const avatar = document.createElement('img');
       avatar.className = 'avatar';
       avatar.src = avatarSrc;
       avatar.alt = 'avatar';
-      if (isTwitterAvatar && twitterProfileUrl) {
+      if (twitterProfileUrl) {
         avatar.style.cursor = 'pointer';
         avatar.title = 'Visit Twitter profile';
         avatar.onclick = (e) => {
