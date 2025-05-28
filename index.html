@@ -115,6 +115,70 @@
       padding: 0;
       box-shadow: 2px 0 16px rgba(255, 152, 0, 0.12);
       z-index: 2;
+      position: relative;
+      justify-content: space-between;
+    }
+    .sidebar-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-bottom {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 0;
+      padding: 18px 0 12px 0;
+      background: transparent;
+      min-height: 90px;
+    }
+    .sidebar-bonk-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px #ff980088;
+      background: #fffde7;
+      object-fit: cover;
+      transform: rotate(-8deg);
+      margin: 0 2px;
+      border: 2px solid #fffbe6;
+      transition: transform 0.2s;
+    }
+    .sidebar-bonk-img:nth-child(2) {
+      transform: rotate(10deg) scale(1.08);
+      z-index: 2;
+    }
+    .sidebar-bonk-img:nth-child(3) {
+      transform: rotate(-14deg) scale(0.95);
+      z-index: 1;
+    }
+    /* 用户头像展示 */
+    .user-avatar-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 18px 0 0 0;
+      gap: 8px;
+    }
+    .user-avatar-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #ff980088;
+      background: #fffde7;
+      border: 3px solid #fffbe6;
+      object-fit: cover;
+      margin-bottom: 4px;
+    }
+    .user-avatar-name {
+      color: #fff;
+      font-size: 1.1rem;
+      font-family: 'Luckiest Guy', cursive;
+      text-shadow: 1px 1px 0 #ff3d00, 0 2px 8px #fffde7;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
     }
     .logo {
       display: flex;
@@ -541,14 +605,25 @@
   <img class="bg-bonk bg-bonk-left" src="https://assets.coingecko.com/coins/images/28793/large/bonk.png" alt="Bonk左下狗狗">
   <div class="app-container">
     <aside class="sidebar">
-      <div class="logo">
-        <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk Logo">
-        <span>BONK</span>
+      <div class="sidebar-content">
+        <div class="logo">
+          <img src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk Logo">
+          <span>BONK</span>
+        </div>
+        <div class="user-avatar-box" id="user-avatar-box" style="display:none">
+          <img class="user-avatar-img" id="user-avatar-img" src="" alt="用户头像">
+          <div class="user-avatar-name" id="user-avatar-name"></div>
+        </div>
+        <div class="channels">
+          <button class="channel active" data-channel="lobby">🐶 大厅</button>
+          <button class="channel" data-channel="tech">💬 技术</button>
+          <button class="channel" data-channel="market">🚀 行情</button>
+        </div>
       </div>
-      <div class="channels">
-        <button class="channel active" data-channel="lobby">🐶 大厅</button>
-        <button class="channel" data-channel="tech">💬 技术</button>
-        <button class="channel" data-channel="market">🚀 行情</button>
+      <div class="sidebar-bottom">
+        <img class="sidebar-bonk-img" src="https://assets.coingecko.com/coins/images/28793/large/bonk.png" alt="Bonk1">
+        <img class="sidebar-bonk-img" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/DezX6XJg63zFqAq6Ay5QFhQ1bqQx2Q2r1uQ2r1uQ2r1u/logo.png" alt="Bonk2">
+        <img class="sidebar-bonk-img" src="https://cryptologos.cc/logos/bonk-bonk-logo.png" alt="Bonk3">
       </div>
     </aside>
     <main class="main-content">
@@ -615,6 +690,28 @@
     const channelTitle = document.getElementById('current-channel-title');
     const mainContentBox = document.getElementById('main-content-box');
 
+    // 头像生成相关
+    function getOrCreateAvatarSeed() {
+      let seed = localStorage.getItem('bonk-avatar-seed');
+      if (!seed) {
+        seed = Math.random().toString(36).substring(2, 12) + Date.now();
+        localStorage.setItem('bonk-avatar-seed', seed);
+      }
+      return seed;
+    }
+    function getAvatarUrl(seed) {
+      return `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(seed)}`;
+    }
+    function showUserAvatarBox(name) {
+      const box = document.getElementById('user-avatar-box');
+      const img = document.getElementById('user-avatar-img');
+      const n = document.getElementById('user-avatar-name');
+      const seed = getOrCreateAvatarSeed();
+      img.src = getAvatarUrl(seed);
+      n.textContent = name || '';
+      box.style.display = 'flex';
+    }
+
     // 绑定聊天表单发送事件
     function bindChatFormEvents(chatFormEl, messageInputEl) {
       if (!chatFormEl || !messageInputEl) return;
@@ -641,6 +738,7 @@
         loadChannel(currentChannel);
         // 绑定初始表单事件
         bindChatFormEvents(chatForm, messageInput);
+        showUserAvatarBox(username);
       } else {
         usernameInput.focus();
       }
@@ -653,6 +751,7 @@
         loadChannel(currentChannel);
         // 绑定初始表单事件
         bindChatFormEvents(chatForm, messageInput);
+        showUserAvatarBox(username);
       } else {
         usernameModal.style.display = 'flex';
       }
@@ -725,11 +824,18 @@
     function addMessage(user, text, timestamp, chatMessagesBox = chatMessages) {
       const msgDiv = document.createElement('div');
       msgDiv.className = 'message' + (user === username ? ' me' : '');
-      // Bonk头像
+      // 用户头像
+      let avatarUrl = '';
+      if (user === username) {
+        avatarUrl = getAvatarUrl(getOrCreateAvatarSeed());
+      } else {
+        // 其他用户用名字做seed，保证同名同头像
+        avatarUrl = getAvatarUrl(user);
+      }
       const avatar = document.createElement('img');
       avatar.className = 'avatar';
-      avatar.src = bonkAvatar;
-      avatar.alt = 'Bonk';
+      avatar.src = avatarUrl;
+      avatar.alt = 'avatar';
       // 内容
       const contentDiv = document.createElement('div');
       contentDiv.className = 'message-content';
