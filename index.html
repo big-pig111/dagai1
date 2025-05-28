@@ -268,28 +268,15 @@
     // ********************
     
     // Firebase 配置 - 请替换为你自己的配置
- <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA5Z5ieEbAcfQX0kxGSn9ldGXhzvAwx_8M",
-    authDomain: "chat-294cc.firebaseapp.com",
-    projectId: "chat-294cc",
-    storageBucket: "chat-294cc.firebasestorage.app",
-    messagingSenderId: "913615304269",
-    appId: "1:913615304269:web:a7634789985f09758e4e04",
-    measurementId: "G-16E82FDM89"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5Z5ieEbAcfQX0kxGSn9ldGXhzvAwx_8M",
+      authDomain: "chat-294cc.firebaseapp.com",
+      projectId: "chat-294cc",
+      storageBucket: "chat-294cc.firebasestorage.app",
+      messagingSenderId: "913615304269",
+      appId: "1:913615304269:web:a7634789985f09758e4e04",
+      measurementId: "G-16E82FDM89"
+    };
 
     // 初始化 Firebase
     firebase.initializeApp(firebaseConfig);
