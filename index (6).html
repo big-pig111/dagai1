@@ -745,6 +745,7 @@
       return localStorage.getItem('chat-twitter-username') || '';
     }
 
+    let lastSendTime = 0; // 记录上次发送时间
     // 绑定聊天表单发送事件
     function bindChatFormEvents(chatFormEl, messageInputEl) {
       if (!chatFormEl || !messageInputEl) return;
@@ -752,10 +753,19 @@
         e.preventDefault();
         const text = messageInputEl.value.trim();
         if (!text || !username) return;
+        const now = Date.now();
+        // 判断是否为Twitter登录用户
+        const isTwitterUser = !!getCurrentTwitterUsername();
+        const limit = isTwitterUser ? 10000 : 60000; // Twitter用户10秒，匿名用户60秒
+        if (now - lastSendTime < limit) {
+          alert(isTwitterUser ? 'You can only send one message every 10 seconds.' : 'Anonymous users can only send one message every 60 seconds.');
+          return;
+        }
+        lastSendTime = now;
         push(ref(db, `channels/${currentChannel}/messages`), {
           username,
           text,
-          timestamp: Date.now(),
+          timestamp: now,
           avatar: getCurrentAvatarUrl(),
           twitterUsername: getCurrentTwitterUsername()
         });
