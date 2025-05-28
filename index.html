@@ -597,6 +597,22 @@
     const channelTitle = document.getElementById('current-channel-title');
     const mainContentBox = document.getElementById('main-content-box');
 
+    // 绑定聊天表单发送事件
+    function bindChatFormEvents(chatFormEl, messageInputEl) {
+      if (!chatFormEl || !messageInputEl) return;
+      chatFormEl.onsubmit = (e) => {
+        e.preventDefault();
+        const text = messageInputEl.value.trim();
+        if (!text || !username) return;
+        push(ref(db, `channels/${currentChannel}/messages`), {
+          username,
+          text,
+          timestamp: Date.now()
+        });
+        messageInputEl.value = '';
+      };
+    }
+
     // 昵称输入
     usernameBtn.onclick = () => {
       const value = usernameInput.value.trim();
@@ -605,6 +621,8 @@
         usernameModal.style.display = 'none';
         localStorage.setItem('chat-username', username);
         loadChannel(currentChannel);
+        // 绑定初始表单事件
+        bindChatFormEvents(chatForm, messageInput);
       } else {
         usernameInput.focus();
       }
@@ -615,6 +633,8 @@
         username = saved;
         usernameModal.style.display = 'none';
         loadChannel(currentChannel);
+        // 绑定初始表单事件
+        bindChatFormEvents(chatForm, messageInput);
       } else {
         usernameModal.style.display = 'flex';
       }
@@ -661,17 +681,7 @@
             // 重新监听消息
             loadChannel(currentChannel, chatMessagesNew);
             // 绑定发送
-            chatFormNew.onsubmit = (e) => {
-              e.preventDefault();
-              const text = messageInputNew.value.trim();
-              if (!text || !username) return;
-              push(ref(db, `channels/${currentChannel}/messages`), {
-                username,
-                text,
-                timestamp: Date.now()
-              });
-              messageInputNew.value = '';
-            };
+            bindChatFormEvents(chatFormNew, messageInputNew);
           }, 0);
         }
       };
