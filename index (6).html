@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bonk chat room</title>
+  <title>Bonk Chatroom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -629,14 +629,14 @@
           <span>BONK</span>
         </div>
         <div class="user-avatar-box" id="user-avatar-box" style="display:none">
-          <img class="user-avatar-img" id="user-avatar-img" src="" alt="用户头像">
+          <img class="user-avatar-img" id="user-avatar-img" src="" alt="User Avatar">
           <div class="user-avatar-name" id="user-avatar-name"></div>
-          <button class="user-logout-btn" id="user-logout-btn">Sign out</button>
+          <button class="user-logout-btn" id="user-logout-btn">Log Out</button>
         </div>
         <div class="channels">
-          <button class="channel active" data-channel="lobby">🐶 hall</button>
-          <button class="channel" data-channel="tech">💬 technology</button>
-          <button class="channel" data-channel="market">🚀 market</button>
+          <button class="channel active" data-channel="lobby">🐶 Lobby</button>
+          <button class="channel" data-channel="tech">💬 Tech</button>
+          <button class="channel" data-channel="market">🚀 Market</button>
         </div>
       </div>
       <div class="sidebar-bottom">
@@ -648,12 +648,12 @@
     <main class="main-content">
       <div class="chat-container" id="main-content-box">
         <div class="chat-header">
-         Bonk chat room
-          <span class="channel-title" id="current-channel-title">🐶 hall</span>
+          Bonk Chatroom
+          <span class="channel-title" id="current-channel-title">🐶 Lobby</span>
         </div>
         <div class="chat-messages" id="chat-messages"></div>
         <form class="chat-input" id="chat-form">
-          <input type="text" id="message-input" placeholder="输入消息..." autocomplete="off" required />
+          <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required />
           <button type="submit">Send</button>
         </form>
       </div>
@@ -661,11 +661,11 @@
   </div>
   <div class="username-modal" id="username-modal">
     <div class="username-box">
-      <h2>Please enter a nickname</h2>
-      <input type="text" id="username-input" maxlength="16" placeholder="昵称" required />
-      <button id="username-btn">Enter the chat room</button>
+      <h2>Enter your nickname</h2>
+      <input type="text" id="username-input" maxlength="16" placeholder="Nickname" required />
+      <button id="username-btn">Enter Chatroom</button>
       <button id="twitter-login-btn" style="background:#1da1f2;color:#fff;margin-top:8px;">
-        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">Log in with Twitter
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">Login with Twitter
       </button>
     </div>
   </div>
@@ -695,9 +695,9 @@
 
     // 频道定义
     const channels = [
-      { key: 'lobby', name: '🐶 大厅' },
-      { key: 'tech', name: '💬 技术' },
-      { key: 'market', name: '🚀 行情' }
+      { key: 'lobby', name: '🐶 Lobby' },
+      { key: 'tech', name: '💬 Tech' },
+      { key: 'market', name: '🚀 Market' }
     ];
     let currentChannel = 'lobby';
     let username = '';
@@ -805,8 +805,8 @@
           mainContentBox.innerHTML = `
             <div class="market-header">
               <img src="${bonkAvatar}" alt="Bonk Logo">
-              letsbonk launch pad
-              <button class="launch-btn" onclick="window.open('ttps://letsbonk.io','_blank')">launch🚀</button>
+              letsbonk Launchpad
+              <button class="launch-btn" onclick="window.open('https://letsbonk.io','_blank')">Launch 🚀</button>
             </div>
             <div class="market-iframe-box">
               <iframe src="https://dexscreener.com/solana/5TWsGamTnmuSo68R5AkGsyP7wArq1WL4uVdNBw3B85Kd?embed=1&theme=light" allowfullscreen></iframe>
@@ -816,13 +816,13 @@
           // 聊天频道：恢复聊天界面
           mainContentBox.innerHTML = `
             <div class="chat-header">
-              Bonk聊天室
+              Bonk Chatroom
               <span class="channel-title" id="current-channel-title">${btn.textContent}</span>
             </div>
             <div class="chat-messages" id="chat-messages"></div>
             <form class="chat-input" id="chat-form">
-              <input type="text" id="message-input" placeholder="输入消息..." autocomplete="off" required />
-              <button type="submit">发送</button>
+              <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off" required />
+              <button type="submit">Send</button>
             </form>
           `;
           // 重新绑定 DOM
@@ -887,7 +887,7 @@
       avatar.alt = 'avatar';
       if (isTwitterAvatar && twitterProfileUrl) {
         avatar.style.cursor = 'pointer';
-        avatar.title = '点击访问推特主页';
+        avatar.title = 'Visit Twitter profile';
         avatar.onclick = (e) => {
           e.stopPropagation();
           window.open(twitterProfileUrl, '_blank');
@@ -904,8 +904,8 @@
       // 撤回按钮（仅自己消息）
       if (user === username && msgId) {
         const revokeBtn = document.createElement('button');
-        revokeBtn.textContent = '撤回';
-        revokeBtn.title = '撤回此消息';
+        revokeBtn.textContent = 'Revoke';
+        revokeBtn.title = 'Revoke this message';
         revokeBtn.style.cssText = 'position:absolute;top:8px;right:10px;background:#fff3e0;color:#ff3d00;border:1px solid #ff9800;border-radius:6px;padding:2px 10px;font-size:0.9rem;cursor:pointer;z-index:2;';
         revokeBtn.onclick = () => {
           remove(ref(db, `channels/${currentChannel}/messages/${msgId}`));
@@ -955,7 +955,7 @@
         loadChannel(currentChannel);
         bindChatFormEvents(chatForm, messageInput);
       } catch (error) {
-        alert('推特登录失败: ' + error.message);
+        alert('Twitter login failed: ' + error.message);
       }
     };
 
