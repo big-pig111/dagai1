@@ -219,11 +219,8 @@
     </div>
     <div class="desktop-icon" id="chat-desktop-icon">
       <img src="2.png" alt="chat" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Room</div>
+      <div class="icon-label">BonkHouse</div>
     </div>
-   <div class="desktop-icon" id="letsBONK.fun">
-    <img src="t.png" alt="letsBONK.fun" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">letsBONK.fun</div>
   </div>
   <!-- Bonk聊天室弹窗，iframe方式，初始隐藏 -->
   <div id="bonk-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
@@ -233,7 +230,7 @@
     </div>
     <iframe id="bonk-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
-     <!-- Recycle Bin Donation Modal (initially hidden) -->
+  <!-- Recycle Bin Donation Modal (initially hidden) -->
   <div id="recyclebin-modal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:600px; max-width:90vw; z-index:300; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">Recycle Bin - Support Us</span>
@@ -259,6 +256,7 @@
       <p style="font-weight:bold; color:#b8860b;">Thank you for being part of this journey. Together, we can build something extraordinary.</p>
       <p style="text-align:right; color:#888;">With gratitude,<br>dev</p>
     </div>
+  </div>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -299,7 +297,8 @@
       document.body.style.userSelect = '';
     });
   })(chatWindow);
-     // Recycle bin modal logic
+
+  // Recycle bin modal logic
   const recycleBinIcon = document.querySelectorAll('.desktop-icon')[3];
   const recycleBinModal = document.getElementById('recyclebin-modal');
   const closeRecycleBinModal = document.getElementById('close-recyclebin-modal');
@@ -329,9 +328,6 @@
       document.body.style.userSelect = '';
     });
   })(recycleBinModal);
-      document.getElementById('letsBONK.fun').addEventListener('click', function() {
-    window.open('https://letsbonk.fun/');
-  });
   </script>
   <div class="taskbar">
     <button class="start-btn" id="startBtn">Begin</button>
