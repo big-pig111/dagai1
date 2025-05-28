@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>像素聊天室</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body {
+      background: #008080;
+      margin: 0;
+      font-family: 'Press Start 2P', 'Consolas', monospace;
+      color: #fff;
+      image-rendering: pixelated;
+      font-size: 12px;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .pixel-window {
+      background: #222;
+      border: 4px solid #fff;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .pixel-header {
+      background: #444;
+      color: #fff;
+      border-bottom: 2px solid #fff;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+    .pixel-channels {
+      display: flex;
+      gap: 0;
+      background: #333;
+      border-bottom: 2px solid #fff;
+    }
+    .pixel-channel {
+      flex: 1;
+      padding: 8px 0;
+      text-align: center;
+      color: #fff;
+      background: #333;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.1s;
+      font-family: inherit;
+    }
+    .pixel-channel:last-child {
+      border-right: none;
+    }
+    .pixel-channel.active, .pixel-channel:hover {
+      background: #008080;
+      color: #fff;
+    }
+    .pixel-chat-area {
+      flex: 1;
+      background: #222;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+    .pixel-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 12px 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #222;
+      scrollbar-width: thin;
+      scrollbar-color: #008080 #333;
+    }
+    .pixel-messages::-webkit-scrollbar {
+      width: 8px;
+      background: #333;
+    }
+    .pixel-messages::-webkit-scrollbar-thumb {
+      background: #008080;
+      border-radius: 0;
+    }
+    .pixel-message {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      max-width: 90%;
+    }
+    .pixel-message.me {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .pixel-avatar {
+      width: 28px;
+      height: 28px;
+      background: #fff;
+      border: 2px solid #008080;
+      box-shadow: 2px 2px 0 #000;
+      border-radius: 0;
+      object-fit: cover;
+    }
+    .pixel-bubble {
+      background: #fff;
+      color: #008080;
+      border: 2px solid #008080;
+      border-radius: 0;
+      box-shadow: 2px 2px 0 #000;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-family: inherit;
+      position: relative;
+      min-width: 60px;
+      max-width: 260px;
+      word-break: break-all;
+    }
+    .pixel-message.me .pixel-bubble {
+      background: #008080;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+    .pixel-meta {
+      font-size: 10px;
+      color: #444;
+      margin-bottom: 2px;
+      font-family: inherit;
+    }
+    .pixel-revoke-btn {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      background: #b22222;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-family: inherit;
+      font-size: 10px;
+      padding: 0 6px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0 #000;
+    }
+    .pixel-input-bar {
+      display: flex;
+      border-top: 2px solid #fff;
+      background: #333;
+      padding: 8px 8px;
+      gap: 8px;
+    }
+    .pixel-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-size: 12px;
+      font-family: inherit;
+      background: #222;
+      color: #fff;
+      outline: none;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .pixel-input:focus {
+      border: 2px solid #008080;
+    }
+    .pixel-send-btn {
+      background: #008080;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 8px 18px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      transition: background 0.1s;
+    }
+    .pixel-send-btn:hover {
+      background: #00b8b8;
+    }
+    .pixel-login-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .pixel-login-box {
+      background: #222;
+      border: 4px solid #fff;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 0;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .pixel-login-box input {
+      padding: 8px 10px;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-size: 12px;
+      font-family: inherit;
+      background: #222;
+      color: #fff;
+      outline: none;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .pixel-login-box button {
+      background: #008080;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 8px 18px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #000;
+      transition: background 0.1s;
+    }
+    .pixel-login-box button:hover {
+      background: #00b8b8;
+    }
+    .pixel-twitter-btn {
+      background: #1da1f2 !important;
+      color: #fff !important;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pixel-user-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #333;
+      border-bottom: 2px solid #fff;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #fff;
+      font-family: inherit;
+    }
+    .pixel-user-avatar {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #fff;
+      background: #fff;
+      box-shadow: 1px 1px 0 #000;
+      object-fit: cover;
+      margin-right: 4px;
+    }
+    .pixel-logout-btn {
+      background: #b22222;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-family: inherit;
+      font-size: 10px;
+      padding: 4px 10px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0 #000;
+      margin-left: auto;
+    }
+    .pixel-logout-btn:hover {
+      background: #ff4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="pixel-window">
+    <div class="pixel-header">像素聊天室</div>
+    <div class="pixel-user-bar" id="pixel-user-bar" style="display:none"></div>
+    <div class="pixel-channels">
+      <div class="pixel-channel active" data-channel="lobby">🐶 大厅</div>
+      <div class="pixel-channel" data-channel="tech">💬 技术</div>
+      <div class="pixel-channel" data-channel="market">🚀 行情</div>
+    </div>
+    <div class="pixel-chat-area">
+      <div class="pixel-messages" id="pixel-messages"></div>
+      <form class="pixel-input-bar" id="pixel-chat-form">
+        <input type="text" class="pixel-input" id="pixel-message-input" placeholder="输入消息..." autocomplete="off" required />
+        <button type="submit" class="pixel-send-btn">发送</button>
+      </form>
+    </div>
+  </div>
+  <div class="pixel-login-modal" id="pixel-login-modal">
+    <div class="pixel-login-box">
+      <h2 style="color:#fff;font-size:14px;letter-spacing:1px;">请输入昵称</h2>
+      <input type="text" id="pixel-username-input" maxlength="16" placeholder="昵称" required />
+      <button id="pixel-username-btn">进入聊天室</button>
+      <button id="pixel-twitter-login-btn" class="pixel-twitter-btn">
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:16px;vertical-align:middle;">用推特登录
+      </button>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, onChildRemoved, off, remove } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js";
+    import { getAuth, signInWithPopup, TwitterAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+    // Firebase 配置
+    const firebaseConfig = {
+      apiKey: "AIzaSyA5Z5ieEbAcfQX0kxGSn9ldGXhzvAwx_8M",
+      authDomain: "chat-294cc.firebaseapp.com",
+      projectId: "chat-294cc",
+      storageBucket: "chat-294cc.firebasestorage.app",
+      messagingSenderId: "913615304269",
+      appId: "1:913615304269:web:a7634789985f09758e4e04",
+      measurementId: "G-16E82FDM89",
+      databaseURL: "https://chat-294cc-default-rtdb.firebaseio.com/"
+    };
+    // 初始化 Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    const provider = new TwitterAuthProvider();
+
+    // 频道定义
+    const channels = [
+      { key: 'lobby', name: '🐶 大厅' },
+      { key: 'tech', name: '💬 技术' },
+      { key: 'market', name: '🚀 行情' }
+    ];
+    let currentChannel = 'lobby';
+    let username = '';
+    let messagesRef = null;
+    let unsubscribe = null;
+
+    // DOM
+    const loginModal = document.getElementById('pixel-login-modal');
+    const usernameInput = document.getElementById('pixel-username-input');
+    const usernameBtn = document.getElementById('pixel-username-btn');
+    const chatMessages = document.getElementById('pixel-messages');
+    const chatForm = document.getElementById('pixel-chat-form');
+    const messageInput = document.getElementById('pixel-message-input');
+    const channelBtns = document.querySelectorAll('.pixel-channel');
+    const userBar = document.getElementById('pixel-user-bar');
+
+    // 头像生成相关
+    function getOrCreateAvatarSeed() {
+      let seed = localStorage.getItem('pixel-avatar-seed');
+      if (!seed) {
+        seed = Math.random().toString(36).substring(2, 12) + Date.now();
+        localStorage.setItem('pixel-avatar-seed', seed);
+      }
+      return seed;
+    }
+    function getAvatarUrl(seed) {
+      return `https://api.dicebear.com/7.x/pixel-art/svg?seed=${encodeURIComponent(seed)}`;
+    }
+    function getCurrentAvatarUrl() {
+      return localStorage.getItem('pixel-chat-avatar') || getAvatarUrl(getOrCreateAvatarSeed());
+    }
+    function showUserBar(name, avatarUrl) {
+      userBar.innerHTML = `<img class='pixel-user-avatar' src='${avatarUrl || getAvatarUrl(getOrCreateAvatarSeed())}'><span>${name}</span><button class='pixel-logout-btn' id='pixel-logout-btn'>退出</button>`;
+      userBar.style.display = 'flex';
+      document.getElementById('pixel-logout-btn').onclick = async () => {
+        localStorage.removeItem('pixel-chat-username');
+        localStorage.removeItem('pixel-chat-avatar');
+        localStorage.removeItem('pixel-avatar-seed');
+        try { await signOut(auth); } catch (e) {}
+        userBar.style.display = 'none';
+        username = '';
+        loginModal.style.display = 'flex';
+      };
+    }
+    // 获取当前用户推特用户名
+    function getCurrentTwitterUsername() {
+      return localStorage.getItem('pixel-chat-twitter-username') || '';
+    }
+    // 绑定聊天表单发送事件
+    function bindChatFormEvents(chatFormEl, messageInputEl) {
+      if (!chatFormEl || !messageInputEl) return;
+      chatFormEl.onsubmit = (e) => {
+        e.preventDefault();
+        const text = messageInputEl.value.trim();
+        if (!text || !username) return;
+        push(ref(db, `channels/${currentChannel}/messages`), {
+          username,
+          text,
+          timestamp: Date.now(),
+          avatar: getCurrentAvatarUrl(),
+          twitterUsername: getCurrentTwitterUsername()
+        });
+        messageInputEl.value = '';
+      };
+    }
+    // 昵称输入
+    usernameBtn.onclick = () => {
+      const value = usernameInput.value.trim();
+      if (value) {
+        username = value;
+        loginModal.style.display = 'none';
+        localStorage.setItem('pixel-chat-username', username);
+        loadChannel(currentChannel);
+        bindChatFormEvents(chatForm, messageInput);
+        showUserBar(username, getCurrentAvatarUrl());
+      } else {
+        usernameInput.focus();
+      }
+    };
+    window.onload = () => {
+      const saved = localStorage.getItem('pixel-chat-username');
+      if (saved) {
+        username = saved;
+        loginModal.style.display = 'none';
+        loadChannel(currentChannel);
+        bindChatFormEvents(chatForm, messageInput);
+        showUserBar(username, getCurrentAvatarUrl());
+      } else {
+        loginModal.style.display = 'flex';
+      }
+    };
+    // 频道切换
+    channelBtns.forEach(btn => {
+      btn.onclick = () => {
+        if (btn.classList.contains('active')) return;
+        channelBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentChannel = btn.getAttribute('data-channel');
+        if (currentChannel === 'market') {
+          // 行情频道：显示行情 iframe，隐藏聊天相关
+          document.querySelector('.pixel-chat-area').innerHTML = `
+            <div style='flex:1;display:flex;flex-direction:column;height:100%;'>
+              <iframe src='https://dexscreener.com/solana/5TWsGamTnmuSo68R5AkGsyP7wArq1WL4uVdNBw3B85Kd?embed=1&theme=light' style='width:100%;height:100%;border:none;background:#fff;'></iframe>
+            </div>
+          `;
+        } else {
+          document.querySelector('.pixel-chat-area').innerHTML = `
+            <div class="pixel-messages" id="pixel-messages"></div>
+            <form class="pixel-input-bar" id="pixel-chat-form">
+              <input type="text" class="pixel-input" id="pixel-message-input" placeholder="输入消息..." autocomplete="off" required />
+              <button type="submit" class="pixel-send-btn">发送</button>
+            </form>
+          `;
+          setTimeout(() => {
+            const chatMessagesNew = document.getElementById('pixel-messages');
+            const chatFormNew = document.getElementById('pixel-chat-form');
+            const messageInputNew = document.getElementById('pixel-message-input');
+            loadChannel(currentChannel, chatMessagesNew);
+            bindChatFormEvents(chatFormNew, messageInputNew);
+          }, 0);
+        }
+      };
+    });
+    // 加载频道消息
+    function loadChannel(channelKey, chatMessagesBox = chatMessages) {
+      if (unsubscribe) unsubscribe();
+      if (messagesRef) off(messagesRef);
+      if (channelKey === 'market') return;
+      messagesRef = ref(db, `channels/${channelKey}/messages`);
+      chatMessagesBox.innerHTML = '';
+      onChildAdded(messagesRef, (snapshot) => {
+        const msg = snapshot.val();
+        addMessage(msg.username, msg.text, msg.timestamp, chatMessagesBox, snapshot.key, msg.avatar, msg.twitterUsername);
+      });
+      onChildRemoved(messagesRef, (snapshot) => {
+        const msgId = snapshot.key;
+        const msgDiv = chatMessagesBox.querySelector(`.pixel-message[data-id='${msgId}']`);
+        if (msgDiv) msgDiv.remove();
+      });
+      setTimeout(() => {
+        chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+      }, 100);
+    }
+    // 添加消息到页面
+    function addMessage(user, text, timestamp, chatMessagesBox = chatMessages, msgId = '', avatarUrl = '', twitterUsername = '') {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'pixel-message' + (user === username ? ' me' : '');
+      if (msgId) msgDiv.setAttribute('data-id', msgId);
+      let avatarSrc = avatarUrl;
+      if (!avatarSrc) {
+        if (user === username) {
+          avatarSrc = getCurrentAvatarUrl();
+        } else {
+          avatarSrc = getAvatarUrl(user);
+        }
+      }
+      let isTwitterAvatar = avatarSrc && avatarSrc.startsWith('https://pbs.twimg.com/');
+      let twitterProfileUrl = '';
+      if (isTwitterAvatar && twitterUsername) {
+        twitterProfileUrl = `https://twitter.com/${twitterUsername}`;
+      }
+      const avatar = document.createElement('img');
+      avatar.className = 'pixel-avatar';
+      avatar.src = avatarSrc;
+      avatar.alt = 'avatar';
+      if (isTwitterAvatar && twitterProfileUrl) {
+        avatar.style.cursor = 'pointer';
+        avatar.title = '点击访问推特主页';
+        avatar.onclick = (e) => {
+          e.stopPropagation();
+          window.open(twitterProfileUrl, '_blank');
+        };
+      }
+      const bubble = document.createElement('div');
+      bubble.className = 'pixel-bubble';
+      const meta = document.createElement('div');
+      meta.className = 'pixel-meta';
+      meta.textContent = `${user} · ${formatTime(timestamp)}`;
+      bubble.appendChild(meta);
+      bubble.appendChild(document.createTextNode(text));
+      if (user === username && msgId) {
+        const revokeBtn = document.createElement('button');
+        revokeBtn.textContent = '撤回';
+        revokeBtn.className = 'pixel-revoke-btn';
+        revokeBtn.onclick = () => {
+          remove(ref(db, `channels/${currentChannel}/messages/${msgId}`));
+        };
+        bubble.appendChild(revokeBtn);
+      }
+      msgDiv.appendChild(avatar);
+      msgDiv.appendChild(bubble);
+      chatMessagesBox.appendChild(msgDiv);
+      chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+    }
+    // 时间格式化
+    function formatTime(ts) {
+      const date = new Date(ts);
+      return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+    // 登录按钮事件
+    document.getElementById('pixel-twitter-login-btn').onclick = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        localStorage.setItem('pixel-chat-username', user.displayName);
+        localStorage.setItem('pixel-chat-avatar', user.photoURL);
+        let twitterProfile = '';
+        let twitterUsername = '';
+        if (user.reloadUserInfo && user.reloadUserInfo.screenName) {
+          twitterUsername = user.reloadUserInfo.screenName;
+          twitterProfile = `https://twitter.com/${twitterUsername}`;
+        } else if (user.providerData && user.providerData[0] && user.providerData[0].screenName) {
+          twitterUsername = user.providerData[0].screenName;
+          twitterProfile = `https://twitter.com/${twitterUsername}`;
+        }
+        if (twitterProfile && twitterUsername) {
+          localStorage.setItem('pixel-chat-twitter-profile', twitterProfile);
+          localStorage.setItem('pixel-chat-twitter-username', twitterUsername);
+        } else {
+          localStorage.removeItem('pixel-chat-twitter-profile');
+          localStorage.removeItem('pixel-chat-twitter-username');
+        }
+        showUserBar(user.displayName, user.photoURL);
+        username = user.displayName;
+        loginModal.style.display = 'none';
+        loadChannel(currentChannel);
+        bindChatFormEvents(chatForm, messageInput);
+      } catch (error) {
+        alert('推特登录失败: ' + error.message);
+      }
+    };
+  </script>
+</body>
+</html> 

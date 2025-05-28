@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>像素风格 Windows 模拟器</title>
+  <style>
+    body {
+      background: #008080;
+      margin: 0;
+      font-family: 'Press Start 2P', 'Consolas', monospace;
+      color: #fff;
+      image-rendering: pixelated;
+    }
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100vw;
+      height: 48px;
+      background: #222;
+      border-top: 4px solid #444;
+      display: flex;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 -2px 0 #000;
+    }
+    .start-menu {
+      background: #333;
+      border: 2px solid #fff;
+      border-radius: 0;
+      position: absolute;
+      left: 0;
+      bottom: 48px;
+      width: 220px;
+      display: none;
+      flex-direction: column;
+      box-shadow: 4px 4px 0 #000;
+    }
+    .start-menu.active {
+      display: flex;
+    }
+    .start-btn {
+      background: #444;
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 0;
+      font-size: 18px;
+      padding: 8px 18px;
+      margin: 0 8px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 2px 2px 0 #000;
+    }
+    .taskbar-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: 16px;
+    }
+    .icon {
+      width: 32px;
+      height: 32px;
+      background: #222;
+      border: 2px solid #fff;
+      box-shadow: 2px 2px 0 #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+    .icon-label {
+      font-size: 10px;
+      color: #fff;
+      text-align: center;
+      margin-top: 2px;
+      text-shadow: 1px 1px 0 #000;
+    }
+    .desktop {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      padding: 32px;
+      min-height: calc(100vh - 48px);
+    }
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 64px;
+      cursor: pointer;
+    }
+    /* 像素风格图标 */
+    .pixel-folder {
+      width: 24px;
+      height: 18px;
+      background: #f9d423;
+      border: 2px solid #b8860b;
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .pixel-folder::before {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 6px;
+      background: #ffe066;
+      border: 2px solid #b8860b;
+      position: absolute;
+      left: -4px;
+      top: -8px;
+    }
+    .pixel-notepad {
+      width: 18px;
+      height: 22px;
+      background: #fff;
+      border: 2px solid #888;
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .pixel-notepad::after {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 2px;
+      background: #b0e0e6;
+      position: absolute;
+      left: 2px;
+      top: 4px;
+    }
+    .pixel-chat {
+      width: 22px;
+      height: 18px;
+      background: #fff;
+      border: 2px solid #008080;
+      position: relative;
+      margin-bottom: 2px;
+    }
+    .pixel-chat::after {
+      content: '';
+      display: block;
+      width: 8px;
+      height: 8px;
+      background: #008080;
+      position: absolute;
+      left: 12px;
+      top: 8px;
+      border-radius: 2px;
+    }
+    .pixel-chat-label {
+      font-size: 10px;
+      color: #008080;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #fff;
+      margin-top: -2px;
+    }
+    /* 菜单栏样式 */
+    .menu-bar {
+      background: #222;
+      color: #fff;
+      display: flex;
+      padding: 0 16px;
+      height: 32px;
+      align-items: center;
+      border-bottom: 2px solid #444;
+      font-size: 14px;
+      gap: 24px;
+      box-shadow: 0 2px 0 #000;
+    }
+    .menu-item {
+      cursor: pointer;
+      padding: 0 8px;
+      border-radius: 0;
+      transition: background 0.1s;
+    }
+    .menu-item:hover {
+      background: #444;
+    }
+    /* 像素字体 */
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  </style>
+</head>
+<body>
+  <div class="menu-bar">
+    <div class="menu-item">文件</div>
+    <div class="menu-item">编辑</div>
+    <div class="menu-item">查看</div>
+    <div class="menu-item">帮助</div>
+  </div>
+  <div class="desktop">
+    <div class="desktop-icon">
+      <div class="pixel-folder"></div>
+      <div class="icon-label">文件夹</div>
+    </div>
+    <div class="desktop-icon">
+      <div class="pixel-notepad"></div>
+      <div class="icon-label">记事本</div>
+    </div>
+    <div class="desktop-icon">
+      <div class="pixel-chat"></div>
+      <div class="pixel-chat-label">chat</div>
+    </div>
+  </div>
+  <div class="taskbar">
+    <button class="start-btn" id="startBtn">开始</button>
+    <div class="taskbar-icons">
+      <div class="icon"><div class="pixel-folder"></div></div>
+      <div class="icon"><div class="pixel-notepad"></div></div>
+      <div class="icon"><div class="pixel-chat"></div></div>
+    </div>
+    <div class="start-menu" id="startMenu">
+      <div class="menu-item">程序</div>
+      <div class="menu-item">设置</div>
+      <div class="menu-item">关机</div>
+    </div>
+  </div>
+  <script>
+    // 开始菜单显示/隐藏
+    const startBtn = document.getElementById('startBtn');
+    const startMenu = document.getElementById('startMenu');
+    startBtn.addEventListener('click', () => {
+      startMenu.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!startBtn.contains(e.target) && !startMenu.contains(e.target)) {
+        startMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
