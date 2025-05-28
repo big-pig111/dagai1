@@ -14,6 +14,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
   
   <!-- Tailwind Configuration -->
   <script>
@@ -104,10 +105,7 @@
       </div>
       
       <!-- Chat Statistics -->
-      <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-        <h3 class="text-sm font-semibold text-gray-700 mb-3">Chat Activity</h3>
-        <canvas id="activityChart" height="150"></canvas>
-      </div>
+
     </aside>
 
     <!-- Chat Area -->
@@ -161,7 +159,7 @@
           <button class="text-gray-500 hover:text-primary transition-colors mr-3">
             <i class="fa fa-paperclip text-xl"></i>
           </button>
-          <button class="text-gray-500 hover:text-primary transition-colors">
+          <button id="uploadImageBtn" class="text-gray-500 hover:text-primary transition-colors mr-3">
             <i class="fa fa-picture-o text-xl"></i>
           </button>
         </div>
@@ -283,6 +281,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const database = firebase.database();
+    const storage = firebase.storage();
     
     // ********************
     // 应用逻辑
@@ -314,6 +313,8 @@
     const sidebar = document.getElementById('sidebar');
     const typingIndicator = document.getElementById('typingIndicator');
     const typingUsers = document.getElementById('typingUsers');
+    const uploadImageBtn = document.getElementById('uploadImageBtn');
+    const imageInput = document.getElementById('imageInput');
     
     // 全局变量
     let currentUser = null;
@@ -473,14 +474,19 @@
       const isCurrentUser = message.userId === currentUserId;
       const messageElement = document.createElement('div');
       messageElement.className = `flex ${isCurrentUser ? 'justify-end' : 'justify-start'} message-appear`;
-      
       const time = new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      
+      let contentHtml = '';
+      if (message.imageUrl) {
+        contentHtml = `<img src="${message.imageUrl}" alt="图片" class="max-w-xs rounded-lg mb-2" />`;
+      }
+      if (message.text) {
+        contentHtml += `<p>${message.text}</p>`;
+      }
       if (isCurrentUser) {
         messageElement.innerHTML = `
           <div class="max-w-[80%]">
             <div class="bg-primary text-white rounded-tl-lg rounded-tr-lg rounded-bl-lg p-3 shadow-sm">
-              <p>${message.text}</p>
+              ${contentHtml}
             </div>
             <div class="text-xs text-gray-500 text-right mt-1">
               ${time}
@@ -497,7 +503,7 @@
               <div>
                 <div class="bg-gray-100 rounded-tl-lg rounded-tr-lg rounded-br-lg p-3 shadow-sm">
                   <div class="font-medium text-dark">${message.userName}</div>
-                  <p>${message.text}</p>
+                  ${contentHtml}
                 </div>
                 <div class="text-xs text-gray-500 mt-1">
                   ${time}
@@ -507,7 +513,6 @@
           </div>
         `;
       }
-      
       messages.appendChild(messageElement);
     }
     
@@ -803,6 +808,42 @@
     
     // 监听正在输入状态
     listenForTyping();
+
+    uploadImageBtn.addEventListener('click', () => {
+      imageInput.click();
+    });
+
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      // 上传图片到 Firebase Storage
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child('chat_images/' + Date.now() + '_' + file.name);
+      const uploadTask = fileRef.put(file);
+      uploadTask.on('state_changed', null, (error) => {
+        alert('图片上传失败: ' + error.message);
+      }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          // 发送图片消息
+          sendImageMessage(downloadURL);
+        });
+      });
+    });
+
+    function sendImageMessage(imageUrl) {
+      const newMessage = {
+        userId: currentUserId,
+        userName: currentUser.name,
+        userAvatarColor: currentUser.avatarColor,
+        imageUrl: imageUrl,
+        text: '',
+        timestamp: new Date().toISOString()
+      };
+      database.ref('messages').push(newMessage)
+        .catch((error) => {
+          alert('发送图片消息失败: ' + error.message);
+        });
+    }
   </script>
 </body>
 </html>
