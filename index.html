@@ -234,6 +234,14 @@
     </div>
     <iframe id="bonk-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
+  <!-- letsBONK.fun 弹窗，iframe方式，初始隐藏 -->
+  <div id="letsbonk-window" style="display:none; position:fixed; left:80px; top:80px; width:1450px; height:900px; z-index:201; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
+    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
+      <span style="font-size:16px; letter-spacing:1px;">letsBONK.fun</span>
+      <button id="close-letsbonk-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+    </div>
+    <iframe id="letsbonk-iframe" src="https://letsbonk.fun/" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+  </div>
   <!-- Recycle Bin Donation Modal (initially hidden) -->
   <div id="recyclebin-modal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:600px; max-width:90vw; z-index:300; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
@@ -301,10 +309,35 @@
       document.body.style.userSelect = '';
     });
   })(chatWindow);
-      document.getElementById('letsBONK.fun').addEventListener('click', function() {
-    window.open('https://letsbonk.fun/');
+  // letsBONK.fun 弹窗逻辑
+  const letsBonkIcon = document.getElementById('letsBONK.fun');
+  const letsBonkWindow = document.getElementById('letsbonk-window');
+  const closeLetsBonkWindow = document.getElementById('close-letsbonk-window');
+  letsBonkIcon.addEventListener('click', () => {
+    letsBonkWindow.style.display = 'block';
   });
-
+  closeLetsBonkWindow.addEventListener('click', () => {
+    letsBonkWindow.style.display = 'none';
+  });
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(letsBonkWindow);
   // Recycle bin modal logic
   const recycleBinIcon = document.querySelectorAll('.desktop-icon')[3];
   const recycleBinModal = document.getElementById('recyclebin-modal');
