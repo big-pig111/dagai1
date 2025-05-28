@@ -221,7 +221,7 @@
       <img src="2.png" alt="chat" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">Room</div>
     </div>
-    <div class="desktop-icon">
+   <div class="desktop-icon" id="letsBONK.fun">
     <img src="t.png" alt="letsBONK.fun" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">letsBONK.fun</div>
   </div>
@@ -273,6 +273,9 @@
       document.body.style.userSelect = '';
     });
   })(chatWindow);
+      document.getElementById('letsBONK.fun').addEventListener('click', function() {
+    window.open('https://letsbonk.fun/');
+  });
   </script>
   <div class="taskbar">
     <button class="start-btn" id="startBtn">Begin</button>
