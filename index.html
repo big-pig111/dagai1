@@ -191,6 +191,10 @@
     }
     /* 像素字体 */
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    /* 像素风格鼠标光标 */
+    html, body, * {
+      cursor: url('pixel-cursor.png'), url('pixel-cursor.cur'), crosshair !important;
+    }
   </style>
 </head>
 <body>
@@ -267,6 +271,35 @@
       <p>Every contribution is deeply appreciated and will be used solely for the project's growth. As a community-driven initiative, we're committed to transparency and will regularly share updates on our progress.</p>
       <p style="font-weight:bold; color:#b8860b;">Thank you for being part of this journey. Together, we can build something extraordinary.</p>
       <p style="text-align:right; color:#888;">With gratitude,<br>dev</p>
+    </div>
+  </div>
+  <!-- 开机动画遮罩层（XP风格） -->
+  <div id="boot-screen" style="position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:#003399;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="margin-bottom:32px;display:flex;flex-direction:column;align-items:center;">
+      <!-- XP风格像素logo -->
+      <svg width="160" height="60" style="image-rendering:pixelated;">
+        <rect x="0" y="0" width="160" height="60" fill="#003399"/>
+        <!-- 彩色Windows旗帜 -->
+        <rect x="20" y="18" width="16" height="8" fill="#f00"/>
+        <rect x="36" y="18" width="16" height="8" fill="#ff0"/>
+        <rect x="20" y="26" width="16" height="8" fill="#0f0"/>
+        <rect x="36" y="26" width="16" height="8" fill="#00f"/>
+        <!-- XP字样 -->
+        <text x="60" y="38" font-family="'Press Start 2P',monospace" font-size="18" fill="#fff">XP</text>
+      </svg>
+      <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#fff;text-align:center;margin-top:12px;letter-spacing:2px;">Windows XP</div>
+    </div>
+    <!-- XP风格进度条 -->
+    <div style="width:320px;height:18px;background:#222;border:3px solid #fff;box-shadow:2px 2px 0 #000;display:flex;align-items:center;">
+      <div id="boot-progress" style="height:100%;background:linear-gradient(90deg,#3a6ea5 0%,#6ec6ff 100%);width:0;"></div>
+    </div>
+  </div>
+  <!-- 右下角弹窗（XP风格） -->
+  <div id="boot-popup" style="display:none;position:fixed;right:32px;bottom:64px;z-index:2000;width:340px;min-height:120px;background:#e3f0fd;border:4px solid #003399;box-shadow:4px 4px 0 #000;border-radius:8px;padding:18px 18px 12px 18px;display:flex;align-items:center;gap:16px;">
+    <img id="boot-popup-img" src="xp-logo.png" alt="boot" style="width:64px;height:64px;image-rendering:pixelated;border:2px solid #888;background:#fff;box-shadow:2px 2px 0 #000;border-radius:8px;" />
+    <div style="flex:1;">
+      <div style="font-family:'Press Start 2P',monospace;font-size:15px;color:#003399;margin-bottom:8px;">本次开机用时：</div>
+      <div id="boot-popup-time" style="font-family:'Press Start 2P',monospace;font-size:22px;color:#008080;font-weight:bold;"></div>
     </div>
   </div>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -395,5 +428,47 @@
       }
     });
   </script>
+  <script>
+  // XP风格开机动画逻辑
+  (function(){
+    const bootScreen = document.getElementById('boot-screen');
+    const bootProgress = document.getElementById('boot-progress');
+    const bootPopup = document.getElementById('boot-popup');
+    const bootPopupTime = document.getElementById('boot-popup-time');
+    const bootAudio = document.getElementById('xp-boot-audio');
+    let start = Date.now();
+    let duration = 2500 + Math.random()*1200; // 2.5~3.7秒
+    let progress = 0;
+    // 播放XP开机音乐
+    if(bootAudio){
+      // 兼容自动播放策略，尝试play
+      bootAudio.currentTime = 0;
+      bootAudio.volume = 0.7;
+      bootAudio.play().catch(()=>{});
+    }
+    function animate(){
+      let now = Date.now();
+      let elapsed = now - start;
+      progress = Math.min(elapsed/duration,1);
+      bootProgress.style.width = Math.floor(progress*320) + 'px';
+      if(progress<1){
+        requestAnimationFrame(animate);
+      }else{
+        setTimeout(()=>{
+          bootScreen.style.display = 'none';
+          // 弹窗显示用时
+          let used = ((Date.now()-start)/1000).toFixed(2);
+          bootPopupTime.textContent = used + ' 秒';
+          bootPopup.style.display = 'flex';
+          // 3秒后自动隐藏弹窗
+          setTimeout(()=>{bootPopup.style.display='none';},3000);
+        },400);
+      }
+    }
+    animate();
+  })();
+  </script>
+  <!-- XP开机音乐audio标签，自动播放由js控制 -->
+  <audio id="xp-boot-audio" src="xp-boot.mp3" preload="auto"></audio>
 </body>
 </html>
