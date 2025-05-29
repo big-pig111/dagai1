@@ -635,6 +635,13 @@
       document.body.style.userSelect = '';
     });
   })(myComputerModal);
+  // 恢复保存设置按钮弹窗逻辑
+  saveMyComputerSettings.addEventListener('click', () => {
+    permissionDeniedModal.style.display = 'block';
+  });
+  closePermissionDeniedModal.addEventListener('click', () => {
+    permissionDeniedModal.style.display = 'none';
+  });
   </script>
 </body>
 </html>
