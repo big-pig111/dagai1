@@ -191,9 +191,21 @@
     }
     /* 像素字体 */
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-    /* 像素风格鼠标光标 */
+    /* 恢复默认系统光标 */
     html, body, * {
-      cursor: url('y.png'), url('y.cur'), crosshair !important;
+      cursor: auto !important;
+    }
+    /* 保证开机动画始终居中 */
+    #boot-screen {
+      position:fixed;
+      z-index:9999;
+      left:0; top:0; width:100vw; height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      background:#003399;
+      pointer-events:auto;
     }
   </style>
 </head>
@@ -273,6 +285,10 @@
       <p style="text-align:right; color:#888;">With gratitude,<br>dev</p>
     </div>
   </div>
+  <!-- 开机按钮遮罩层 -->
+  <div id="power-on-screen" style="position:fixed;z-index:10000;left:0;top:0;width:100vw;height:100vh;background:#111;display:flex;align-items:center;justify-content:center;">
+    <button id="power-on-btn" style="font-family:'Press Start 2P',monospace;font-size:28px;padding:32px 64px;background:#003399;color:#fff;border:4px solid #fff;box-shadow:4px 4px 0 #000;cursor:pointer;border-radius:16px;">Power On</button>
+  </div>
   <!-- 开机动画遮罩层（XP风格） -->
   <div id="boot-screen" style="position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:#003399;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div style="margin-bottom:32px;display:flex;flex-direction:column;align-items:center;">
@@ -289,10 +305,22 @@
       </svg>
       <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#fff;text-align:center;margin-top:12px;letter-spacing:2px;">Windows XP</div>
     </div>
-    <!-- XP风格进度条 -->
-    <div style="width:320px;height:18px;background:#222;border:3px solid #fff;box-shadow:2px 2px 0 #000;display:flex;align-items:center;">
-      <div id="boot-progress" style="height:100%;background:linear-gradient(90deg,#3a6ea5 0%,#6ec6ff 100%);width:0;"></div>
+    <!-- XP风格进度条上方加像素小狗 -->
+    <div style="position:relative;width:320px;height:48px;margin-bottom:8px;">
+      <img id="boot-dog" src="pixel-dog.png" alt="dog" style="position:absolute;left:0;top:0;width:32px;height:32px;image-rendering:pixelated;" />
+      <!-- XP风格进度条 -->
+      <div style="position:absolute;left:0;bottom:0;width:320px;height:18px;background:#222;border:3px solid #fff;box-shadow:2px 2px 0 #000;display:flex;align-items:center;">
+        <div id="boot-progress" style="height:100%;background:linear-gradient(90deg,#3a6ea5 0%,#6ec6ff 100%);width:0;"></div>
+      </div>
     </div>
+  </div>
+  <!-- 左下角小狗，开机动画期间显示 -->
+  <div id="boot-dog-track" style="position:fixed;left:0;bottom:0;width:200px;height:150px;z-index:10001;pointer-events:none;display:none;">
+    <img id="boot-dog" src="pixel-dog.png" alt="dog" style="position:absolute;left:0;bottom:0;width:200px;height:150px;image-rendering:pixelated;" />
+  </div>
+  <!-- 右下角小狗，开机动画期间显示 -->
+  <div id="boot-dog2-track" style="position:fixed;right:0;bottom:0;width:200px;height:150px;z-index:10001;pointer-events:none;display:none;">
+    <img id="boot-dog2" src="pixel-dog2.png" alt="dog2" style="position:absolute;right:0;bottom:0;width:200px;height:150px;image-rendering:pixelated;" />
   </div>
   <!-- 右下角弹窗（XP风格） -->
   <div id="boot-popup" style="display:none;position:fixed;right:32px;bottom:64px;z-index:2000;width:340px;min-height:120px;background:#e3f0fd;border:4px solid #003399;box-shadow:4px 4px 0 #000;border-radius:8px;padding:18px 18px 12px 18px;display:flex;align-items:center;gap:16px;">
@@ -429,33 +457,55 @@
     });
   </script>
   <script>
-  // XP风格开机动画逻辑
+  // 新增：开机按钮逻辑
   (function(){
+    const powerScreen = document.getElementById('power-on-screen');
+    const powerBtn = document.getElementById('power-on-btn');
+    const bootScreen = document.getElementById('boot-screen');
+    // 初始隐藏开机动画和桌面内容
+    bootScreen.style.display = 'none';
+    // 点击开机按钮
+    powerBtn.addEventListener('click', function(){
+      powerScreen.style.display = 'none';
+      bootScreen.style.display = '';
+      // 启动开机动画
+      if(window.startXPBoot) window.startXPBoot();
+    });
+  })();
+  // XP风格开机动画逻辑，封装为函数
+  window.startXPBoot = function(){
     const bootScreen = document.getElementById('boot-screen');
     const bootProgress = document.getElementById('boot-progress');
     const bootPopup = document.getElementById('boot-popup');
     const bootPopupTime = document.getElementById('boot-popup-time');
     const bootAudio = document.getElementById('xp-boot-audio');
-    let start = Date.now();
-    let duration = 2500 + Math.random()*1200; // 2.5~3.7秒
-    let progress = 0;
+    const bootDog = document.getElementById('boot-dog');
+    const dogTrack = document.getElementById('boot-dog-track');
+    const bootDog2 = document.getElementById('boot-dog2');
+    const dog2Track = document.getElementById('boot-dog2-track');
+    // 显示小狗
+    dogTrack.style.display = 'block';
+    dog2Track.style.display = 'block';
     // 播放XP开机音乐
     if(bootAudio){
-      // 兼容自动播放策略，尝试play
       bootAudio.currentTime = 0;
       bootAudio.volume = 0.7;
       bootAudio.play().catch(()=>{});
     }
+    let start = Date.now();
+    let duration = 2500 + Math.random()*1200; // 2.5~3.7秒
     function animate(){
       let now = Date.now();
       let elapsed = now - start;
-      progress = Math.min(elapsed/duration,1);
+      let progress = Math.min(elapsed/duration,1);
       bootProgress.style.width = Math.floor(progress*320) + 'px';
       if(progress<1){
         requestAnimationFrame(animate);
       }else{
         setTimeout(()=>{
           bootScreen.style.display = 'none';
+          dogTrack.style.display = 'none';
+          dog2Track.style.display = 'none';
           // 弹窗显示用时
           let used = ((Date.now()-start)/1000).toFixed(2);
           bootPopupTime.textContent = used + ' 秒';
@@ -466,7 +516,8 @@
       }
     }
     animate();
-  })();
+  }
+  // 页面加载时不自动执行开机动画
   </script>
   <!-- XP开机音乐audio标签，自动播放由js控制 -->
   <audio id="xp-boot-audio" src="xp-boot.mp3" preload="auto"></audio>
