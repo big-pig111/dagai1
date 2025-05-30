@@ -573,12 +573,12 @@
   const permissionDeniedModal = document.getElementById('permission-denied-modal');
   const closePermissionDeniedModal = document.getElementById('close-permission-denied-modal');
 
-  // 壁纸切换逻辑
+
   const wallpaperThumbs = document.querySelectorAll('.wallpaper-thumb');
   const body = document.body;
   let defaultWallpaper = "1.jpg";
   let lastWallpaper = defaultWallpaper;
-  // 记录初始壁纸
+
   if (body.style.backgroundImage) {
     const match = body.style.backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
     if (match) defaultWallpaper = match[1];
@@ -592,7 +592,7 @@
       lastWallpaper = img;
     });
   });
-  // 打开弹窗时同步当前壁纸高亮
+
   myComputerIcon.addEventListener('click', () => {
     myComputerModal.style.display = 'block';
     wallpaperThumbs.forEach(thumb => {
@@ -635,7 +635,7 @@
       document.body.style.userSelect = '';
     });
   })(myComputerModal);
-  // 恢复保存设置按钮弹窗逻辑
+
   saveMyComputerSettings.addEventListener('click', () => {
     permissionDeniedModal.style.display = 'block';
   });
