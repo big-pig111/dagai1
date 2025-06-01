@@ -220,11 +220,11 @@
       <img src="q.png" alt="My computer" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">My computer</div>
     </div>
-<div class="desktop-icon" id="Bonk X">
+<div class="desktop-icon" id="bonk-x-icon">
       <img src="e.png" alt="X" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Bonk X</div>
+      <div class="icon-label">Bonk Xr</div>
     </div>
-    <div class="desktop-icon">
+    <div class="desktop-icon" id="control-panel-icon">
       <img src="w.png" alt="control panel" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">control panel</div>
     </div>
@@ -256,6 +256,88 @@
       <button id="close-letsbonk-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
     </div>
     <iframe id="letsbonk-iframe" src="https://letsbonk.fun/" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+  </div>
+
+  <!-- Bonk X Window -->
+  <div id="bonkx-window" style="display:none; position:fixed; left:120px; top:120px; width:1450px; height:900px; z-index:202; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
+    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
+      <span style="font-size:16px; letter-spacing:1px;">Bonk X - @bonk_fun</span>
+      <button id="close-bonkx-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+    </div>
+    <iframe id="bonkx-iframe" src="https://x.com/bonk_fun" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+  </div>
+
+  <!-- Control Panel Window -->
+  <div id="control-panel-window" style="display:none; position:fixed; left:160px; top:160px; width:800px; height:600px; z-index:203; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#e3e3e3; border-radius:0;">
+    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
+      <span style="font-size:16px; letter-spacing:1px;">Control Panel</span>
+      <button id="close-control-panel-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+    </div>
+    <div style="padding:24px; color:#222; font-size:13px; line-height:1.7; background:#e3e3e3; max-height:calc(100% - 38px); overflow:auto; font-family:'Press Start 2P',monospace;">
+      <!-- System Information Section -->
+      <div style="background:#fff; border:2px solid #888; box-shadow:2px 2px 0 #000; margin-bottom:20px; padding:16px;">
+        <div style="font-size:15px; color:#003399; font-weight:bold; margin-bottom:12px; border-bottom:2px solid #ddd; padding-bottom:8px;">System Properties</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">Computer:</div>
+            <div style="color:#444; margin-bottom:8px;">Pixel Desktop XP</div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">Processor:</div>
+            <div style="color:#444; margin-bottom:8px;">Intel Pentium 4 3.0GHz</div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">Memory (RAM):</div>
+            <div style="color:#444;">1024 MB</div>
+          </div>
+          <div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">System:</div>
+            <div style="color:#444; margin-bottom:8px;">Windows XP Professional</div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">Graphics:</div>
+            <div style="color:#444; margin-bottom:8px;">NVIDIA GeForce FX 5200</div>
+            <div style="color:#008080; font-weight:bold; margin-bottom:4px;">Sound:</div>
+            <div style="color:#444;">AC'97 Audio</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance Section -->
+      <div style="background:#fff; border:2px solid #888; box-shadow:2px 2px 0 #000; margin-bottom:20px; padding:16px;">
+        <div style="font-size:15px; color:#003399; font-weight:bold; margin-bottom:12px; border-bottom:2px solid #ddd; padding-bottom:8px;">Performance Monitor</div>
+        
+        <div style="margin-bottom:16px;">
+          <div style="color:#008080; font-weight:bold; margin-bottom:6px;">CPU Usage:</div>
+          <div style="background:#222; border:2px solid #888; height:20px; position:relative; box-shadow:inset 2px 2px 0 #000;">
+            <div id="cpu-bar" style="height:100%; background:linear-gradient(90deg,#3a6ea5 0%,#6ec6ff 100%); width:0; transition:width 0.5s;"></div>
+            <div id="cpu-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff; font-size:11px; text-shadow:1px 1px 0 #000;">0%</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="color:#008080; font-weight:bold; margin-bottom:6px;">Memory Usage:</div>
+          <div style="background:#222; border:2px solid #888; height:20px; position:relative; box-shadow:inset 2px 2px 0 #000;">
+            <div id="memory-bar" style="height:100%; background:linear-gradient(90deg,#3a8a3a 0%,#6ecf6e 100%); width:0; transition:width 0.5s;"></div>
+            <div id="memory-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff; font-size:11px; text-shadow:1px 1px 0 #000;">0%</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="color:#008080; font-weight:bold; margin-bottom:6px;">GPU Usage:</div>
+          <div style="background:#222; border:2px solid #888; height:20px; position:relative; box-shadow:inset 2px 2px 0 #000;">
+            <div id="gpu-bar" style="height:100%; background:linear-gradient(90deg,#8a3a8a 0%,#cf6ecf 100%); width:0; transition:width 0.5s;"></div>
+            <div id="gpu-text" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff; font-size:11px; text-shadow:1px 1px 0 #000;">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Applications Section -->
+      <div style="background:#fff; border:2px solid #888; box-shadow:2px 2px 0 #000; padding:16px;">
+        <div style="font-size:15px; color:#003399; font-weight:bold; margin-bottom:12px; border-bottom:2px solid #ddd; padding-bottom:8px;">Running Applications</div>
+        <div id="running-apps" style="color:#444; font-size:12px; line-height:1.6;">
+          <div style="margin-bottom:4px;">• Windows Explorer</div>
+          <div style="margin-bottom:4px;">• Pixel Desktop XP</div>
+          <div id="app-bonkhouse" style="margin-bottom:4px; display:none;">• BonkHouse Chat</div>
+          <div id="app-letsbonk" style="margin-bottom:4px; display:none;">• letsBONK.fun</div>
+          <div id="app-bonkx" style="margin-bottom:4px; display:none;">• Bonk X Twitter</div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- Recycle Bin Donation Modal (initially hidden) -->
   <div id="recyclebin-modal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:600px; max-width:90vw; z-index:300; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
@@ -344,9 +426,13 @@
   const closeBtn = document.getElementById('close-bonk-chat-window');
   chatIcon.addEventListener('click', () => {
     chatWindow.style.display = 'block';
+    const appBonkhouse = document.getElementById('app-bonkhouse');
+    if (appBonkhouse) appBonkhouse.style.display = 'block';
   });
   closeBtn.addEventListener('click', () => {
     chatWindow.style.display = 'none';
+    const appBonkhouse = document.getElementById('app-bonkhouse');
+    if (appBonkhouse) appBonkhouse.style.display = 'none';
   });
 
   (function makeDraggable(win) {
@@ -374,9 +460,13 @@
   const closeLetsBonkWindow = document.getElementById('close-letsbonk-window');
   letsBonkIcon.addEventListener('click', () => {
     letsBonkWindow.style.display = 'block';
+    const appLetsbonk = document.getElementById('app-letsbonk');
+    if (appLetsbonk) appLetsbonk.style.display = 'block';
   });
   closeLetsBonkWindow.addEventListener('click', () => {
     letsBonkWindow.style.display = 'none';
+    const appLetsbonk = document.getElementById('app-letsbonk');
+    if (appLetsbonk) appLetsbonk.style.display = 'none';
   });
   (function makeDraggable(win) {
     let isDown = false, offsetX = 0, offsetY = 0;
@@ -427,6 +517,100 @@
       document.body.style.userSelect = '';
     });
   })(recycleBinModal);
+
+  // Bonk X window logic
+  const bonkXIcon = document.getElementById('bonk-x-icon');
+  const bonkXWindow = document.getElementById('bonkx-window');
+  const closeBonkXWindow = document.getElementById('close-bonkx-window');
+  bonkXIcon.addEventListener('click', () => {
+    bonkXWindow.style.display = 'block';
+    document.getElementById('app-bonkx').style.display = 'block';
+  });
+  closeBonkXWindow.addEventListener('click', () => {
+    bonkXWindow.style.display = 'none';
+    document.getElementById('app-bonkx').style.display = 'none';
+  });
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(bonkXWindow);
+
+  // Control Panel window logic
+  const controlPanelIcon = document.getElementById('control-panel-icon');
+  const controlPanelWindow = document.getElementById('control-panel-window');
+  const closeControlPanelWindow = document.getElementById('close-control-panel-window');
+  controlPanelIcon.addEventListener('click', () => {
+    controlPanelWindow.style.display = 'block';
+    startPerformanceMonitoring();
+  });
+  closeControlPanelWindow.addEventListener('click', () => {
+    controlPanelWindow.style.display = 'none';
+    stopPerformanceMonitoring();
+  });
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(controlPanelWindow);
+
+  // Performance monitoring system
+  let performanceInterval;
+  function startPerformanceMonitoring() {
+    if (performanceInterval) clearInterval(performanceInterval);
+    
+    performanceInterval = setInterval(() => {
+      // Simulate CPU usage (10-90%)
+      const cpuUsage = Math.floor(Math.random() * 80) + 10;
+      document.getElementById('cpu-bar').style.width = cpuUsage + '%';
+      document.getElementById('cpu-text').textContent = cpuUsage + '%';
+      
+      // Simulate Memory usage (20-85%)
+      const memoryUsage = Math.floor(Math.random() * 65) + 20;
+      document.getElementById('memory-bar').style.width = memoryUsage + '%';
+      document.getElementById('memory-text').textContent = memoryUsage + '%';
+      
+      // Simulate GPU usage (5-70%)
+      const gpuUsage = Math.floor(Math.random() * 65) + 5;
+      document.getElementById('gpu-bar').style.width = gpuUsage + '%';
+      document.getElementById('gpu-text').textContent = gpuUsage + '%';
+    }, 1500);
+  }
+  
+  function stopPerformanceMonitoring() {
+    if (performanceInterval) {
+      clearInterval(performanceInterval);
+      performanceInterval = null;
+    }
+  }
   </script>
   <div class="taskbar">
     <button class="start-btn" id="startBtn">Begin</button>
