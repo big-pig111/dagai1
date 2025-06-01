@@ -206,6 +206,24 @@
       background:#003399;
       pointer-events:auto;
     }
+
+    .taskbar-minimized-item {
+      background: #555 !important;
+      color: #fff !important;
+      border: 2px solid #777 !important;
+      padding: 4px 8px !important;
+      margin: 0 4px !important;
+      cursor: pointer !important;
+      font-size: 12px !important;
+      font-family: inherit !important;
+      box-shadow: 2px 2px 0 #000 !important;
+      border-radius: 0 !important;
+      transition: background 0.2s !important;
+    }
+
+    .taskbar-minimized-item:hover {
+      background: #666 !important;
+    }
   </style>
 </head>
 <body>
@@ -245,7 +263,11 @@
   <div id="bonk-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">Bonk chat room</span>
-      <button id="close-bonk-chat-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="bonk-chat-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="bonk-chat-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-bonk-chat-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <iframe id="bonk-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
@@ -253,25 +275,24 @@
   <div id="letsbonk-window" style="display:none; position:fixed; left:80px; top:80px; width:1450px; height:900px; z-index:201; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">letsBONK.fun</span>
-      <button id="close-letsbonk-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="letsbonk-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="letsbonk-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-letsbonk-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <iframe id="letsbonk-iframe" src="https://letsbonk.fun/" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
-  </div>
-
-  <!-- Bonk X Window -->
-  <div id="bonkx-window" style="display:none; position:fixed; left:120px; top:120px; width:1450px; height:900px; z-index:202; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
-    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
-      <span style="font-size:16px; letter-spacing:1px;">Bonk X - @bonk_fun</span>
-      <button id="close-bonkx-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
-    </div>
-    <iframe id="bonkx-iframe" src="https://x.com/bonk_fun/status/1915831339221164537" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
 
   <!-- Control Panel Window -->
   <div id="control-panel-window" style="display:none; position:fixed; left:160px; top:160px; width:800px; height:600px; z-index:203; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#e3e3e3; border-radius:0;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">Control Panel</span>
-      <button id="close-control-panel-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="control-panel-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="control-panel-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-control-panel-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <div style="padding:24px; color:#222; font-size:13px; line-height:1.7; background:#e3e3e3; max-height:calc(100% - 38px); overflow:auto; font-family:'Press Start 2P',monospace;">
       <!-- System Information Section -->
@@ -334,7 +355,6 @@
           <div style="margin-bottom:4px;">• Pixel Desktop XP</div>
           <div id="app-bonkhouse" style="margin-bottom:4px; display:none;">• BonkHouse Chat</div>
           <div id="app-letsbonk" style="margin-bottom:4px; display:none;">• letsBONK.fun</div>
-          <div id="app-bonkx" style="margin-bottom:4px; display:none;">• Bonk X Twitter</div>
         </div>
       </div>
     </div>
@@ -343,7 +363,11 @@
   <div id="recyclebin-modal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:600px; max-width:90vw; z-index:300; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">Recycle Bin - Support Us</span>
-      <button id="close-recyclebin-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="recyclebin-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="recyclebin-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-recyclebin-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <div style="padding:24px 32px; color:#222; font-size:13px; line-height:1.7; background:#fff; max-height:70vh; overflow:auto;">
       <p style="font-weight:bold; color:#b8860b;">Dear Users and Supporters,</p>
@@ -518,38 +542,6 @@
     });
   })(recycleBinModal);
 
-  // Bonk X window logic
-  const bonkXIcon = document.getElementById('bonk-x-icon');
-  const bonkXWindow = document.getElementById('bonkx-window');
-  const closeBonkXWindow = document.getElementById('close-bonkx-window');
-  bonkXIcon.addEventListener('click', () => {
-    bonkXWindow.style.display = 'block';
-    document.getElementById('app-bonkx').style.display = 'block';
-  });
-  closeBonkXWindow.addEventListener('click', () => {
-    bonkXWindow.style.display = 'none';
-    document.getElementById('app-bonkx').style.display = 'none';
-  });
-  (function makeDraggable(win) {
-    let isDown = false, offsetX = 0, offsetY = 0;
-    const bar = win.firstElementChild;
-    bar.addEventListener('mousedown', function(e) {
-      isDown = true;
-      offsetX = e.clientX - win.offsetLeft;
-      offsetY = e.clientY - win.offsetTop;
-      document.body.style.userSelect = 'none';
-    });
-    document.addEventListener('mousemove', function(e) {
-      if (!isDown) return;
-      win.style.left = (e.clientX - offsetX) + 'px';
-      win.style.top = (e.clientY - offsetY) + 'px';
-    });
-    document.addEventListener('mouseup', function() {
-      isDown = false;
-      document.body.style.userSelect = '';
-    });
-  })(bonkXWindow);
-
   // Control Panel window logic
   const controlPanelIcon = document.getElementById('control-panel-icon');
   const controlPanelWindow = document.getElementById('control-panel-window');
@@ -610,6 +602,98 @@
       clearInterval(performanceInterval);
       performanceInterval = null;
     }
+  }
+
+  // Bonk X icon - direct link opening
+  const bonkXIcon = document.getElementById('bonk-x-icon');
+  bonkXIcon.addEventListener('click', () => {
+    window.open('https://x.com/bonk_fun', '_blank');
+  });
+
+  // Window control functions
+  const minimizedWindows = new Set();
+  
+  // Minimize functionality
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('minimize-btn')) {
+      const windowId = e.target.getAttribute('data-window');
+      const windowElement = document.getElementById(windowId);
+      if (windowElement) {
+        windowElement.style.display = 'none';
+        minimizedWindows.add(windowId);
+        // Add to taskbar (simplified implementation)
+        addToTaskbar(windowId);
+      }
+    }
+  });
+
+  // Fullscreen functionality
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('fullscreen-btn')) {
+      const windowId = e.target.getAttribute('data-window');
+      const windowElement = document.getElementById(windowId);
+      if (windowElement) {
+        const isFullscreen = windowElement.getAttribute('data-fullscreen') === 'true';
+        
+        if (isFullscreen) {
+          // Restore from fullscreen
+          windowElement.style.width = windowElement.getAttribute('data-original-width') || '800px';
+          windowElement.style.height = windowElement.getAttribute('data-original-height') || '600px';
+          windowElement.style.left = windowElement.getAttribute('data-original-left') || '120px';
+          windowElement.style.top = windowElement.getAttribute('data-original-top') || '120px';
+          windowElement.style.transform = windowElement.getAttribute('data-original-transform') || 'none';
+          windowElement.setAttribute('data-fullscreen', 'false');
+          e.target.textContent = '□';
+        } else {
+          // Go fullscreen
+          windowElement.setAttribute('data-original-width', windowElement.style.width);
+          windowElement.setAttribute('data-original-height', windowElement.style.height);
+          windowElement.setAttribute('data-original-left', windowElement.style.left);
+          windowElement.setAttribute('data-original-top', windowElement.style.top);
+          windowElement.setAttribute('data-original-transform', windowElement.style.transform);
+          
+          windowElement.style.width = '100vw';
+          windowElement.style.height = '100vh';
+          windowElement.style.left = '0';
+          windowElement.style.top = '0';
+          windowElement.style.transform = 'none';
+          windowElement.setAttribute('data-fullscreen', 'true');
+          e.target.textContent = '◱';
+        }
+      }
+    }
+  });
+
+  // Simple taskbar implementation for minimized windows
+  function addToTaskbar(windowId) {
+    // Check if already exists
+    if (document.getElementById('taskbar-' + windowId)) return;
+    
+    const taskbar = document.querySelector('.taskbar');
+    const taskbarIcon = document.createElement('div');
+    taskbarIcon.id = 'taskbar-' + windowId;
+    taskbarIcon.className = 'taskbar-minimized-item';
+    taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
+    
+    let windowTitle = 'Window';
+    if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
+    else if (windowId === 'letsbonk-window') windowTitle = 'letsBONK';
+    else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
+    else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
+    else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
+    else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
+    
+    taskbarIcon.textContent = windowTitle;
+    taskbarIcon.addEventListener('click', () => {
+      const windowElement = document.getElementById(windowId);
+      if (windowElement) {
+        windowElement.style.display = 'block';
+        minimizedWindows.delete(windowId);
+        taskbarIcon.remove();
+      }
+    });
+    
+    taskbar.appendChild(taskbarIcon);
   }
   </script>
   <div class="taskbar">
@@ -707,7 +791,11 @@
   <div id="my-computer-modal" style="display:none; position:fixed; left:120px; top:120px; width:600px; height:420px; z-index:350; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#e3e3e3; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
       <span style="font-size:16px; letter-spacing:1px;">Pixel Computer Settings</span>
-      <button id="close-my-computer-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="my-computer-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="my-computer-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-my-computer-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <div style="padding:24px 32px; color:#222; font-size:13px; line-height:1.7; background:#e3e3e3; max-height:calc(100% - 38px); overflow:auto;">
       <div style="margin-bottom:18px;">
@@ -741,7 +829,11 @@
   <div id="permission-denied-modal" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); width:380px; z-index:400; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#b22222; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px;">
       <span style="font-size:16px; letter-spacing:1px;">Permission Denied</span>
-      <button id="close-permission-denied-modal" style="background:#fff; color:#b22222; border:2px solid #b22222; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="permission-denied-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="permission-denied-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-permission-denied-modal" style="background:#fff; color:#b22222; border:2px solid #b22222; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
     </div>
     <div style="padding:32px 24px; color:#b22222; font-size:15px; text-align:center;">
       <div style="font-size:18px; font-weight:bold; margin-bottom:12px;">This is not your computer!</div>
