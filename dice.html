@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dice Duel</title>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body { background: #fff; color: #222; font-family: 'Press Start 2P', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+    h2 { margin-top: 24px; }
+    #dice-area { display: flex; gap: 32px; margin: 24px 0 8px 0; }
+    .dice-block { display: flex; flex-direction: column; align-items: center; }
+    .dice-face { font-size: 64px; }
+    .dice-label { font-size: 15px; color: #008080; margin-top: 4px; }
+    #result { font-size: 20px; color: #008080; margin-bottom: 12px; }
+    .btn { margin: 8px 4px 0 4px; padding: 8px 24px; font-family: inherit; font-size: 15px; background: #008080; color: #fff; border: 2px solid #fff; border-radius: 6px; cursor: pointer; box-shadow: 2px 2px 0 #000; }
+    .btn:hover { background: #00b3b3; }
+  </style>
+</head>
+<body>
+  <h2>Dice Duel</h2>
+  <div id="dice-area">
+    <div class="dice-block">
+      <div class="dice-face" id="user-dice">🎲</div>
+      <div class="dice-label">You</div>
+    </div>
+    <div class="dice-block">
+      <div class="dice-face" id="cpu-dice">🎲</div>
+      <div class="dice-label">Computer</div>
+    </div>
+  </div>
+  <div id="result">Click Roll to play against the computer!</div>
+  <div>
+    <button class="btn" id="roll-btn">Roll</button>
+    <button class="btn" id="restart-btn">Restart</button>
+  </div>
+  <script>
+    const diceFaces = ['','⚀','⚁','⚂','⚃','⚄','⚅'];
+    const userDice = document.getElementById('user-dice');
+    const cpuDice = document.getElementById('cpu-dice');
+    const resultDiv = document.getElementById('result');
+    function sendHeight() {
+      if (window.parent !== window) {
+        setTimeout(function() {
+          window.parent.postMessage({
+            type: 'resize-iframe-auto',
+            id: 'dice-game-modal',
+            height: document.body.scrollHeight
+          }, '*');
+        }, 0);
+      }
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    function roll() {
+      const user = Math.floor(Math.random()*6)+1;
+      const cpu = Math.floor(Math.random()*6)+1;
+      userDice.textContent = diceFaces[user];
+      cpuDice.textContent = diceFaces[cpu];
+      if(user > cpu) resultDiv.textContent = 'You win! ('+user+' vs '+cpu+')';
+      else if(user < cpu) resultDiv.textContent = 'You lose! ('+user+' vs '+cpu+')';
+      else resultDiv.textContent = 'Draw! ('+user+' vs '+cpu+')';
+      sendHeight();
+    }
+    document.getElementById('roll-btn').onclick = roll;
+    document.getElementById('restart-btn').onclick = function(){
+      userDice.textContent = '🎲';
+      cpuDice.textContent = '🎲';
+      resultDiv.textContent = 'Click Roll to play against the computer!';
+      sendHeight();
+    };
+  </script>
+</body>
+</html> 
