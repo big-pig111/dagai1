@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tetris</title>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body { background: #fff; color: #222; font-family: 'Press Start 2P', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+    h2 { margin-top: 18px; }
+    #tetris-canvas { background: #222; border: 2px solid #888; display: block; margin: 18px auto 0 auto; }
+    .tip { color: #008080; font-size: 13px; margin-top: 8px; }
+    .btn { margin-top: 16px; padding: 8px 24px; font-family: inherit; font-size: 15px; background: #008080; color: #fff; border: 2px solid #fff; border-radius: 6px; cursor: pointer; box-shadow: 2px 2px 0 #000; }
+    .btn:hover { background: #00b3b3; }
+    #score { margin-top: 8px; font-size: 15px; color: #008080; }
+  </style>
+</head>
+<body>
+  <h2>Tetris</h2>
+  <button class="btn" id="start-btn">Start Game</button>
+  <div id="game-area" style="display:none;flex-direction:column;align-items:center;">
+    <canvas id="tetris-canvas" width="200" height="400"></canvas>
+    <div id="score">Score: 0</div>
+    <div class="tip">Arrow keys: move/rotate | Down: drop faster</div>
+    <button class="btn" id="restart-btn">Restart</button>
+  </div>
+  <script>
+    const COLS = 10, ROWS = 20, BLOCK = 20;
+    const COLORS = ['#000', '#f00', '#0f0', '#00f', '#ff0', '#0ff', '#f0f', '#fa0'];
+    const SHAPES = [
+      [],
+      [[1,1,1,1]], // I
+      [[2,2],[2,2]], // O
+      [[0,3,0],[3,3,3]], // T
+      [[4,4,0],[0,4,4]], // S
+      [[0,5,5],[5,5,0]], // Z
+      [[6,0,0],[6,6,6]], // J
+      [[0,0,7],[7,7,7]]  // L
+    ];
+    let board, current, curX, curY, curShape, curColor, score, intervalId, gameOver;
+    const canvas = document.getElementById('tetris-canvas');
+    const ctx = canvas.getContext('2d');
+    function resetBoard() {
+      board = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+    }
+    function drawBlock(x, y, color) {
+      ctx.fillStyle = COLORS[color];
+      ctx.fillRect(x*BLOCK, y*BLOCK, BLOCK-2, BLOCK-2);
+    }
+    function draw() {
+      ctx.fillStyle = '#222';
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+      for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++)
+        if(board[y][x]) drawBlock(x,y,board[y][x]);
+      // Draw current
+      for(let y=0;y<curShape.length;y++) for(let x=0;x<curShape[y].length;x++)
+        if(curShape[y][x]) drawBlock(curX+x,curY+y,curShape[y][x]);
+    }
+    function newPiece() {
+      let id = Math.floor(Math.random()*7)+1;
+      curShape = SHAPES[id];
+      curColor = id;
+      curX = 3;
+      curY = 0;
+      current = id;
+      if(!valid(curX,curY,curShape)) {
+        gameOver = true;
+        clearInterval(intervalId);
+        setTimeout(()=>alert('Game Over! Your score: '+score),100);
+      }
+    }
+    function valid(x,y,shape) {
+      for(let r=0;r<shape.length;r++) for(let c=0;c<shape[r].length;c++){
+        if(shape[r][c]){
+          let nx=x+c,ny=y+r;
+          if(nx<0||nx>=COLS||ny<0||ny>=ROWS) return false;
+          if(board[ny][nx]) return false;
+        }
+      }
+      return true;
+    }
+    function merge() {
+      for(let y=0;y<curShape.length;y++) for(let x=0;x<curShape[y].length;x++)
+        if(curShape[y][x]) board[curY+y][curX+x]=curColor;
+    }
+    function clearLines() {
+      let lines=0;
+      for(let y=ROWS-1;y>=0;y--){
+        if(board[y].every(v=>v)){
+          board.splice(y,1);
+          board.unshift(Array(COLS).fill(0));
+          lines++;
+          y++;
+        }
+      }
+      score += lines*100;
+      document.getElementById('score').textContent = 'Score: '+score;
+    }
+    function rotate(shape) {
+      return shape[0].map((_,i)=>shape.map(row=>row[i]).reverse());
+    }
+    function drop() {
+      if(gameOver) return;
+      if(valid(curX,curY+1,curShape)) curY++;
+      else {
+        merge();
+        clearLines();
+        newPiece();
+      }
+      draw();
+    }
+    function move(dx) {
+      if(gameOver) return;
+      if(valid(curX+dx,curY,curShape)) curX+=dx;
+      draw();
+    }
+    function rotateCur() {
+      if(gameOver) return;
+      let next = rotate(curShape);
+      if(valid(curX,curY,next)) curShape=next;
+      draw();
+    }
+    function hardDrop() {
+      if(gameOver) return;
+      while(valid(curX,curY+1,curShape)) curY++;
+      drop();
+    }
+    function sendHeight() {
+      if (window.parent !== window) {
+        setTimeout(function() {
+          window.parent.postMessage({
+            type: 'resize-iframe-auto',
+            id: 'tetris-game-modal',
+            height: document.body.scrollHeight
+          }, '*');
+        }, 0);
+      }
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    let started = false;
+    function startGame() {
+      resetBoard();
+      score=0;
+      document.getElementById('score').textContent = 'Score: 0';
+      gameOver=false;
+      newPiece();
+      draw();
+      if(intervalId) clearInterval(intervalId);
+      intervalId = setInterval(drop, 400);
+      sendHeight();
+    }
+    document.getElementById('start-btn').onclick = function(){
+      document.getElementById('start-btn').style.display = 'none';
+      document.getElementById('game-area').style.display = 'flex';
+      started = true;
+      startGame();
+      sendHeight();
+    };
+    document.getElementById('restart-btn').onclick = function(){
+      if(intervalId) clearInterval(intervalId);
+      startGame();
+      sendHeight();
+    };
+    document.onkeydown = function(e){
+      if(gameOver) return;
+      if(e.key==='ArrowLeft') move(-1);
+      if(e.key==='ArrowRight') move(1);
+      if(e.key==='ArrowUp') rotateCur();
+      if(e.key==='ArrowDown') drop();
+      if(e.key===' ') hardDrop();
+    };
+    sendHeight();
+  </script>
+</body>
+</html> 
