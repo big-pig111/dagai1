@@ -262,6 +262,10 @@
       <img src="bonk-game.png" alt="Bonk Game" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">Bonk Game</div>
     </div>
+    <div class="desktop-icon" id="token-monitoring-icon">
+      <img src="token.png" alt="Token Monitoring" style="width:64px;height:64px;display:block;" />
+      <div class="icon-label">Token Monitoring</div>
+    </div>
   </div>
 
   <div id="bonk-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
@@ -686,6 +690,7 @@
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
     else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
+    else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
     
     taskbarIcon.textContent = windowTitle;
     taskbarIcon.addEventListener('click', () => {
@@ -1105,5 +1110,83 @@
   });
   // ... existing code ...
   </script>
+  <!-- Token Monitoring Modal -->
+  <div id="token-monitoring-modal" style="display:none; position:fixed; left:180px; top:180px; width:900px; height:700px; z-index:380; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0; font-family:'Press Start 2P',monospace;">
+    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
+      <span style="font-size:16px; letter-spacing:1px;">Token Monitoring</span>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="token-monitoring-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="token-monitoring-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-token-monitoring-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
+    </div>
+    <iframe src="index (1).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+  </div>
+  <script>
+  // ... existing code ...
+  // Token Monitoring modal logic
+  const tokenMonitoringIcon = document.getElementById('token-monitoring-icon');
+  const tokenMonitoringModal = document.getElementById('token-monitoring-modal');
+  const closeTokenMonitoringModal = document.getElementById('close-token-monitoring-modal');
+  tokenMonitoringIcon.addEventListener('click', () => {
+    tokenMonitoringModal.style.display = 'block';
+  });
+  closeTokenMonitoringModal.addEventListener('click', () => {
+    tokenMonitoringModal.style.display = 'none';
+  });
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(tokenMonitoringModal);
+// ... existing code ...
+  // 在addToTaskbar函数中添加Token Monitoring支持
+  function addToTaskbar(windowId) {
+    // Check if already exists
+    if (document.getElementById('taskbar-' + windowId)) return;
+    
+    const taskbar = document.querySelector('.taskbar');
+    const taskbarIcon = document.createElement('div');
+    taskbarIcon.id = 'taskbar-' + windowId;
+    taskbarIcon.className = 'taskbar-minimized-item';
+    taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
+    
+    let windowTitle = 'Window';
+    if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
+    else if (windowId === 'letsbonk-window') windowTitle = 'letsBONK';
+    else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
+    else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
+    else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
+    else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
+    else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
+    
+    taskbarIcon.textContent = windowTitle;
+    taskbarIcon.addEventListener('click', () => {
+      const windowElement = document.getElementById(windowId);
+      if (windowElement) {
+        windowElement.style.display = 'block';
+        minimizedWindows.delete(windowId);
+        taskbarIcon.remove();
+      }
+    });
+    
+    taskbar.appendChild(taskbarIcon);
+  }
+// ... existing code ...
+</script>
 </body>
 </html>
