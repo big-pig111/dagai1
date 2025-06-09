@@ -266,6 +266,10 @@
       <img src="token.png" alt="Token Monitoring" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">Token Monitoring</div>
     </div>
+    <div class="desktop-icon" id="bonk-live-icon">
+      <img src="bonklive.png" alt="Bonk Live" style="width:64px;height:64px;display:block;" />
+      <div class="icon-label">Bonk Live</div>
+    </div>
   </div>
 
   <div id="bonk-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
@@ -691,6 +695,7 @@
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
     else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
+    else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
     
     taskbarIcon.textContent = windowTitle;
     taskbarIcon.addEventListener('click', () => {
@@ -1173,6 +1178,7 @@
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
     else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
+    else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
     
     taskbarIcon.textContent = windowTitle;
     taskbarIcon.addEventListener('click', () => {
@@ -1187,6 +1193,65 @@
     taskbar.appendChild(taskbarIcon);
   }
 // ... existing code ...
+</script>
+  <!-- Bonk Live Modal -->
+  <div id="bonk-live-window" style="display:none; position:fixed; left:100px; top:100px; width:1450px; height:900px; z-index:202; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
+    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
+      <span style="font-size:16px; letter-spacing:1px;">Bonk Live</span>
+      <div style="display:flex; gap:4px;">
+        <button class="minimize-btn" data-window="bonk-live-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="bonk-live-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-bonk-live-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+      </div>
+    </div>
+    <iframe id="bonk-live-iframe" src="index (3).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+  </div>
+  <script>
+// ... existing code ...
+  // Bonk Live icon/modal logic
+  const bonkLiveIcon = document.getElementById('bonk-live-icon');
+  const bonkLiveWindow = document.getElementById('bonk-live-window');
+  const closeBonkLiveWindow = document.getElementById('close-bonk-live-window');
+  bonkLiveIcon.addEventListener('click', () => {
+    bonkLiveWindow.style.display = 'block';
+  });
+  closeBonkLiveWindow.addEventListener('click', () => {
+    bonkLiveWindow.style.display = 'none';
+  });
+  (function makeDraggable(win) {
+    let isDown = false, offsetX = 0, offsetY = 0;
+    const bar = win.firstElementChild;
+    bar.addEventListener('mousedown', function(e) {
+      isDown = true;
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      win.style.left = (e.clientX - offsetX) + 'px';
+      win.style.top = (e.clientY - offsetY) + 'px';
+    });
+    document.addEventListener('mouseup', function() {
+      isDown = false;
+      document.body.style.userSelect = '';
+    });
+  })(bonkLiveWindow);
+// ... existing code ...
+  // Add Bonk Live to taskbar minimize/restore logic
+  // (add to addToTaskbar function if needed)
+// ... existing code ...
+  // Bonk Live minimize logic
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('minimize-btn') && e.target.getAttribute('data-window') === 'bonk-live-window') {
+      const windowElement = document.getElementById('bonk-live-window');
+      if (windowElement) {
+        windowElement.style.display = 'none';
+        minimizedWindows.add('bonk-live-window');
+        addToTaskbar('bonk-live-window');
+      }
+    }
+  });
 </script>
 </body>
 </html>
