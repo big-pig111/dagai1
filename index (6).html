@@ -908,7 +908,7 @@
         const now = Date.now();
         // 判断是否为Twitter登录用户
         const isTwitterUser = !!getCurrentTwitterUsername();
-        const limit = isTwitterUser ? 10000 : 60000; // Twitter用户10秒，匿名用户60秒
+        const limit = isTwitterUser ? 10000 : 10000; // Twitter用户10秒，匿名用户60秒
         if (now - lastSendTime < limit) {
           alert(isTwitterUser ? 'You can only send one message every 10 seconds.' : 'Anonymous users can only send one message every 60 seconds.');
           return;
