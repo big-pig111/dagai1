@@ -267,6 +267,78 @@
     .taskbar-minimized-item:hover {
       background: #666 !important;
     }
+
+    /* ===== Modern (Minimal) App Window Style Overrides ===== */
+    [id$='-window'],
+    [id$='-modal'] {
+      /* Base frame */
+      border: 1.5px solid #ccc !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+      border-radius: 8px !important;
+      background: #fff !important;
+    }
+
+    /* Title bar */
+    [id$='-window'] > div:first-child,
+    [id$='-modal'] > div:first-child {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      border-bottom: 1px solid #e0e0e0 !important;
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif !important;
+      height: 40px !important;
+      box-shadow: none !important;
+    }
+
+    /* Title text inside title bar */
+    [id$='-window'] > div:first-child span,
+    [id$='-modal'] > div:first-child span {
+      font-size: 15px !important;
+      letter-spacing: 0 !important;
+    }
+
+    /* Window buttons */
+    .minimize-btn,
+    .fullscreen-btn,
+    [id^='close-'] {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      width: 26px !important;
+      height: 26px !important;
+      font-size: 18px !important;
+      color: #666 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 4px !important;
+      transition: background 0.15s;
+    }
+
+    .minimize-btn:hover,
+    .fullscreen-btn:hover,
+    [id^='close-']:hover {
+      background: #e8e8e8 !important;
+    }
+
+    /* Close button specific */
+    [id^='close-'] {
+      color: #c32020 !important;
+    }
+    [id^='close-']:hover {
+      background: #f8d7da !important;
+    }
+
+    /* Generic content font override inside app windows */
+    [id$='-window'] *,
+    [id$='-modal'] * {
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif !important;
+      color: #333 !important;
+    }
+    /* Keep important headings slightly bolder */
+    [id$='-window'] h1, [id$='-window'] h2, [id$='-modal'] h1, [id$='-modal'] h2 {
+      font-weight: 600 !important;
+      color: #222 !important;
+    }
   </style>
 </head>
 <body>
