@@ -173,25 +173,64 @@
     }
     
     .menu-bar {
-      background: #222;
-      color: #fff;
+      background: linear-gradient(to bottom, #e2eafc 0%, #b6c6e3 100%);
+      color: #222;
       display: flex;
-      padding: 0 16px;
-      height: 32px;
       align-items: center;
-      border-bottom: 2px solid #444;
+      height: 32px;
+      border-bottom: 1.5px solid #7a8ca7;
       font-size: 14px;
-      gap: 24px;
-      box-shadow: 0 2px 0 #000;
+      box-shadow: 0 2px 0 #b0b0b0;
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+      user-select: none;
+      padding: 0;
+    }
+    .menu-start-btn {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(to bottom, #f6f7fa 0%, #c3d0e6 100%);
+      border: 1.5px solid #7a8ca7;
+      border-radius: 4px 4px 4px 4px;
+      margin: 0 8px 0 8px;
+      padding: 0 12px 0 4px;
+      height: 26px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0 #fff, 2px 2px 0 #b0b0b0;
+      transition: background 0.2s;
+    }
+    .menu-start-btn:hover {
+      background: linear-gradient(to bottom, #e2eafc 0%, #b6c6e3 100%);
+    }
+    .menu-start-logo {
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+      image-rendering: pixelated;
+    }
+    .menu-start-text {
+      font-weight: bold;
+      font-size: 15px;
+      color: #1a2a4f;
+      letter-spacing: 1px;
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+    }
+    .menu-items {
+      display: flex;
+      align-items: center;
+      gap: 18px;
     }
     .menu-item {
       cursor: pointer;
-      padding: 0 8px;
-      border-radius: 0;
-      transition: background 0.1s;
+      padding: 2px 14px 2px 14px;
+      border-radius: 2px;
+      font-size: 14px;
+      color: #1a2a4f;
+      font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
+      transition: background 0.1s, color 0.1s;
     }
     .menu-item:hover {
-      background: #444;
+      background: #e2eafc;
+      color: #003399;
     }
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
     
@@ -232,10 +271,16 @@
 </head>
 <body>
   <div class="menu-bar">
-    <div class="menu-item">file</div>
-    <div class="menu-item">edit</div>
-    <div class="menu-item">View</div>
-    <div class="menu-item">Help</div>
+    <div class="menu-start-btn">
+      <img src="xp-logo.png" alt="Start" class="menu-start-logo" />
+      <span class="menu-start-text">Start</span>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item">File</div>
+      <div class="menu-item">Edit</div>
+      <div class="menu-item">View</div>
+      <div class="menu-item">Help</div>
+    </div>
   </div>
   <div class="desktop">
     <div class="desktop-icon" id="my-computer-icon">
