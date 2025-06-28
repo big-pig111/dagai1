@@ -780,7 +780,9 @@
       <button class="channel" data-channel="tech">💬 Tech</button>
       <button class="channel" data-channel="market">🚀 Market</button>
     </nav>
-    <button id="diary-btn" class="wallet-connect-btn" style="background:linear-gradient(90deg,#fffde7 0%,#ffe082 100%);color:#bfae6a;font-weight:700;">📔 日记本</button>
+    <button id="diary-btn" class="wallet-connect-btn" style="background:linear-gradient(90deg,#fffde7 0%,#ffe082 100%);color:#bfae6a;font-weight:700;display:flex;align-items:center;gap:8px;">
+      <img src="t.png" alt="Diary Icon" style="width:24px;height:24px;border-radius:6px;vertical-align:middle;"> Diary
+    </button>
     <div id="wallet-connect-box" class="wallet-connect-box" style="margin: 0 0 0 8px; justify-content: flex-end; align-items: center; gap: 4px;">
       <button id="wallet-connect-btn" class="wallet-connect-btn" style="background:linear-gradient(90deg,#fffde7 0%,#ffe082 100%);color:#bfae6a;">🔗 Connect Wallet</button>
       <div id="wallet-address" class="wallet-address" style="display:none"></div>
@@ -833,6 +835,13 @@
         <button id="edit-profile-save-btn" style="background:var(--bonk-yellow-main);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Save</button>
         <button id="edit-profile-cancel-btn" style="background:#fff;color:var(--bonk-yellow-dark);border:2px solid var(--bonk-yellow-dark);border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Cancel</button>
       </div>
+    </div>
+  </div>
+  <!-- Blockchain Diary Modal -->
+  <div id="blockchain-diary-modal" style="display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:3000; background:rgba(0,0,0,0.18);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
+    <div style="background:#fffbe6;padding:0;border-radius:18px;box-shadow:0 8px 32px #e6c15555;max-width:1400px;width:98vw;max-height:98vh;display:flex;flex-direction:column;position:relative;">
+      <button id="close-blockchain-diary-modal" style="position:absolute;top:12px;right:18px;font-size:1.8em;color:#bfae6a;background:none;border:none;cursor:pointer;z-index:10;">×</button>
+      <iframe id="blockchain-diary-iframe" src="riji.html" style="width:96vw;min-width:320px;max-width:1400px;height:90vh;min-height:400px;max-height:90vh;border:none;border-radius:18px;background:#fff;"></iframe>
     </div>
   </div>
   <script type="module">
@@ -1351,11 +1360,18 @@
       }
     });
 
-    // 日记本按钮点击，直接打开 diary.html 新页面
+    // 修改日记本按钮点击事件为弹窗
     const diaryBtn = document.getElementById('diary-btn');
+    const blockchainDiaryModal = document.getElementById('blockchain-diary-modal');
+    const closeBlockchainDiaryModal = document.getElementById('close-blockchain-diary-modal');
     if (diaryBtn) {
       diaryBtn.onclick = () => {
-        window.open('diary.html', '_blank');
+        blockchainDiaryModal.style.display = 'flex';
+      };
+    }
+    if (closeBlockchainDiaryModal) {
+      closeBlockchainDiaryModal.onclick = () => {
+        blockchainDiaryModal.style.display = 'none';
       };
     }
 
