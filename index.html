@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pixel bonk emulator</title>
-  <style>
-    body {
+    <style>
+        body {
       background: url('1.jpg') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
@@ -22,7 +22,7 @@
       height: 48px;
       background: #222;
       border-top: 4px solid #444;
-      display: flex;
+            display: flex;
       align-items: center;
       z-index: 100;
       box-shadow: 0 -2px 0 #000;
@@ -55,7 +55,7 @@
       box-shadow: 2px 2px 0 #000;
     }
     .taskbar-icons {
-      display: flex;
+            display: flex;
       align-items: center;
       gap: 16px;
       margin-left: 16px;
@@ -69,8 +69,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      position: relative;
+            cursor: pointer;
+            position: relative;
     }
     .icon-label {
       font-size: 13px;
@@ -78,7 +78,7 @@
       text-align: center;
       margin-top: 6px;
       text-shadow: 1px 1px 0 #000;
-      word-break: break-all;
+            word-break: break-all;
     }
     .desktop {
       display: grid;
@@ -99,9 +99,9 @@
       margin: 48px 0 0 48px;
     }
     .desktop-icon {
-      display: flex;
+            display: flex;
       flex-direction: column;
-      align-items: center;
+            align-items: center;
       width: 96px;
       height: 110px;
       cursor: pointer;
@@ -150,7 +150,7 @@
       height: 18px;
       background: #fff;
       border: 2px solid #008080;
-      position: relative;
+            position: relative;
       margin-bottom: 2px;
     }
     .pixel-chat::after {
@@ -159,7 +159,7 @@
       width: 8px;
       height: 8px;
       background: #008080;
-      position: absolute;
+            position: absolute;
       left: 12px;
       top: 8px;
       border-radius: 2px;
@@ -175,8 +175,8 @@
     .menu-bar {
       background: linear-gradient(to bottom, #e2eafc 0%, #b6c6e3 100%);
       color: #222;
-      display: flex;
-      align-items: center;
+            display: flex;
+            align-items: center;
       height: 32px;
       border-bottom: 1.5px solid #7a8ca7;
       font-size: 14px;
@@ -194,7 +194,7 @@
       margin: 0 8px 0 8px;
       padding: 0 12px 0 4px;
       height: 26px;
-      cursor: pointer;
+            cursor: pointer;
       box-shadow: 1px 1px 0 #fff, 2px 2px 0 #b0b0b0;
       transition: background 0.2s;
     }
@@ -211,7 +211,7 @@
       font-weight: bold;
       font-size: 15px;
       color: #1a2a4f;
-      letter-spacing: 1px;
+            letter-spacing: 1px;
       font-family: 'Segoe UI', 'Microsoft YaHei', Arial, sans-serif;
     }
     .menu-items {
@@ -220,7 +220,7 @@
       gap: 18px;
     }
     .menu-item {
-      cursor: pointer;
+            cursor: pointer;
       padding: 2px 14px 2px 14px;
       border-radius: 2px;
       font-size: 14px;
@@ -338,8 +338,8 @@
     [id$='-window'] h1, [id$='-window'] h2, [id$='-modal'] h1, [id$='-modal'] h2 {
       font-weight: 600 !important;
       color: #222 !important;
-    }
-  </style>
+        }
+    </style>
 </head>
 <body>
   <div class="menu-bar">
@@ -352,44 +352,32 @@
       <div class="menu-item">Edit</div>
       <div class="menu-item">View</div>
       <div class="menu-item">Help</div>
-    </div>
-  </div>
+          </div>
+        </div>
   <div class="desktop">
     <div class="desktop-icon" id="my-computer-icon">
       <img src="q.png" alt="My computer" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">My computer</div>
     </div>
-<div class="desktop-icon" id="bonk-x-icon">
+    <div class="desktop-icon" id="bonk-x-icon">
       <img src="e.png" alt="X" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">Bonk X</div>
-    </div>
+        </div>
     <div class="desktop-icon" id="control-panel-icon">
       <img src="w.png" alt="control panel" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">control panel</div>
     </div>
     <div class="desktop-icon">
-    <img src="r.png" alt="recycle bin" style="width:64px;height:64px;display:block;" />
+      <img src="r.png" alt="recycle bin" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">recycle bin</div>
     </div>
     <div class="desktop-icon" id="chat-desktop-icon">
       <img src="2.png" alt="chat" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">BonkHouse</div>
     </div>
-  <div class="desktop-icon" id="letsBONK.fun">
-    <img src="t.png" alt="letsBONK.fun" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">letsBONK.fun</div>
-    </div>
-    <div class="desktop-icon" id="bonk-game-icon">
-      <img src="bonk-game.png" alt="Bonk Game" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Bonk Game</div>
-    </div>
-    <div class="desktop-icon" id="token-monitoring-icon">
-      <img src="token.png" alt="Token Monitoring" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Token Monitoring</div>
-    </div>
-    <div class="desktop-icon" id="bonk-live-icon">
-      <img src="bonklive.png" alt="Bonk Live" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Bonk Live</div>
+    <div class="desktop-icon" id="blockchain-diary-icon">
+      <img src="t.png" alt="Blockchain diary" style="width:64px;height:64px;display:block;" />
+      <div class="icon-label">Blockchain diary</div>
     </div>
   </div>
 
@@ -405,16 +393,16 @@
     <iframe id="bonk-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
  
-  <div id="letsbonk-window" style="display:none; position:fixed; left:80px; top:80px; width:1450px; height:900px; z-index:201; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
-    <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
-      <span style="font-size:16px; letter-spacing:1px;">letsBONK.fun</span>
+  <div id="blockchain-diary-window" style="display:none; position:fixed; left:60px; top:60px; width:1400px; height:900px; z-index:201; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fffbe6; border-radius:18px;">
+    <div style="background:#ffe082; color:#7c6a2c; font-family:'Segoe UI','Microsoft YaHei',Arial,sans-serif; border-bottom:2px solid #fff; height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; border-top-left-radius:18px; border-top-right-radius:18px; cursor:move;">
+      <span style="font-size:20px; letter-spacing:1px; font-weight:700;">Blockchain diary</span>
       <div style="display:flex; gap:4px;">
-        <button class="minimize-btn" data-window="letsbonk-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
-        <button class="fullscreen-btn" data-window="letsbonk-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
-        <button id="close-letsbonk-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+        <button class="minimize-btn" data-window="blockchain-diary-window" style="background:#ffe082; color:#7c6a2c; border:2px solid #fff; font-family:inherit; font-size:18px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #e6c155; border-radius:8px;">_</button>
+        <button class="fullscreen-btn" data-window="blockchain-diary-window" style="background:#ffe082; color:#7c6a2c; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #e6c155; border-radius:8px;">□</button>
+        <button id="close-blockchain-diary-window" style="background:#fffbe6; color:#b22222; border:2px solid #fff; font-family:inherit; font-size:18px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #e6c155; border-radius:8px;">X</button>
       </div>
     </div>
-    <iframe id="letsbonk-iframe" src="https://letsbonk.fun/" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+    <iframe id="blockchain-diary-iframe" src="riji.html" style="width:100%;height:calc(100% - 44px);border:none;border-bottom-left-radius:18px;border-bottom-right-radius:18px;background:#fffbe6;"></iframe>
   </div>
 
   <!-- Control Panel Window -->
@@ -487,7 +475,7 @@
           <div style="margin-bottom:4px;">• Windows Explorer</div>
           <div style="margin-bottom:4px;">• Pixel Desktop XP</div>
           <div id="app-bonkhouse" style="margin-bottom:4px; display:none;">• BonkHouse Chat</div>
-          <div id="app-letsbonk" style="margin-bottom:4px; display:none;">• letsBONK.fun</div>
+          <div id="app-blockchain-diary" style="margin-bottom:4px; display:none;">• Blockchain diary</div>
         </div>
       </div>
     </div>
@@ -573,7 +561,7 @@
   <style>
   /* ...Insert here index (6).html中<style>...</style>
   </style>
-  <script type="module">
+    <script type="module">
 </script>
   </script>
   <script>
@@ -612,18 +600,14 @@
     });
   })(chatWindow);
 
-  const letsBonkIcon = document.getElementById('letsBONK.fun');
-  const letsBonkWindow = document.getElementById('letsbonk-window');
-  const closeLetsBonkWindow = document.getElementById('close-letsbonk-window');
-  letsBonkIcon.addEventListener('click', () => {
-    letsBonkWindow.style.display = 'block';
-    const appLetsbonk = document.getElementById('app-letsbonk');
-    if (appLetsbonk) appLetsbonk.style.display = 'block';
+  const blockchainDiaryIcon = document.getElementById('blockchain-diary-icon');
+  const blockchainDiaryWindow = document.getElementById('blockchain-diary-window');
+  const closeBlockchainDiaryWindow = document.getElementById('close-blockchain-diary-window');
+  blockchainDiaryIcon.addEventListener('click', () => {
+    blockchainDiaryWindow.style.display = 'block';
   });
-  closeLetsBonkWindow.addEventListener('click', () => {
-    letsBonkWindow.style.display = 'none';
-    const appLetsbonk = document.getElementById('app-letsbonk');
-    if (appLetsbonk) appLetsbonk.style.display = 'none';
+  closeBlockchainDiaryWindow.addEventListener('click', () => {
+    blockchainDiaryWindow.style.display = 'none';
   });
   (function makeDraggable(win) {
     let isDown = false, offsetX = 0, offsetY = 0;
@@ -643,7 +627,8 @@
       isDown = false;
       document.body.style.userSelect = '';
     });
-  })(letsBonkWindow);
+  })(blockchainDiaryWindow);
+
   // Recycle bin modal logic
   const recycleBinIcon = document.querySelectorAll('.desktop-icon')[3];
   const recycleBinModal = document.getElementById('recyclebin-modal');
@@ -777,7 +762,7 @@
           windowElement.style.transform = windowElement.getAttribute('data-original-transform') || 'none';
           windowElement.setAttribute('data-fullscreen', 'false');
           e.target.textContent = '□';
-        } else {
+      } else {
           // Go fullscreen
           windowElement.setAttribute('data-original-width', windowElement.style.width);
           windowElement.setAttribute('data-original-height', windowElement.style.height);
@@ -810,7 +795,7 @@
     
     let windowTitle = 'Window';
     if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
-    else if (windowId === 'letsbonk-window') windowTitle = 'letsBONK';
+    else if (windowId === 'blockchain-diary-window') windowTitle = 'Blockchain diary';
     else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
@@ -1062,7 +1047,7 @@
         <button class="minimize-btn" data-window="bonk-game-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
         <button class="fullscreen-btn" data-window="bonk-game-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
         <button id="close-bonk-game-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
-      </div>
+          </div>
     </div>
     <div id="game-icons" style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding:24px; justify-items:center; align-items:center;">
       <div class="game-icon" data-game="snake" style="text-align:center; cursor:pointer;">
@@ -1373,6 +1358,6 @@
       }
     }
   });
-</script>
+    </script>
 </body>
-</html>
+</html> 
