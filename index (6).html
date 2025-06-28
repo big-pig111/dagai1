@@ -10,15 +10,16 @@
   <script src="index.iife.min.js"></script>
   <style>
     :root {
-      --bonk-orange: #ff9800;
-      --bonk-red: #ff3d00;
-      --bonk-yellow: #ffe082;
-      --bonk-bg: linear-gradient(135deg, #fffbe6 0%, #ffe082 40%, #ff9800 100%);
-      --bonk-border: #ffb300;
-      --bonk-chat: #fff3e0;
-      --bonk-chat-me: #ffe0b2;
-      --bonk-shadow: 0 4px 32px rgba(255, 152, 0, 0.18);
-      --bonk-font: 'Luckiest Guy', 'Roboto', 'Microsoft YaHei', Arial, sans-serif;
+      --bonk-yellow-main: #fffde7;
+      --bonk-yellow-light: #fffbe6;
+      --bonk-yellow-dark: #ffe082;
+      --bonk-yellow-border: #fff9c4;
+      --bonk-bg: linear-gradient(135deg, #fffde7 0%, #fffbe6 40%, #ffe082 100%);
+      --bonk-border: #ffe082;
+      --bonk-chat: #fffbe6;
+      --bonk-chat-me: #fff9c4;
+      --bonk-shadow: 0 4px 32px rgba(255, 235, 59, 0.10);
+      --bonk-font: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
     }
     html, body {
       height: 100%;
@@ -43,7 +44,8 @@
       height: 220px;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.7;
+      opacity: 0.5;
+      filter: blur(2px) brightness(0.98);
     }
     /* 光斑动画 */
     .bg-bubble {
@@ -51,9 +53,9 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.18;
+      opacity: 0.12;
       animation: float 12s linear infinite alternate;
-      filter: blur(2px);
+      filter: blur(8px) brightness(0.98);
     }
     .bg-bubble1 {
       width: 220px; height: 220px;
@@ -80,123 +82,73 @@
     /* Bonk狗狗插画角标 */
     .bg-bonk {
       position: fixed;
-      z-index: 1;
+      z-index: 10;
       pointer-events: none;
       opacity: 0.92;
       filter: drop-shadow(0 4px 16px #ff980088);
       user-select: none;
+      transition: transform 0.2s;
     }
-    .bg-bonk-right {
-      top: 12px;
-      right: 12px;
-      width: 90px;
+    .bg-bonk-header {
+      top: 18px;
+      left: 24px;
+      width: 60px;
+      border-radius: 50%;
+      box-shadow: 0 2px 12px #ff980088;
+      border: 3px solid #fffbe6;
+      background: #fffde7;
+      z-index: 20;
+      pointer-events: auto;
     }
-    .bg-bonk-left {
-      left: 8px;
-      bottom: 8px;
+    .bg-bonk-float {
+      right: 24px;
+      bottom: 90px;
       width: 80px;
+      border-radius: 50%;
+      box-shadow: 0 2px 12px #ff980088;
+      border: 3px solid #fffbe6;
+      background: #fffde7;
+      z-index: 20;
+      pointer-events: auto;
+      transition: transform 0.2s;
+    }
+    .bg-bonk-float:hover {
+      transform: scale(1.08) rotate(-6deg);
     }
     /* 主要内容区z-index提升 */
     .app-container, .username-modal { position: relative; z-index: 2; }
-    .app-container {
-      display: flex;
-      height: 100vh;
+    .topbar {
       width: 100vw;
-      min-width: 320px;
-      margin: 0;
-      padding: 0;
-    }
-    .sidebar {
-      width: 220px;
-      min-width: 180px;
-      background: var(--bonk-orange);
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      padding: 0;
-      box-shadow: 2px 0 16px rgba(255, 152, 0, 0.12);
-      z-index: 2;
-      position: relative;
-      justify-content: space-between;
-    }
-    .sidebar-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .sidebar-bottom {
-      width: 100%;
+      min-height: 54px;
+      background: linear-gradient(90deg, #e6c155 0%, #ffe082 100%);
       display: flex;
       flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-around;
-      gap: 0;
-      padding: 18px 0 12px 0;
-      background: transparent;
-      min-height: 90px;
-    }
-    .sidebar-bonk-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px #ff980088;
-      background: #fffde7;
-      object-fit: cover;
-      transform: rotate(-8deg);
-      margin: 0 2px;
-      border: 2px solid #fffbe6;
-      transition: transform 0.2s;
-    }
-    .sidebar-bonk-img:nth-child(2) {
-      transform: rotate(10deg) scale(1.08);
-      z-index: 2;
-    }
-    .sidebar-bonk-img:nth-child(3) {
-      transform: rotate(-14deg) scale(0.95);
-      z-index: 1;
-    }
-    /* 用户头像展示 */
-    .user-avatar-box {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      margin: 18px 0 0 0;
-      gap: 8px;
-    }
-    .user-avatar-img {
-      width: 64px;
-      height: 64px;
-      border-radius: 18px;
-      box-shadow: 0 2px 12px #ff980088;
-      background: #fffde7;
-      border: 3px solid #fffbe6;
-      object-fit: cover;
-      margin-bottom: 4px;
-    }
-    .user-avatar-name {
-      color: #fff;
-      font-size: 1.1rem;
-      font-family: 'Luckiest Guy', cursive;
-      text-shadow: 1px 1px 0 #ff3d00, 0 2px 8px #fffde7;
-      letter-spacing: 1px;
-      margin-bottom: 2px;
+      justify-content: space-between;
+      gap: 0;
+      padding: 0 18px;
+      box-shadow: 0 4px 24px 0 #e6c15544, 0 1.5px 0 #d4b04c;
+      position: relative;
+      z-index: 10;
+      border-bottom: 2px solid #e6c155;
+      backdrop-filter: blur(8px) saturate(1.2);
     }
     .logo {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 32px 24px 24px 24px;
-      font-size: 2rem;
-      font-family: 'Luckiest Guy', cursive;
+      gap: 10px;
+      padding: 0 10px 0 0;
+      font-size: 1.5rem;
+      font-family: var(--bonk-font);
       color: #fff;
       letter-spacing: 2px;
       user-select: none;
       text-shadow: 2px 2px 0 #ff3d00, 0 2px 8px #fffde7;
     }
     .logo img {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
       background: #fffde7;
       border: 3px solid #fffde7;
       object-fit: cover;
@@ -204,16 +156,23 @@
     }
     .channels {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 0 16px;
-      margin-top: 24px;
+      flex-direction: row;
+      gap: 6px;
+      padding: 0 8px;
+      margin: 0 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      max-width: 40vw;
+    }
+    .channels::-webkit-scrollbar {
+      display: none;
     }
     .channel {
-      padding: 16px 20px;
-      border-radius: 14px;
-      font-size: 1.2rem;
-      font-family: 'Luckiest Guy', cursive;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: var(--bonk-font);
       font-weight: 500;
       color: #ff3d00;
       background: #fffde7;
@@ -224,14 +183,129 @@
       outline: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       box-shadow: 0 2px 8px #ffe08244;
+      white-space: nowrap;
     }
     .channel.active, .channel:hover {
-      background: var(--bonk-yellow);
+      background: #fffbe6;
+      color: #bfae6a;
+      border: 2px solid #e6c155;
+      box-shadow: 0 4px 16px #e6c15533;
+    }
+    .contract-room-list-box {
+      padding: 0 8px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+    }
+    #room-search-input {
+      width: 100px;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 0;
+      font-size: 0.95rem;
+    }
+    #contract-room-list {
+      max-height: 80px;
+      overflow-y: auto;
+      background: #fffde7;
+      border-radius: 8px;
+      border: 1px solid #ffe082;
+      padding: 4px 0;
+      min-width: 60px;
+    }
+    .user-avatar-box {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin: 0 8px;
+    }
+    .user-avatar-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      box-shadow: 0 2px 12px #ff980088;
+      background: #fffde7;
+      border: 2px solid #fffbe6;
+      object-fit: cover;
+      margin-bottom: 0;
+      transition: transform 0.18s;
+      cursor: pointer;
+    }
+    .user-avatar-name {
       color: #fff;
-      border: 2px solid var(--bonk-red);
-      box-shadow: 0 4px 16px #ff980044;
+      font-size: 1rem;
+      font-family: var(--bonk-font);
+      text-shadow: 1px 1px 0 #ff3d00, 0 2px 8px #fffde7;
+      letter-spacing: 1px;
+      margin: 0 4px;
+    }
+    .user-logout-btn, .user-edit-btn {
+      margin: 0 2px !important;
+      padding: 4px 10px !important;
+      font-size: 0.95rem !important;
+      border-radius: 8px !important;
+    }
+    .wallet-connect-box {
+      margin: 0 0 0 8px;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4px;
+    }
+    .wallet-connect-btn {
+      padding: 6px 16px;
+      font-size: 0.95rem;
+      border-radius: 8px !important;
+    }
+    .wallet-address {
+      padding: 4px 10px;
+      font-size: 0.95rem;
+      border-radius: 8px;
+    }
+    /* 响应式优化 */
+    @media (max-width: 900px) {
+      .topbar {
+        flex-wrap: wrap;
+        gap: 6px;
+        min-height: 44px;
+        padding: 0 2px;
+      }
+      .channels {
+        max-width: 60vw;
+      }
+      .user-avatar-box {
+        gap: 4px;
+      }
+    }
+    @media (max-width: 600px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        min-height: 0;
+        padding: 0 2px;
+        gap: 2px;
+      }
+      .channels {
+        max-width: 98vw;
+        padding: 0 2px;
+      }
+      .user-avatar-box {
+        margin: 0 2px;
+      }
+    }
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 64px);
+      width: 100vw;
+      min-width: 320px;
+      margin: 0;
+      padding: 0;
+      backdrop-filter: blur(2px);
     }
     .main-content {
       flex: 1;
@@ -246,9 +320,9 @@
       margin: 0;
     }
     .chat-container {
-      background: var(--bonk-chat);
-      border-radius: 18px;
-      box-shadow: var(--bonk-shadow);
+      background: #fffef8;
+      border-radius: 24px;
+      box-shadow: 0 8px 40px 0 #ff980044, 0 1.5px 0 #ffb300;
       width: 100%;
       max-width: 100vw;
       height: 96vh;
@@ -261,11 +335,11 @@
       position: relative;
     }
     .chat-header {
-      background: var(--bonk-orange);
+      background: var(--bonk-yellow-main);
       color: #fff;
-      padding: 18px 32px;
+      padding: 18px 32px 18px 80px;
       font-size: 2.1rem;
-      font-family: 'Luckiest Guy', cursive;
+      font-family: var(--bonk-font);
       font-weight: 700;
       text-align: left;
       letter-spacing: 2px;
@@ -275,14 +349,15 @@
       gap: 18px;
       text-shadow: 2px 2px 0 #ff3d00, 0 2px 8px #fffde7;
       border-radius: 0;
-      justify-content: space-between;
+      justify-content: flex-start;
+      position: relative;
     }
     .chat-header .channel-title {
       font-size: 1.4rem;
-      font-family: 'Luckiest Guy', cursive;
+      font-family: var(--bonk-font);
       font-weight: 500;
       color: #fffde7;
-      background: var(--bonk-red);
+      background: var(--bonk-yellow-dark);
       border-radius: 10px;
       padding: 6px 18px;
       margin-left: 16px;
@@ -293,19 +368,11 @@
       flex: 1;
       padding: 24px 32px 12px 32px;
       overflow-y: auto;
-      background: var(--bonk-chat);
+      background: #fffffa;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
       scroll-behavior: smooth;
-    }
-    .chat-messages::-webkit-scrollbar {
-      width: 10px;
-      background: #fffbe6;
-    }
-    .chat-messages::-webkit-scrollbar-thumb {
-      background: var(--bonk-orange);
-      border-radius: 8px;
     }
     .message {
       display: flex;
@@ -313,49 +380,69 @@
       align-items: flex-end;
       gap: 10px;
       max-width: 80%;
+      margin-bottom: 2px;
     }
     .message .avatar {
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: #fff;
-      border: 2px solid var(--bonk-orange);
+      border: 2.5px solid var(--bonk-yellow-main);
       object-fit: cover;
       box-shadow: 0 2px 8px #ff9800;
+      transition: transform 0.18s;
+      cursor: pointer;
+    }
+    .message .avatar:hover {
+      transform: scale(1.08) rotate(-4deg);
+      box-shadow: 0 4px 16px #ff9800cc;
     }
     .message-content {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      background: #fffde7;
-      border-radius: 16px 16px 16px 4px;
-      padding: 14px 20px;
-      box-shadow: 0 2px 8px #ff980044;
+      background: linear-gradient(135deg, #fffde7 60%, #ffe082 100%);
+      border-radius: 18px 18px 18px 6px;
+      padding: 16px 22px;
+      box-shadow: 0 2px 12px #ff980044;
       font-size: 1.15rem;
+      font-family: var(--bonk-font);
       word-break: break-word;
       position: relative;
       min-width: 80px;
       max-width: 420px;
+      border: 1.5px solid #ffe082;
+      margin-left: 2px;
     }
     .message.me {
       align-self: flex-end;
       flex-direction: row-reverse;
     }
     .message.me .message-content {
-      background: var(--bonk-chat-me);
-      border-radius: 16px 16px 4px 16px;
+      background: linear-gradient(135deg, #ffe0b2 60%, #ff9800 100%);
+      border-radius: 18px 18px 6px 18px;
       color: #ff3d00;
-      box-shadow: 0 2px 8px #ff980044;
+      box-shadow: 0 2px 12px #ff980044;
+      border: 1.5px solid #ffb300;
+      margin-right: 2px;
     }
-    .message.me .avatar {
-      border: 2px solid var(--bonk-red);
+    .message-content:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -12px;
+      top: 18px;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 12px solid #fffde7;
+      opacity: 0.7;
     }
-    .message .meta {
-      font-size: 0.9rem;
-      color: #ff9800;
-      margin-bottom: 4px;
-      font-family: 'Roboto', Arial, sans-serif;
-      font-weight: 700;
+    .message.me .message-content:after {
+      left: auto;
+      right: -12px;
+      border-right: none;
+      border-left: 12px solid #ffe0b2;
     }
     .chat-input {
       display: flex;
@@ -376,74 +463,130 @@
       font-family: 'Roboto', Arial, sans-serif;
     }
     .chat-input input:focus {
-      border: 2.5px solid var(--bonk-orange);
+      border: 2.5px solid var(--bonk-yellow-main);
     }
     .chat-input button {
-      background: var(--bonk-red);
+      background: var(--bonk-yellow-dark);
       color: #fff;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px !important;
       padding: 16px 32px;
       font-size: 1.15rem;
       font-family: 'Luckiest Guy', cursive;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.18s;
       box-shadow: 0 2px 8px #ff980044;
     }
     .chat-input button:hover {
-      background: var(--bonk-orange);
+      transform: scale(1.06);
+      background: var(--bonk-yellow-main) !important;
+      color: #fff !important;
     }
     .username-modal {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 236, 179, 0.95);
+      background: rgba(250, 250, 245, 0.98);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 1000;
+      backdrop-filter: blur(3px);
     }
     .username-box {
-      background: #fffde7;
+      background: #fff;
       border-radius: 20px;
-      box-shadow: 0 4px 24px #ff980044;
-      padding: 36px 32px;
+      box-shadow: 0 8px 32px 0 rgba(191, 174, 106, 0.10), 0 1.5px 0 #e6d8a3;
+      padding: 56px 48px 48px 48px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 22px;
-      border: 3px solid var(--bonk-border);
+      gap: 36px;
+      border: 2.5px solid #e6d8a3;
+      min-width: 360px;
+      max-width: 98vw;
+    }
+    .username-box h2 {
+      font-size: 2.3rem;
+      font-family: var(--bonk-font);
+      color: #bfae6a;
+      margin-bottom: 0.5em;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-shadow: 0 2px 12px #f7f3e7;
     }
     .username-box input {
-      padding: 12px 16px;
-      border: 2px solid var(--bonk-border);
-      border-radius: 10px;
-      font-size: 1.2rem;
+      padding: 18px 20px;
+      border: 1.5px solid #e6d8a3;
+      border-radius: 14px;
+      font-size: 1.15rem;
       outline: none;
-      background: #fffbe6;
-      font-family: 'Roboto', Arial, sans-serif;
+      background: #faf9f6;
+      font-family: var(--bonk-font);
+      width: 280px;
+      margin-bottom: 10px;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 4px #f7f3e7 inset;
+    }
+    .username-box input:focus {
+      border: 2px solid #bfae6a;
+      box-shadow: 0 2px 8px #e6d8a3;
     }
     .username-box button {
-      background: var(--bonk-orange);
-      color: #fff;
+      background: linear-gradient(90deg, #e6d8a3 0%, #fffbe6 100%);
+      color: #7c6a2c;
       border: none;
-      border-radius: 10px;
-      padding: 12px 24px;
-      font-size: 1.1rem;
-      font-family: 'Luckiest Guy', cursive;
-      font-weight: 700;
+      border-radius: 14px;
+      padding: 15px 36px;
+      font-size: 1.13rem;
+      font-family: var(--bonk-font);
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px #e6d8a344;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      letter-spacing: 1px;
     }
     .username-box button:hover {
-      background: var(--bonk-red);
+      background: linear-gradient(90deg, #fffbe6 0%, #e6d8a3 100%);
+      color: #bfae6a;
+      box-shadow: 0 4px 16px #e6d8a344;
+    }
+    #twitter-login-btn {
+      background: #fff !important;
+      color: #1da1f2 !important;
+      margin-top: 18px !important;
+      border: 1.5px solid #e6d8a3 !important;
+      box-shadow: 0 2px 12px #e6d8a333 !important;
+      font-size: 1.13rem !important;
+      border-radius: 14px !important;
+      padding: 15px 36px !important;
+      font-family: var(--bonk-font) !important;
+      font-weight: 600 !important;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    #twitter-login-btn img {
+      width: 22px;
+      height: 22px;
+      margin-right: 8px;
+      filter: none;
+    }
+    #twitter-login-btn:hover {
+      background: linear-gradient(90deg, #e6d8a3 0%, #fffbe6 100%) !important;
+      color: #156fa1 !important;
+      border: 1.5px solid #bfae6a !important;
+      box-shadow: 0 4px 16px #e6d8a344 !important;
     }
     /* 行情区发射台样式 */
     .market-header {
       display: flex;
       align-items: center;
       gap: 18px;
-      background: var(--bonk-orange);
+      background: var(--bonk-yellow-main);
       color: #fff;
      font-size: 1.2rem;
       font-family: 'Luckiest Guy', cursive;
@@ -464,7 +607,7 @@
       box-shadow: 0 2px 8px #ff9800;
     }
     .launch-btn {
-      background: var(--bonk-red);
+      background: var(--bonk-yellow-dark);
       color: #fff;
       border: none;
       border-radius: 12px;
@@ -478,7 +621,7 @@
       transition: background 0.2s;
     }
     .launch-btn:hover {
-      background: var(--bonk-orange);
+      background: var(--bonk-yellow-main);
     }
     .market-iframe-box {
       flex: 1;
@@ -503,105 +646,36 @@
       min-height: 0;
     }
     @media (max-width: 900px) {
-      .chat-container {
-        max-width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-      }
-      .sidebar {
-        width: 48px;
-        min-width: 48px;
-      }
-      .logo {
-        flex-direction: column;
-        padding: 18px 0 12px 0;
-        font-size: 1.2rem;
-      }
-      .logo img {
-        width: 32px;
-        height: 32px;
-      }
-      .channels {
+      .topbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        min-height: 48px;
         padding: 0 4px;
-        margin-top: 8px;
       }
-      .channel {
-        padding: 10px 6px;
-        font-size: 1rem;
-      }
-      .chat-header, .market-header {
-        font-size: 1.1rem;
-        padding: 10px 8px;
-      }
-      .chat-messages {
-        padding: 8px 4px 4px 4px;
-        gap: 6px;
-      }
-      .chat-input {
-        padding: 6px 4px;
-        gap: 4px;
-      }
-      .market-iframe-box iframe {
-        min-height: 60vh;
-        border-radius: 6px;
-      }
-    }
-    @media (max-width: 600px) {
       .app-container {
-        flex-direction: column;
-      }
-      .sidebar {
-        flex-direction: row;
-        width: 100vw;
-        height: 60px;
-        min-width: 0;
-        min-height: 60px;
-        box-shadow: 0 2px 12px #ff980044;
-      }
-      .logo {
-        padding: 8px 8px 8px 8px;
-        font-size: 1rem;
-      }
-      .channels {
-        flex-direction: row;
-        gap: 4px;
-        margin-top: 0;
-        padding: 0 4px;
+        height: calc(100vh - 48px);
       }
       .main-content {
         padding: 0;
       }
-      .chat-container {
-        border-radius: 0;
-        height: calc(100vh - 60px);
+    }
+    @media (max-width: 600px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
         min-height: 0;
-      }
-      .chat-header {
-        font-size: 1.2rem;
-        padding: 12px 12px;
-      }
-      .chat-messages {
-        padding: 12px 8px 8px 8px;
-        gap: 8px;
-      }
-      .chat-input {
-        padding: 8px 8px;
+        padding: 0 2px;
         gap: 4px;
       }
-      .market-header {
-        font-size: 1.1rem;
-        padding: 12px 12px;
-      }
-      .market-header img {
-        width: 28px;
-        height: 28px;
+      .app-container {
+        height: auto;
       }
     }
     .user-logout-btn {
       margin-top: 6px;
       background: #fff;
-      color: var(--bonk-red);
-      border: 2px solid var(--bonk-red);
+      color: var(--bonk-yellow-dark);
+      border: 2px solid var(--bonk-yellow-dark);
       border-radius: 8px;
       padding: 6px 18px;
       font-size: 1rem;
@@ -612,7 +686,7 @@
       transition: background 0.2s, color 0.2s;
     }
     .user-logout-btn:hover {
-      background: var(--bonk-red);
+      background: var(--bonk-yellow-dark);
       color: #fff;
     }
     .wallet-connect-box {
@@ -697,45 +771,32 @@
   <div class="bg-bubble bg-bubble1"></div>
   <div class="bg-bubble bg-bubble2"></div>
   <div class="bg-bubble bg-bubble3"></div>
-  <img class="bg-bonk bg-bonk-right" src="2.jpg" alt="Bonk右上狗狗">
-  <img class="bg-bonk bg-bonk-left" src="3.jpg" alt="Bonk左下狗狗">
+  <header class="topbar">
+    <div class="logo">
+      <span>Blockchain Diary</span>
+    </div>
+    <nav class="channels">
+      <button class="channel active" data-channel="lobby">🐶 Lobby</button>
+      <button class="channel" data-channel="tech">💬 Tech</button>
+      <button class="channel" data-channel="market">🚀 Market</button>
+    </nav>
+    <button id="diary-btn" class="wallet-connect-btn" style="background:linear-gradient(90deg,#fffde7 0%,#ffe082 100%);color:#bfae6a;font-weight:700;">📔 日记本</button>
+    <div id="wallet-connect-box" class="wallet-connect-box" style="margin: 0 0 0 8px; justify-content: flex-end; align-items: center; gap: 4px;">
+      <button id="wallet-connect-btn" class="wallet-connect-btn" style="background:linear-gradient(90deg,#fffde7 0%,#ffe082 100%);color:#bfae6a;">🔗 Connect Wallet</button>
+      <div id="wallet-address" class="wallet-address" style="display:none"></div>
+    </div>
+    <div class="user-avatar-box" id="user-avatar-box" style="display:none">
+      <img class="user-avatar-img" id="user-avatar-img" src="" alt="User Avatar">
+      <div class="user-avatar-name" id="user-avatar-name" style="color:#bfae6a;"></div>
+      <button class="user-logout-btn" id="user-logout-btn" style="background:#fff;color:#bfae6a;border:2px solid #ffe082;">Log Out</button>
+      <button class="user-edit-btn" id="user-edit-btn" style="display:none;margin-top:6px;background:#ffe082;color:#bfae6a;border:2px solid #ffe082;border-radius:8px;padding:6px 18px;font-size:1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #ffe08244;transition:background 0.2s, color 0.2s;">Edit Profile</button>
+    </div>
+  </header>
   <div class="app-container">
-    <aside class="sidebar">
-      <div class="sidebar-content">
-        <div class="logo">
-          <img src="2.jpg" alt="Bonk Logo">
-          <span>BONK</span>
-        </div>
-        <div class="user-avatar-box" id="user-avatar-box" style="display:none">
-          <img class="user-avatar-img" id="user-avatar-img" src="" alt="User Avatar">
-          <div class="user-avatar-name" id="user-avatar-name"></div>
-          <button class="user-logout-btn" id="user-logout-btn">Log Out</button>
-          <button class="user-edit-btn" id="user-edit-btn" style="display:none;margin-top:6px;background:#ffe082;color:#ff3d00;border:2px solid #ff9800;border-radius:8px;padding:6px 18px;font-size:1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #ff980044;transition:background 0.2s, color 0.2s;">Edit Profile</button>
-        </div>
-        <div class="channels">
-          <button class="channel active" data-channel="lobby">🐶 Lobby</button>
-          <button class="channel" data-channel="tech">💬 Tech</button>
-          <button class="channel" data-channel="market">🚀 Market</button>
-        </div>
-        <div class="contract-room-list-box" style="padding: 8px 12px 0 12px;">
-          <input id="room-search-input" type="text" placeholder="Search channel" style="width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 6px;">
-          <div id="contract-room-list" style="max-height: 180px; overflow-y: auto; background: #fffde7; border-radius: 8px; border: 1px solid #ffe082; padding: 4px 0;"></div>
-        </div>
-        <div id="wallet-connect-box" class="wallet-connect-box" style="margin: 18px 0 0 0; justify-content: center;">
-          <button id="wallet-connect-btn" class="wallet-connect-btn">🔗 Connect Wallet</button>
-          <div id="wallet-address" class="wallet-address" style="display:none"></div>
-        </div>
-      </div>
-      <div class="sidebar-bottom">
-        <img class="sidebar-bonk-img" src="4.jpg" alt="Bonk1">
-        <img class="sidebar-bonk-img" src="5.jpg" alt="Bonk2">
-        <img class="sidebar-bonk-img" src="6.jpg" alt="Bonk3">
-      </div>
-    </aside>
     <main class="main-content">
       <div class="chat-container" id="main-content-box">
         <div class="chat-header">
-          Bonk Chatroom
+          Blockchain Diary
           <span class="channel-title" id="current-channel-title">🐶 Lobby</span>
         </div>
         <div class="chat-messages" id="chat-messages"></div>
@@ -769,8 +830,8 @@
       </label>
       <label style="width:100%;text-align:left;">Avatar Link: <input type="text" id="edit-link-input" style="width:100%;padding:8px 12px;margin-top:4px;border-radius:8px;border:1px solid #ccc;"></label>
       <div style="display:flex;gap:16px;margin-top:12px;">
-        <button id="edit-profile-save-btn" style="background:var(--bonk-orange);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Save</button>
-        <button id="edit-profile-cancel-btn" style="background:#fff;color:var(--bonk-red);border:2px solid var(--bonk-red);border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Cancel</button>
+        <button id="edit-profile-save-btn" style="background:var(--bonk-yellow-main);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Save</button>
+        <button id="edit-profile-cancel-btn" style="background:#fff;color:var(--bonk-yellow-dark);border:2px solid var(--bonk-yellow-dark);border-radius:10px;padding:10px 24px;font-size:1.1rem;font-family:'Luckiest Guy',cursive;font-weight:700;cursor:pointer;">Cancel</button>
       </div>
     </div>
   </div>
@@ -794,9 +855,6 @@
     const db = getDatabase(app);
     const auth = getAuth(app);
     const provider = new TwitterAuthProvider();
-
-    // Bonk狗狗头像
-    const bonkAvatar = "2.jpg";
 
     // 频道定义
     const channels = [
@@ -841,18 +899,7 @@
       const n = document.getElementById('user-avatar-name');
       const seed = getOrCreateAvatarSeed();
 
-      // 特殊处理Tom
-      if (name === 'Tom') {
-        img.src = 'tom.png';
-        n.textContent = name || '';
-        box.style.display = 'flex';
-        img.style.cursor = 'pointer';
-        img.title = '点击访问主页';
-        img.onclick = () => { window.open('https://x.com/SolportTom', '_blank'); };
-        updateEditProfileBtnVisibility();
-        return;
-      }
-
+      // No special fallback for Tom, use avatarUrl or generated avatar for all users
       img.src = avatarUrl || getAvatarUrl(seed);
       n.textContent = name || '';
       box.style.display = 'flex';
@@ -982,7 +1029,6 @@
           // 行情频道：显示行情 iframe，隐藏聊天相关
           mainContentBox.innerHTML = `
             <div class="market-header">
-              <img src="${bonkAvatar}" alt="Bonk Logo">
               letsbonk Launchpad
               <button class="launch-btn" onclick="window.open('https://t.co/aSsQXTq8vN')">Launch 🚀</button>
             </div>
@@ -994,7 +1040,7 @@
           // 聊天频道：恢复聊天界面
           mainContentBox.innerHTML = `
             <div class="chat-header">
-              Bonk Chatroom
+              Blockchain Diary
               <span class="channel-title" id="current-channel-title">${btn.textContent}</span>
             </div>
             <div class="chat-messages" id="chat-messages"></div>
@@ -1073,9 +1119,7 @@
       if (msgId) msgDiv.setAttribute('data-id', msgId);
       // 用户头像
       let avatarSrc = avatarUrl;
-      if (user === 'Tom') {
-        avatarSrc = 'tom.png';
-      } else if (!avatarSrc) {
+      if (!avatarSrc) {
         if (user === username) {
           avatarSrc = getCurrentAvatarUrl();
         } else {
@@ -1084,9 +1128,7 @@
       }
       // 只要有twitterUsername就可点击
       let twitterProfileUrl = '';
-      if (user === 'Tom') {
-        twitterProfileUrl = 'https://x.com/SolportTom';
-      } else if (twitterUsername) {
+      if (twitterUsername) {
         twitterProfileUrl = `https://twitter.com/${twitterUsername}`;
       }
       const avatar = document.createElement('img');
@@ -1309,109 +1351,12 @@
       }
     });
 
-    // 合约频道搜索/创建逻辑
-    const roomListBox = document.getElementById('contract-room-list');
-    const roomSearchInput = document.getElementById('room-search-input');
-    let allRooms = [];
-    function renderRoomList(filter = '') {
-      roomListBox.innerHTML = '';
-      // 创建频道按钮
-      const createBtn = document.createElement('button');
-      createBtn.textContent = '+ Create Channel';
-      createBtn.style = 'width:96%;margin:4px 2%;padding:7px 0;border-radius:7px;background:var(--bonk-orange);color:#fff;font-weight:bold;border:none;cursor:pointer;';
-      createBtn.onclick = createChannelByPrompt;
-      roomListBox.appendChild(createBtn);
-      const filtered = allRooms.filter(addr => addr.toLowerCase().includes(filter.toLowerCase()));
-      if (filtered.length === 0) {
-        const emptyDiv = document.createElement('div');
-        emptyDiv.style = 'color:#bbb;padding:8px;text-align:center;';
-        emptyDiv.textContent = 'No matching channel';
-        roomListBox.appendChild(emptyDiv);
-        return;
-      }
-      filtered.forEach(addr => {
-        const div = document.createElement('div');
-        div.className = 'room-list-item' + (currentChannel === addr ? ' active' : '');
-        div.textContent = shortAddr(addr);
-        div.title = addr;
-        div.onclick = () => {
-          // 切换到该频道
-          currentChannel = addr;
-          channelBtns.forEach(b => b.classList.remove('active'));
-          channelTitle.textContent = addr;
-          mainContentBox.innerHTML = `
-            <div class=\"chat-header\">\n              Bonk Chatroom\n              <span class=\"channel-title\" id=\"current-channel-title\">${addr}</span>\n              <div id=\"wallet-connect-box\" class=\"wallet-connect-box\">\n                <button id=\"wallet-connect-btn\" class=\"wallet-connect-btn\">🔗 Connect Wallet</button>\n                <div id=\"wallet-address\" class=\"wallet-address\" style=\"display:none\"></div>\n              </div>\n            </div>\n            <div class=\"chat-messages\" id=\"chat-messages\"></div>\n            <form class=\"chat-input\" id=\"chat-form\">\n              <input type=\"text\" id=\"message-input\" placeholder=\"Type a message...\" autocomplete=\"off\" required />\n              <button type=\"submit\">Send</button>\n            </form>\n          `;
-          setTimeout(() => {
-            const chatMessagesNew = document.getElementById('chat-messages');
-            const chatFormNew = document.getElementById('chat-form');
-            const messageInputNew = document.getElementById('message-input');
-            loadChannel(currentChannel, chatMessagesNew);
-            bindChatFormEvents(chatFormNew, messageInputNew);
-          }, 0);
-        };
-        roomListBox.appendChild(div);
-      });
-    }
-    onValue(ref(db, 'channels'), (snapshot) => {
-      console.log('频道监听触发', snapshot.val());
-      if (snapshot.exists()) {
-        allRooms = Object.keys(snapshot.val());
-        renderRoomList(roomSearchInput.value);
-      } else {
-        allRooms = [];
-        renderRoomList(roomSearchInput.value);
-      }
-    });
-    roomSearchInput.addEventListener('input', () => {
-      renderRoomList(roomSearchInput.value);
-    });
-
-    // 频道创建入口：用弹窗方式
-    async function createChannelByPrompt() {
-      // 检查是否已连接钱包
-      if (!currentWallet) {
-        alert('Please connect your wallet before creating a channel.');
-        return;
-      }
-      // 检查代币余额
-      if (typeof fetchTokenBalance === 'function') {
-        const balance = await fetchTokenBalance(currentWallet);
-        if (balance < 100) {
-          alert('You need to hold at least 100 tokens to create a channel.');
-          return;
-        }
-      }
-      // 自定义弹窗，带提示
-      const tip = 'A channel must have at least one message to be searchable.';
-      const input = window.prompt(`${tip}\n\nPlease enter the contract address (must end with bonk)`);
-      const contractAddr = input;
-      if (!contractAddr) return;
-      if (!contractAddr.toLowerCase().endsWith('bonk')) {
-        alert('Only contracts issued on letsbonk can be used to create a channel.');
-        return;
-      }
-      const channelRef = ref(db, `channels/${contractAddr}`);
-      const snapshot = await get(channelRef);
-      if (snapshot.exists()) {
-        alert('Channel already exists.');
-        return;
-      }
-      await set(channelRef, { messages: {} });
-      alert('Channel created successfully.');
-      // 自动切换到新频道并清空搜索框
-      roomSearchInput.value = '';
-      currentChannel = contractAddr;
-      channelBtns.forEach(b => b.classList.remove('active'));
-      channelTitle.textContent = contractAddr;
-      mainContentBox.innerHTML = `
-        <div class=\"chat-header\">\n          Bonk Chatroom\n          <span class=\"channel-title\" id=\"current-channel-title\">${contractAddr}</span>\n          <div id=\"wallet-connect-box\" class=\"wallet-connect-box\">\n            <button id=\"wallet-connect-btn\" class=\"wallet-connect-btn\">🔗 Connect Wallet</button>\n            <div id=\"wallet-address\" class=\"wallet-address\" style=\"display:none\"></div>\n          </div>\n        </div>\n        <div class=\"chat-messages\" id=\"chat-messages\"></div>\n        <form class=\"chat-input\" id=\"chat-form\">\n          <input type=\"text\" id=\"message-input\" placeholder=\"Type a message...\" autocomplete=\"off\" required />\n          <button type=\"submit\">Send</button>\n        </form>\n      `;
-      setTimeout(() => {
-        const chatMessagesNew = document.getElementById('chat-messages');
-        const chatFormNew = document.getElementById('chat-form');
-        const messageInputNew = document.getElementById('message-input');
-        loadChannel(currentChannel, chatMessagesNew);
-        bindChatFormEvents(chatFormNew, messageInputNew);
-      }, 0);
+    // 日记本按钮点击，直接打开 diary.html 新页面
+    const diaryBtn = document.getElementById('diary-btn');
+    if (diaryBtn) {
+      diaryBtn.onclick = () => {
+        window.open('diary.html', '_blank');
+      };
     }
 
     // 编辑资料按钮显示逻辑
