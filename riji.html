@@ -285,6 +285,29 @@
                 max-height: 90vh !important;
             }
         }
+        .main-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: var(--gold-shadow);
+            border: 2px solid var(--gold-border);
+            padding: 40px 18px 32px 18px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 600px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .btn-primary, .btn-wallet {
+            width: auto;
+            min-width: 220px;
+            max-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -314,9 +337,9 @@
     </div>
     <!-- 日记编辑器弹窗 -->
     <div id="editor-modal" style="display:none;position:fixed;z-index:2000;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);backdrop-filter:blur(2px);align-items:center;justify-content:center;">
-      <div id="editor-modal-inner" style="background:#fffbe6;padding:0;border-radius:18px;box-shadow:0 8px 32px #e6c15555;max-width:1200px;width:96vw;max-height:96vh;display:flex;flex-direction:column;position:relative;">
+      <div id="editor-modal-inner" style="background:#fffbe6;padding:0;border-radius:18px;box-shadow:0 8px 32px #e6c15555;max-width:1400px;width:98vw;max-height:98vh;display:flex;flex-direction:column;position:relative;">
         <button id="close-editor-modal" style="position:absolute;top:12px;right:18px;font-size:1.8em;color:#bfae6a;background:none;border:none;cursor:pointer;z-index:10;">×</button>
-        <iframe id="editor-iframe" src="" style="width:90vw;min-width:320px;max-width:1200px;height:85vh;min-height:400px;max-height:85vh;border:none;border-radius:18px;background:#fff;"></iframe>
+        <iframe id="editor-iframe" src="" style="width:96vw;min-width:320px;max-width:1400px;height:90vh;min-height:400px;max-height:90vh;border:none;border-radius:18px;background:#fff;"></iframe>
       </div>
     </div>
     <script type="module">
