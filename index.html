@@ -20,7 +20,8 @@
       left: 0;
       width: 100vw;
       height: 48px;
-      background: #222;
+      background: rgba(34,34,34,0.3) !important;
+      backdrop-filter: blur(10px) !important;
       border-top: 4px solid #444;
             display: flex;
       align-items: center;
@@ -251,21 +252,21 @@
     }
 
     .taskbar-minimized-item {
-      background: #555 !important;
+      background: rgba(255,255,255,0.18) !important; /* semi-transparent white */
+      backdrop-filter: blur(6px) !important;       /* frosted blur */
+      -webkit-backdrop-filter: blur(6px) !important; /* Safari */
+      border: 1px solid rgba(255,255,255,0.35) !important; /* subtle outline */
+      border-radius: 10px !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25) inset !important;
+      padding: 6px 16px !important;
+      font-size: 13px !important;
       color: #fff !important;
-      border: 2px solid #777 !important;
-      padding: 4px 8px !important;
-      margin: 0 4px !important;
-      cursor: pointer !important;
-      font-size: 12px !important;
-      font-family: inherit !important;
-      box-shadow: 2px 2px 0 #000 !important;
-      border-radius: 0 !important;
-      transition: background 0.2s !important;
+      transition: background 0.25s, box-shadow 0.25s;
     }
 
     .taskbar-minimized-item:hover {
-      background: #666 !important;
+      background: rgba(255,255,255,0.28) !important;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35) inset !important;
     }
 
     /* ===== Modern (Minimal) App Window Style Overrides ===== */
@@ -339,9 +340,124 @@
       font-weight: 600 !important;
       color: #222 !important;
         }
+    /* --- Disable boot animation overlay on initial load --- */
+    #power-on-screen,
+    #boot-screen,
+    #boot-dog-track,
+    #boot-dog2-track,
+    #boot-popup {
+      display: none !important;
+    }
++    /* ================= Loading Spinner Overlay ================= */
++    #page-loading-spinner {
++      position: fixed;
++      z-index: 10002;
++      left: 0;
++      top: 0;
++      width: 100vw;
++      height: 100vh;
++      background: rgba(0, 0, 0, 0.75);
++      display: flex;
++      align-items: center;
++      justify-content: center;
++    }
++    #page-loading-spinner .spinner {
++      width: 60px;
++      height: 60px;
++      border: 6px solid rgba(255, 255, 255, 0.3);
++      border-top-color: #fff;
++      border-radius: 50%;
++      animation: spin 1s linear infinite;
++    }
++    @keyframes spin {
++      to { transform: rotate(360deg); }
++    }
++    /* ================= Modern Taskbar Redesign ================= */
++    .taskbar {
++      background: rgba(34,34,34,0.3) !important;
++      backdrop-filter: blur(10px) !important;
++      height: 60px !important;
++      border-top: 1px solid rgba(255,255,255,0.12) !important;
++      box-shadow: 0 -4px 10px rgba(0,0,0,0.35) !important;
++    }
++    /* Start button */
++    .start-btn {
++      display: flex !important;
++      align-items: center !important;
++      gap: 10px !important;
++      background: transparent !important;
++      border: none !important;
++      padding: 0 22px !important;
++      font-size: 15px !important;
++      font-weight: 600 !important;
++      color: #fff !important;
++      box-shadow: none !important;
++      transition: background 0.2s;
++    }
++    .start-btn:hover {
++      background: rgba(255,255,255,0.12) !important;
++      border-radius: 6px;
++    }
++    /* Optional icon in start button */
++    .start-btn::before {
++      content: "";
++      width: 22px;
++      height: 22px;
++      background: url('t.png') center/contain no-repeat;
++      display: inline-block;
++    }
++    /* Taskbar icons */
++    .taskbar-icons {
++      gap: 12px !important;
++      margin-left: 28px !important;
++    }
++    .taskbar .icon {
++      width: 44px !important;
++      height: 44px !important;
++      background: rgba(255,255,255,0.18) !important;
++      backdrop-filter: blur(6px) !important;
++      -webkit-backdrop-filter: blur(6px) !important;
++      border: 1px solid rgba(255,255,255,0.35) !important;
++      border-radius: 8px !important;
++      box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset !important;
++      transition: background 0.25s, box-shadow 0.25s;
++    }
++    .taskbar .icon:hover {
++      background: rgba(255,255,255,0.28) !important;
++      box-shadow: 0 1px 4px rgba(0,0,0,0.3) inset !important;
++    }
++    .taskbar .icon-label {
++      display: none !important; /* hide labels for cleaner modern look */
++    }
++    /* Minimized window pill */
++    .taskbar-minimized-item {
++      background: rgba(255,255,255,0.08) !important;
++      border: none !important;
++      border-radius: 8px !important;
++      box-shadow: none !important;
++      padding: 6px 14px !important;
++      font-size: 13px !important;
++      transition: background 0.2s;
++    }
++    .taskbar-minimized-item:hover {
++      background: rgba(255,255,255,0.18) !important;
++    }
++    /* Start button frosted background */
++    .start-btn {
++      background: rgba(255,255,255,0.18) !important;
++      backdrop-filter: blur(6px) !important;
++      -webkit-backdrop-filter: blur(6px) !important;
++      border: 1px solid rgba(255,255,255,0.35) !important;
++      border-radius: 8px !important;
++    }
++    .start-btn:hover {
++      background: rgba(255,255,255,0.28) !important;
++    }
     </style>
 </head>
 <body>
+  <!-- Page loading spinner overlay -->
+  <div id="page-loading-spinner"><div class="spinner"></div></div>
   <div class="menu-bar">
     <div class="menu-start-btn">
       <img src="t.png" alt="Start" class="menu-start-logo" />
@@ -1357,6 +1473,11 @@
         addToTaskbar('bonk-live-window');
       }
     }
+  });
+  // Hide loading spinner once everything is fully loaded
+  window.addEventListener('load', function() {
+    const sp = document.getElementById('page-loading-spinner');
+    if (sp) sp.style.display = 'none';
   });
     </script>
 </body>
