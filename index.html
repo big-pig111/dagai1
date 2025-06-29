@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixel bonk emulator</title>
+  <title>Pixel daily emulator</title>
     <style>
         body {
       background: url('1.jpg') no-repeat center center fixed;
@@ -359,9 +359,9 @@
       <img src="q.png" alt="My computer" style="width:64px;height:64px;display:block;" />
       <div class="icon-label">My computer</div>
     </div>
-    <div class="desktop-icon" id="bonk-x-icon">
+    <div class="desktop-icon" id="daily-x-icon">
       <img src="e.png" alt="X" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">Bonk X</div>
+      <div class="icon-label">daily X</div>
         </div>
     <div class="desktop-icon" id="control-panel-icon">
       <img src="w.png" alt="control panel" style="width:64px;height:64px;display:block;" />
@@ -373,7 +373,7 @@
     </div>
     <div class="desktop-icon" id="chat-desktop-icon">
       <img src="2.png" alt="chat" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">BonkHouse</div>
+      <div class="icon-label">dailyHouse</div>
     </div>
     <div class="desktop-icon" id="blockchain-diary-icon">
       <img src="t.png" alt="Blockchain diary" style="width:64px;height:64px;display:block;" />
@@ -381,16 +381,16 @@
     </div>
   </div>
 
-  <div id="bonk-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
+  <div id="daily-chat-window" style="display:none; position:fixed; left:40px; top:40px; width:1450px; height:900px; z-index:200; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
-      <span style="font-size:16px; letter-spacing:1px;">Bonk chat room</span>
+      <span style="font-size:16px; letter-spacing:1px;">daily chat room</span>
       <div style="display:flex; gap:4px;">
-        <button class="minimize-btn" data-window="bonk-chat-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
-        <button class="fullscreen-btn" data-window="bonk-chat-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
-        <button id="close-bonk-chat-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+        <button class="minimize-btn" data-window="daily-chat-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="daily-chat-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-daily-chat-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
       </div>
     </div>
-    <iframe id="bonk-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+    <iframe id="daily-chat-iframe" src="index (6).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
  
   <div id="blockchain-diary-window" style="display:none; position:fixed; left:60px; top:60px; width:1400px; height:900px; z-index:201; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fffbe6; border-radius:18px;">
@@ -474,7 +474,7 @@
         <div id="running-apps" style="color:#444; font-size:12px; line-height:1.6;">
           <div style="margin-bottom:4px;">• Windows Explorer</div>
           <div style="margin-bottom:4px;">• Pixel Desktop XP</div>
-          <div id="app-bonkhouse" style="margin-bottom:4px; display:none;">• BonkHouse Chat</div>
+          <div id="app-dailyhouse" style="margin-bottom:4px; display:none;">• dailyHouse Chat</div>
           <div id="app-blockchain-diary" style="margin-bottom:4px; display:none;">• Blockchain diary</div>
         </div>
       </div>
@@ -567,17 +567,17 @@
   <script>
  
   const chatIcon = document.getElementById('chat-desktop-icon');
-  const chatWindow = document.getElementById('bonk-chat-window');
-  const closeBtn = document.getElementById('close-bonk-chat-window');
+  const chatWindow = document.getElementById('daily-chat-window');
+  const closeBtn = document.getElementById('close-daily-chat-window');
   chatIcon.addEventListener('click', () => {
     chatWindow.style.display = 'block';
-    const appBonkhouse = document.getElementById('app-bonkhouse');
-    if (appBonkhouse) appBonkhouse.style.display = 'block';
+    const appdailyhouse = document.getElementById('app-dailyhouse');
+    if (appdailyhouse) appdailyhouse.style.display = 'block';
   });
   closeBtn.addEventListener('click', () => {
     chatWindow.style.display = 'none';
-    const appBonkhouse = document.getElementById('app-bonkhouse');
-    if (appBonkhouse) appBonkhouse.style.display = 'none';
+    const appdailyhouse = document.getElementById('app-dailyhouse');
+    if (appdailyhouse) appdailyhouse.style.display = 'none';
   });
 
   (function makeDraggable(win) {
@@ -722,10 +722,10 @@
     }
   }
 
-  // Bonk X icon - direct link opening
-  const bonkXIcon = document.getElementById('bonk-x-icon');
-  bonkXIcon.addEventListener('click', () => {
-    window.open('https://x.com/bonk_fun', '_blank');
+  // daily X icon - direct link opening
+  const dailyXIcon = document.getElementById('daily-x-icon');
+  dailyXIcon.addEventListener('click', () => {
+    window.open('https://x.com/daily_fun', '_blank');
   });
 
   // Window control functions
@@ -794,14 +794,14 @@
     taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
     
     let windowTitle = 'Window';
-    if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
+    if (windowId === 'daily-chat-window') windowTitle = 'dailyHouse';
     else if (windowId === 'blockchain-diary-window') windowTitle = 'Blockchain diary';
     else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
     else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
-    else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
+    else if (windowId === 'daily-live-window') windowTitle = 'daily Live';
     
     taskbarIcon.textContent = windowTitle;
     taskbarIcon.addEventListener('click', () => {
@@ -1039,14 +1039,14 @@
     permissionDeniedModal.style.display = 'none';
   });
   </script>
-  <!-- Bonk Game App Selector Modal -->
-  <div id="bonk-game-modal" style="display:none; position:fixed; left:200px; top:200px; width:420px; min-height:260px; z-index:360; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#e3e3e3; border-radius:0; font-family:'Press Start 2P',monospace;">
+  <!-- daily Game App Selector Modal -->
+  <div id="daily-game-modal" style="display:none; position:fixed; left:200px; top:200px; width:420px; min-height:260px; z-index:360; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#e3e3e3; border-radius:0; font-family:'Press Start 2P',monospace;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
-      <span style="font-size:16px; letter-spacing:1px;">Bonk Game Center</span>
+      <span style="font-size:16px; letter-spacing:1px;">daily Game Center</span>
       <div style="display:flex; gap:4px;">
-        <button class="minimize-btn" data-window="bonk-game-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
-        <button class="fullscreen-btn" data-window="bonk-game-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
-        <button id="close-bonk-game-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+        <button class="minimize-btn" data-window="daily-game-modal" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="daily-game-modal" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-daily-game-modal" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
           </div>
     </div>
     <div id="game-icons" style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px; padding:24px; justify-items:center; align-items:center;">
@@ -1129,15 +1129,15 @@
     <iframe src="dice.html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
   <script>
-  // Bonk Game modal logic
-  const bonkGameIcon = document.getElementById('bonk-game-icon');
-  const bonkGameModal = document.getElementById('bonk-game-modal');
-  const closeBonkGameModal = document.getElementById('close-bonk-game-modal');
-  bonkGameIcon.addEventListener('click', () => {
-    bonkGameModal.style.display = 'block';
+  // daily Game modal logic
+  const dailyGameIcon = document.getElementById('daily-game-icon');
+  const dailyGameModal = document.getElementById('daily-game-modal');
+  const closedailyGameModal = document.getElementById('close-daily-game-modal');
+  dailyGameIcon.addEventListener('click', () => {
+    dailyGameModal.style.display = 'block';
   });
-  closeBonkGameModal.addEventListener('click', () => {
-    bonkGameModal.style.display = 'none';
+  closedailyGameModal.addEventListener('click', () => {
+    dailyGameModal.style.display = 'none';
   });
   (function makeDraggable(win) {
     let isDown = false, offsetX = 0, offsetY = 0;
@@ -1157,7 +1157,7 @@
       isDown = false;
       document.body.style.userSelect = '';
     });
-  })(bonkGameModal);
+  })(dailyGameModal);
 
   // 游戏弹窗们拖动
   ['snake','minesweeper','tetris','poker','dice'].forEach(function(game){
@@ -1277,14 +1277,14 @@
     taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
     
     let windowTitle = 'Window';
-    if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
-    else if (windowId === 'letsbonk-window') windowTitle = 'letsBONK';
+    if (windowId === 'daily-chat-window') windowTitle = 'dailyHouse';
+    else if (windowId === 'letsdaily-window') windowTitle = 'letsdaily';
     else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
     else if (windowId === 'recyclebin-modal') windowTitle = 'Recycle Bin';
     else if (windowId === 'permission-denied-modal') windowTitle = 'Permission';
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
-    else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
+    else if (windowId === 'daily-live-window') windowTitle = 'daily Live';
     
     taskbarIcon.textContent = windowTitle;
     taskbarIcon.addEventListener('click', () => {
@@ -1300,29 +1300,29 @@
   }
 // ... existing code ...
 </script>
-  <!-- Bonk Live Modal -->
-  <div id="bonk-live-window" style="display:none; position:fixed; left:100px; top:100px; width:1450px; height:900px; z-index:202; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
+  <!-- daily Live Modal -->
+  <div id="daily-live-window" style="display:none; position:fixed; left:100px; top:100px; width:1450px; height:900px; z-index:202; box-shadow:8px 8px 0 #000; border:4px solid #fff; background:#fff; border-radius:0;">
     <div style="background:#444; color:#fff; font-family:'Press Start 2P',monospace; border-bottom:2px solid #fff; height:38px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; cursor:move;">
-      <span style="font-size:16px; letter-spacing:1px;">Bonk Live</span>
+      <span style="font-size:16px; letter-spacing:1px;">daily Live</span>
       <div style="display:flex; gap:4px;">
-        <button class="minimize-btn" data-window="bonk-live-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
-        <button class="fullscreen-btn" data-window="bonk-live-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
-        <button id="close-bonk-live-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
+        <button class="minimize-btn" data-window="daily-live-window" style="background:#008080; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">_</button>
+        <button class="fullscreen-btn" data-window="daily-live-window" style="background:#888; color:#fff; border:2px solid #fff; font-family:inherit; font-size:14px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">□</button>
+        <button id="close-daily-live-window" style="background:#b22222; color:#fff; border:2px solid #fff; font-family:inherit; font-size:16px; width:32px; height:32px; cursor:pointer; box-shadow:2px 2px 0 #000;">X</button>
       </div>
     </div>
-    <iframe id="bonk-live-iframe" src="index (3).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
+    <iframe id="daily-live-iframe" src="index (3).html" style="width:100%;height:calc(100% - 38px);border:none;"></iframe>
   </div>
   <script>
 // ... existing code ...
-  // Bonk Live icon/modal logic
-  const bonkLiveIcon = document.getElementById('bonk-live-icon');
-  const bonkLiveWindow = document.getElementById('bonk-live-window');
-  const closeBonkLiveWindow = document.getElementById('close-bonk-live-window');
-  bonkLiveIcon.addEventListener('click', () => {
-    bonkLiveWindow.style.display = 'block';
+  // daily Live icon/modal logic
+  const dailyLiveIcon = document.getElementById('daily-live-icon');
+  const dailyLiveWindow = document.getElementById('daily-live-window');
+  const closedailyLiveWindow = document.getElementById('close-daily-live-window');
+  dailyLiveIcon.addEventListener('click', () => {
+    dailyLiveWindow.style.display = 'block';
   });
-  closeBonkLiveWindow.addEventListener('click', () => {
-    bonkLiveWindow.style.display = 'none';
+  closedailyLiveWindow.addEventListener('click', () => {
+    dailyLiveWindow.style.display = 'none';
   });
   (function makeDraggable(win) {
     let isDown = false, offsetX = 0, offsetY = 0;
@@ -1342,19 +1342,19 @@
       isDown = false;
       document.body.style.userSelect = '';
     });
-  })(bonkLiveWindow);
+  })(dailyLiveWindow);
 // ... existing code ...
-  // Add Bonk Live to taskbar minimize/restore logic
+  // Add daily Live to taskbar minimize/restore logic
   // (add to addToTaskbar function if needed)
 // ... existing code ...
-  // Bonk Live minimize logic
+  // daily Live minimize logic
   document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('minimize-btn') && e.target.getAttribute('data-window') === 'bonk-live-window') {
-      const windowElement = document.getElementById('bonk-live-window');
+    if (e.target.classList.contains('minimize-btn') && e.target.getAttribute('data-window') === 'daily-live-window') {
+      const windowElement = document.getElementById('daily-live-window');
       if (windowElement) {
         windowElement.style.display = 'none';
-        minimizedWindows.add('bonk-live-window');
-        addToTaskbar('bonk-live-window');
+        minimizedWindows.add('daily-live-window');
+        addToTaskbar('daily-live-window');
       }
     }
   });
