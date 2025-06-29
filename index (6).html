@@ -834,12 +834,19 @@
     </main>
   </div>
   <div class="username-modal" id="username-modal">
-    <div class="username-box">
-      <h2>Enter your nickname</h2>
-      <input type="text" id="username-input" maxlength="16" placeholder="Nickname" required />
-      <button id="username-btn">Enter Chatroom</button>
-      <button id="twitter-login-btn" style="background:#1da1f2;color:#fff;margin-top:8px;">
-        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f426.svg" style="width:20px;vertical-align:middle;margin-right:6px;">Login with Twitter
+    <div class="username-box" style="max-width:400px;width:100%;margin:auto;padding:40px 32px 32px 32px;background:#fff;border-radius:18px;box-shadow:0 4px 32px #e6d8a3;display:flex;flex-direction:column;align-items:center;">
+      <h2 style="font-size:2.2em;font-weight:700;margin-bottom:24px;letter-spacing:1px;">Login</h2>
+      <div style="width:100%;margin-bottom:18px;">
+        <label style="font-size:1.08em;color:#888;font-weight:500;">Nickname</label>
+        <div style="display:flex;align-items:center;border-bottom:1.5px solid #eee;padding:8px 0 4px 0;">
+          <span style="color:#bbb;font-size:1.2em;margin-right:8px;">&#128100;</span>
+          <input type="text" id="username-input" maxlength="16" placeholder="Enter your nickname" required style="border:none;outline:none;font-size:1.1em;width:100%;background:transparent;color:#333;" />
+        </div>
+      </div>
+      <button id="username-btn" style="width:100%;margin:18px 0 10px 0;padding:12px 0;border:none;border-radius:24px;background:linear-gradient(90deg,#36d1c4 0%,#7b2ff2 100%);color:#fff;font-size:1.15em;font-weight:700;letter-spacing:1px;box-shadow:0 2px 8px #7b2ff244;cursor:pointer;transition:background 0.2s;">Login as Guest</button>
+      <div style="margin:18px 0 10px 0;width:100%;text-align:center;color:#aaa;font-size:1em;">Or login with</div>
+      <button id="twitter-login-btn" style="display:flex;align-items:center;justify-content:center;width:100%;padding:12px 0;border:none;border-radius:24px;background:#1da1f2;color:#fff;font-size:1.1em;font-weight:700;box-shadow:0 2px 8px #1da1f244;cursor:pointer;transition:background 0.2s;margin-bottom:8px;">
+        <img src="e.png" style="width:22px;height:22px;margin-right:10px;vertical-align:middle;">Login with Twitter
       </button>
     </div>
   </div>
