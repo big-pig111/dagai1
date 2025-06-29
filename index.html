@@ -373,7 +373,7 @@
     </div>
     <div class="desktop-icon" id="chat-desktop-icon">
       <img src="2.png" alt="chat" style="width:64px;height:64px;display:block;" />
-      <div class="icon-label">dailyHouse</div>
+      <div class="icon-label">daliy chat</div>
     </div>
     <div class="desktop-icon" id="blockchain-diary-icon">
       <img src="t.png" alt="Blockchain diary" style="width:64px;height:64px;display:block;" />
@@ -474,7 +474,7 @@
         <div id="running-apps" style="color:#444; font-size:12px; line-height:1.6;">
           <div style="margin-bottom:4px;">• Windows Explorer</div>
           <div style="margin-bottom:4px;">• Pixel Desktop XP</div>
-          <div id="app-dailyhouse" style="margin-bottom:4px; display:none;">• dailyHouse Chat</div>
+          <div id="app-daliy chat" style="margin-bottom:4px; display:none;">• daliy chat Chat</div>
           <div id="app-blockchain-diary" style="margin-bottom:4px; display:none;">• Blockchain diary</div>
         </div>
       </div>
@@ -571,13 +571,13 @@
   const closeBtn = document.getElementById('close-daily-chat-window');
   chatIcon.addEventListener('click', () => {
     chatWindow.style.display = 'block';
-    const appdailyhouse = document.getElementById('app-dailyhouse');
-    if (appdailyhouse) appdailyhouse.style.display = 'block';
+    const appdaliy chat = document.getElementById('app-daliy chat');
+    if (appdaliy chat) appdaliy chat.style.display = 'block';
   });
   closeBtn.addEventListener('click', () => {
     chatWindow.style.display = 'none';
-    const appdailyhouse = document.getElementById('app-dailyhouse');
-    if (appdailyhouse) appdailyhouse.style.display = 'none';
+    const appdaliy chat = document.getElementById('app-daliy chat');
+    if (appdaliy chat) appdaliy chat.style.display = 'none';
   });
 
   (function makeDraggable(win) {
@@ -794,7 +794,7 @@
     taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
     
     let windowTitle = 'Window';
-    if (windowId === 'daily-chat-window') windowTitle = 'dailyHouse';
+    if (windowId === 'daily-chat-window') windowTitle = 'daliy chat';
     else if (windowId === 'blockchain-diary-window') windowTitle = 'Blockchain diary';
     else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
@@ -1277,7 +1277,7 @@
     taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
     
     let windowTitle = 'Window';
-    if (windowId === 'daily-chat-window') windowTitle = 'dailyHouse';
+    if (windowId === 'daily-chat-window') windowTitle = 'daliy chat';
     else if (windowId === 'letsdaily-window') windowTitle = 'letsdaily';
     else if (windowId === 'control-panel-window') windowTitle = 'Control Panel';
     else if (windowId === 'my-computer-modal') windowTitle = 'My Computer';
