@@ -760,6 +760,30 @@
       background: #ffe082;
       border-radius: 8px;
     }
+    /* 加载动画样式 */
+    .market-loading-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 92px);
+      width: 100%;
+      background: #fffbe6;
+      position: absolute;
+      left: 0; top: 38px; right: 0; bottom: 0;
+      z-index: 10;
+    }
+    .market-loading-spinner .spinner {
+      border: 6px solid #ffe082;
+      border-top: 6px solid #ff9800;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -1041,10 +1065,25 @@
               letsbonk Launchpad
               <button class="launch-btn" onclick="window.open('https://t.co/aSsQXTq8vN')">Launch 🚀</button>
             </div>
-            <div class="market-iframe-box">
-              <iframe src="https://dexscreener.com/solana/HeLp6NuQkmYB4pYWo2zYs22mESHXPQYzXbB8n4V98jwC?embed=1&theme=light" allowfullscreen></iframe>
+            <div class="market-iframe-box" style="position:relative;">
+              <div class="market-loading-spinner" id="market-loading-spinner">
+                <div class="spinner"></div>
+              </div>
+              <iframe id="market-iframe" src="https://dexscreener.com/solana/HeLp6NuQkmYB4pYWo2zYs22mESHXPQYzXbB8n4V98jwC?embed=1&theme=light" allowfullscreen style="position:relative;z-index:1;"></iframe>
             </div>
           `;
+          // 加载完成后隐藏loading
+          setTimeout(() => {
+            const iframe = document.getElementById('market-iframe');
+            const spinner = document.getElementById('market-loading-spinner');
+            if (iframe && spinner) {
+              iframe.onload = () => {
+                spinner.style.display = 'none';
+              };
+              // 超时兜底，10秒后强制隐藏loading
+              setTimeout(() => { spinner.style.display = 'none'; }, 10000);
+            }
+          }, 0);
         } else {
           // 聊天频道：恢复聊天界面
           mainContentBox.innerHTML = `
