@@ -386,8 +386,11 @@
 +      display: flex !important;
 +      align-items: center !important;
 +      gap: 10px !important;
-+      background: transparent !important;
-+      border: none !important;
++      background: rgba(0,0,0,0.25) !important;
++      backdrop-filter: blur(6px) !important;
++      -webkit-backdrop-filter: blur(6px) !important;
++      border: 1px solid rgba(255,255,255,0.15) !important;
++      border-radius: 8px !important;
 +      padding: 0 22px !important;
 +      font-size: 15px !important;
 +      font-weight: 600 !important;
@@ -396,8 +399,7 @@
 +      transition: background 0.2s;
 +    }
 +    .start-btn:hover {
-+      background: rgba(255,255,255,0.12) !important;
-+      border-radius: 6px;
++      background: rgba(255,255,255,0.35) !important;
 +    }
 +    /* Optional icon in start button */
 +    .start-btn::before {
@@ -440,17 +442,6 @@
 +      transition: background 0.2s;
 +    }
 +    .taskbar-minimized-item:hover {
-+      background: rgba(0,0,0,0.35) !important;
-+    }
-+    /* Start button frosted background */
-+    .start-btn {
-+      background: rgba(0,0,0,0.25) !important;
-+      backdrop-filter: blur(6px) !important;
-+      -webkit-backdrop-filter: blur(6px) !important;
-+      border: 1px solid rgba(255,255,255,0.15) !important;
-+      border-radius: 8px !important;
-+    }
-+    .start-btn:hover {
 +      background: rgba(0,0,0,0.35) !important;
 +    }
 +    /* ===== Override inline backgrounds for taskbar elements ===== */
@@ -869,9 +860,7 @@
       const windowElement = document.getElementById(windowId);
       if (windowElement) {
         windowElement.style.display = 'none';
-        minimizedWindows.add(windowId);
-        // Add to taskbar (simplified implementation)
-        addToTaskbar(windowId);
+        // No need to track minimized windows.
       }
     }
   });
@@ -1498,8 +1487,7 @@
       const windowElement = document.getElementById('bonk-live-window');
       if (windowElement) {
         windowElement.style.display = 'none';
-        minimizedWindows.add('bonk-live-window');
-        addToTaskbar('bonk-live-window');
+        // Removed taskbar entry for Bonk Live as well.
       }
     }
   });
