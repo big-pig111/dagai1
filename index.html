@@ -252,20 +252,21 @@
     }
 
     .taskbar-minimized-item {
-      background: rgba(255,255,255,0.18) !important; /* semi-transparent white */
+      background: rgba(0,0,0,0.25) !important; /* 75% transparent */
       backdrop-filter: blur(6px) !important;       /* frosted blur */
       -webkit-backdrop-filter: blur(6px) !important; /* Safari */
-      border: 1px solid rgba(255,255,255,0.35) !important; /* subtle outline */
+      border: 1px solid rgba(255,255,255,0.15) !important; /* subtle light outline */
       border-radius: 10px !important;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.25) inset !important;
+      box-shadow: none !important;
       padding: 6px 16px !important;
       font-size: 13px !important;
       color: #fff !important;
       transition: background 0.25s, box-shadow 0.25s;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
     }
 
     .taskbar-minimized-item:hover {
-      background: rgba(255,255,255,0.28) !important;
+      background: rgba(0,0,0,0.35) !important;
       box-shadow: 0 1px 4px rgba(0,0,0,0.35) inset !important;
     }
 
@@ -414,24 +415,23 @@
 +    .taskbar .icon {
 +      width: 44px !important;
 +      height: 44px !important;
-+      background: rgba(255,255,255,0.18) !important;
++      background: rgba(0,0,0,0.25) !important;
 +      backdrop-filter: blur(6px) !important;
 +      -webkit-backdrop-filter: blur(6px) !important;
-+      border: 1px solid rgba(255,255,255,0.35) !important;
++      border: 1px solid rgba(255,255,255,0.15) !important;
 +      border-radius: 8px !important;
-+      box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset !important;
-+      transition: background 0.25s, box-shadow 0.25s;
++      box-shadow: none !important;
++      transition: background 0.25s;
 +    }
 +    .taskbar .icon:hover {
-+      background: rgba(255,255,255,0.28) !important;
-+      box-shadow: 0 1px 4px rgba(0,0,0,0.3) inset !important;
++      background: rgba(0,0,0,0.35) !important;
 +    }
 +    .taskbar .icon-label {
 +      display: none !important; /* hide labels for cleaner modern look */
 +    }
 +    /* Minimized window pill */
 +    .taskbar-minimized-item {
-+      background: rgba(255,255,255,0.08) !important;
++      background: rgba(0,0,0,0.25) !important;
 +      border: none !important;
 +      border-radius: 8px !important;
 +      box-shadow: none !important;
@@ -440,18 +440,33 @@
 +      transition: background 0.2s;
 +    }
 +    .taskbar-minimized-item:hover {
-+      background: rgba(255,255,255,0.18) !important;
++      background: rgba(0,0,0,0.35) !important;
 +    }
 +    /* Start button frosted background */
 +    .start-btn {
-+      background: rgba(255,255,255,0.18) !important;
++      background: rgba(0,0,0,0.25) !important;
 +      backdrop-filter: blur(6px) !important;
 +      -webkit-backdrop-filter: blur(6px) !important;
-+      border: 1px solid rgba(255,255,255,0.35) !important;
++      border: 1px solid rgba(255,255,255,0.15) !important;
 +      border-radius: 8px !important;
 +    }
 +    .start-btn:hover {
-+      background: rgba(255,255,255,0.28) !important;
++      background: rgba(0,0,0,0.35) !important;
++    }
++    /* ===== Override inline backgrounds for taskbar elements ===== */
++    .taskbar-minimized-item,
++    .taskbar .icon,
++    .start-btn {
++      background: rgba(0,0,0,0.25) !important;
++      backdrop-filter: blur(6px) !important;
++      -webkit-backdrop-filter: blur(6px) !important;
++      border: 1px solid rgba(255,255,255,0.15) !important;
++      color: #fff !important;
++    }
++    .taskbar-minimized-item:hover,
++    .taskbar .icon:hover,
++    .start-btn:hover {
++      background: rgba(0,0,0,0.35) !important;
 +    }
     </style>
 </head>
@@ -907,7 +922,7 @@
     const taskbarIcon = document.createElement('div');
     taskbarIcon.id = 'taskbar-' + windowId;
     taskbarIcon.className = 'taskbar-minimized-item';
-    taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
+    taskbarIcon.style.cssText = 'cursor:pointer; font-size:12px; font-family:inherit;';
     
     let windowTitle = 'Window';
     if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
@@ -919,15 +934,22 @@
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
     else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
     
-    taskbarIcon.textContent = windowTitle;
-    taskbarIcon.addEventListener('click', () => {
-      const windowElement = document.getElementById(windowId);
-      if (windowElement) {
-        windowElement.style.display = 'block';
-        minimizedWindows.delete(windowId);
-        taskbarIcon.remove();
-      }
-    });
+    // use icon instead of text
+    const iconMap = {
+      'bonk-chat-window':'2.png',
+      'control-panel-window':'w.png',
+      'my-computer-modal':'q.png',
+      'recyclebin-modal':'r.png',
+      'blockchain-diary-window':'t.png',
+      'token-monitoring-modal':'t.png',
+      'bonk-live-window':'e.png',
+      'letsbonk-window':'e.png'
+    };
+    const imgEl = document.createElement('img');
+    imgEl.src = iconMap[windowId] || 't.png';
+    imgEl.style.width = '24px';
+    imgEl.style.height = '24px';
+    taskbarIcon.appendChild(imgEl);
     
     taskbar.appendChild(taskbarIcon);
   }
@@ -1390,7 +1412,7 @@
     const taskbarIcon = document.createElement('div');
     taskbarIcon.id = 'taskbar-' + windowId;
     taskbarIcon.className = 'taskbar-minimized-item';
-    taskbarIcon.style.cssText = 'background:#555; color:#fff; border:2px solid #777; padding:4px 8px; margin:0 4px; cursor:pointer; font-size:12px; font-family:inherit; box-shadow:2px 2px 0 #000;';
+    taskbarIcon.style.cssText = 'cursor:pointer; font-size:12px; font-family:inherit;';
     
     let windowTitle = 'Window';
     if (windowId === 'bonk-chat-window') windowTitle = 'BonkHouse';
@@ -1402,15 +1424,22 @@
     else if (windowId === 'token-monitoring-modal') windowTitle = 'Token Monitoring';
     else if (windowId === 'bonk-live-window') windowTitle = 'Bonk Live';
     
-    taskbarIcon.textContent = windowTitle;
-    taskbarIcon.addEventListener('click', () => {
-      const windowElement = document.getElementById(windowId);
-      if (windowElement) {
-        windowElement.style.display = 'block';
-        minimizedWindows.delete(windowId);
-        taskbarIcon.remove();
-      }
-    });
+    // use icon instead of text
+    const iconMap = {
+      'bonk-chat-window':'2.png',
+      'control-panel-window':'w.png',
+      'my-computer-modal':'q.png',
+      'recyclebin-modal':'r.png',
+      'blockchain-diary-window':'t.png',
+      'token-monitoring-modal':'t.png',
+      'bonk-live-window':'e.png',
+      'letsbonk-window':'e.png'
+    };
+    const imgEl = document.createElement('img');
+    imgEl.src = iconMap[windowId] || 't.png';
+    imgEl.style.width = '24px';
+    imgEl.style.height = '24px';
+    taskbarIcon.appendChild(imgEl);
     
     taskbar.appendChild(taskbarIcon);
   }
